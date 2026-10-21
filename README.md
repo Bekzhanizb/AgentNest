@@ -73,6 +73,11 @@ not a signed installer. E2E tests require a graphical desktop and the Electron
 binary; they do not need a separate Playwright browser download. See
 [development](docs/DEVELOPMENT.md) for version choices and platform evidence.
 
+Verified target: **Windows x64 / PowerShell**, including an actual sandboxed
+Electron window in [CI](https://github.com/Bekzhanizb/AgentNest/actions/runs/39662049102).
+The managed Linux test container passes CLI checks/build but cannot launch the
+Chromium sandbox; macOS and ARM are unverified.
+
 ## License
 
 The repository already contains an [MIT license](LICENSE), preserved with its

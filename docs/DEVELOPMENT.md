@@ -88,19 +88,20 @@ separate ambient libraries. ESLint enforces the import direction.
 
 ## Platform evidence and limitations
 
-- Windows x64 is the primary target in GitHub Actions, using PowerShell and a fresh
-  checkout for install, typecheck, lint, tests, build, and actual Electron smoke.
+- Windows x64 is verified in [GitHub Actions](https://github.com/Bekzhanizb/AgentNest/actions/runs/39662049102),
+  2026-10-21, using PowerShell and a fresh checkout for install, typecheck, lint,
+  eight Vitest checks, build, and actual Electron smoke with Chromium sandbox enabled.
 - Local verification uses Debian 13 x64 with Node 24.19.0; exact outcomes are recorded
   in the implementation PR. A display server and compatible GTK/NSS/graphics
   libraries are required for Linux GUI tests. Headless build/unit tests need no display.
-- Windows CI must actually pass before Windows is described as verified. Configuration
-  alone is not evidence. macOS, Windows ARM, Linux ARM, and WSL GUI are unverified.
+- macOS, Windows ARM, Linux ARM, and WSL GUI are unverified. Passing the Windows
+  workflow is not evidence for these other platforms.
 - Linux environments blocking Chromium sandbox namespaces may not launch Electron;
   the project does not add a no-sandbox workaround. Test on a compatible host.
-- This managed Debian container specifically aborts normal dev/start on the SUID
-  sandbox helper configuration. Earlier diagnostic Playwright launches opened a
-  window with its default Chromium sandbox disabled; those are not counted as a
-  secure-launch pass. The committed smoke explicitly sets chromiumSandbox true.
+- This managed Debian container specifically aborts normal dev/start and the secure
+  smoke on the SUID sandbox helper configuration. Its install/typecheck/lint/unit/build
+  results pass, including a checkout in a path with spaces. The smoke explicitly
+  sets chromiumSandbox true; sandboxed GUI support is not claimed for this container.
 - Build produces unpackaged development artifacts, not .exe/.msi/.dmg installers.
   Signing, packaging, distribution, updates, and production hardening are not included.
 - Electron embeds its own Node runtime; the selected system Node is for tooling.
