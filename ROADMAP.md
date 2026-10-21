@@ -1,7 +1,7 @@
 # Roadmap
 
-Status: Planning. Stages are ordered by dependencies, without release dates.
-Only documents and documentation checks exist in this foundation change.
+Status: Pre-alpha desktop foundation. Stages are ordered by dependencies, without
+release dates. A desktop shell and contracts exist; no agent execution is implemented.
 
 ## Stage 0 — Foundation
 
@@ -9,11 +9,19 @@ Deliverables: [product brief](PRODUCT.md),
 [ADR-001](docs/adr/ADR-001-local-architecture.md), contribution and community
 files, truthful capability map, and automated documentation checks.
 
-Before starting application work:
+Owner decisions still to record:
 
 - [ ] Owner reviews the first scenario and proposed architecture.
 - [ ] Owner confirms the existing MIT license policy.
 - [ ] Owner configures private security and conduct reporting channels.
+
+## Stage 0.1 — Desktop foundation
+
+- [x] Electron shell, React navigation, explicit Coming soon states, loading and errors.
+- [x] Strict TypeScript workspaces and provider/storage contracts without fake adapters.
+- [x] Context isolation, sandboxed preload, restrictive CSP, and a validated IPC operation.
+- [x] Unit/component checks and an Electron smoke test; Windows-first CI configuration.
+- [ ] Agent creation and execution remain gated on Stages 1 and 2 below.
 
 ## Stage 1 — Provider and execution proof
 

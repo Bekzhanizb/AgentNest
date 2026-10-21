@@ -16,7 +16,7 @@ const verify = (condition, message) => {
 
 function markdownFiles(directory = root) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
-    if (['node_modules', '.git'].includes(entry.name)) return [];
+    if (['node_modules', '.git', 'dist', 'test-results', 'playwright-report', 'coverage'].includes(entry.name)) return [];
     const full = path.join(directory, entry.name);
     if (entry.isDirectory()) return markdownFiles(full);
     return entry.isFile() && entry.name.endsWith('.md') ? [full] : [];
@@ -136,7 +136,7 @@ function checkStructure() {
   }
 
   const manifest = JSON.parse(read('package.json'));
-  verify(manifest.private === true, 'Documentation package must be private');
+  verify(manifest.private === true, 'Root workspace must be private');
   console.log(`Checked ${required.length} required files, ${formFiles.length} issue forms, issue config, and CI structure.`);
 }
 

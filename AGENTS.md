@@ -1,7 +1,7 @@
 # Repository instructions
 
-AgentNest is in Planning. The repository currently contains documentation and
-documentation tooling, not a runnable product.
+AgentNest is Pre-alpha. The repository contains a minimal Electron/React desktop
+shell and domain/provider/storage contracts, with no agent runtime or AI integration.
 
 - Read [PRODUCT.md](PRODUCT.md), [ROADMAP.md](ROADMAP.md), and
   [ADR-001](docs/adr/ADR-001-local-architecture.md) before changing scope.
@@ -12,10 +12,16 @@ documentation tooling, not a runnable product.
 - Keep provider-specific SDKs behind adapters and database access behind a
   persistence boundary when implementation begins. The ADR is a proposal, not code.
 - Add implementation only when the task explicitly asks for it. Do not scaffold
-  a fake UI, stub product API, or simulated integration to fill an empty repository.
+  simulated agent activity or pretend an unimplemented integration works. Coming
+  soon screens are explicitly labeled placeholders.
 - Do not commit secrets, private notes, unredacted prompts, or generated dependency
   directories. Keep documentation tooling separate from future product code.
-- Run `npm ci`, `npm run check`, and `git diff --check` for document changes.
+- Use npm workspaces and the root lockfile; do not introduce a second manager.
+- Keep renderer code free of Node, Electron, provider, and storage imports.
+  Expose individual operations through preload; never expose generic IPC.
+- Preserve sandbox, context isolation, CSP, frame validation, and permission denial.
+- Run `npm ci`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`,
+  and `npm run test:e2e` for desktop changes; `npm run check` for documents.
   Report commands actually run and any unverified assumptions.
 - Keep GitHub metadata, banner, and announcement copy as drafts in
   [docs/COMMUNICATIONS.md](docs/COMMUNICATIONS.md) until the owner authorizes publication.

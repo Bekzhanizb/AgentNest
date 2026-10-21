@@ -6,12 +6,12 @@ and verify current project status before any publication.
 
 ## Proposed GitHub description
 
-> Planning a local-first workspace for creating and running AI agents, with
-> provider adapters and inspectable execution. No runnable application yet.
+> Pre-alpha local-first agent workspace: Electron desktop foundation available;
+> agent execution, provider integrations, and database adapters are coming soon.
 
 ## Proposed topics
 
-`ai-agents`, `agent-builder`, `local-first`, `developer-tools`, `planning`
+`ai-agents`, `agent-builder`, `local-first`, `developer-tools`, `electron`, `pre-alpha`
 
 Add provider or database topics only after their integrations work and have
 documented verification. A topic should not imply support that does not exist.
@@ -21,24 +21,24 @@ documented verification. A topic should not imply support that does not exist.
 - Format: 1280 × 640 pixels, with generous margins and readable high-contrast text.
 - Title: **AgentNest**.
 - Subtitle: **Create agents. Inspect their work.**
-- Visible status: **Planning · No runnable application yet**.
+- Visible status: **Pre-alpha · Desktop foundation only**.
 - Direction: a simple nest/network motif with a subtle pixel accent. Show a small
   conceptual flow, “Define → Run → Inspect”, labeled as planned.
 - Avoid screenshots of invented interfaces, provider logos suggesting a partnership,
   production claims, and unlicensed third-party artwork.
-- Suggested alt text: “AgentNest planning banner: a local-first workspace for
+- Suggested alt text: “AgentNest pre-alpha banner: a local-first workspace for
   defining agents, running tasks, and inspecting results.”
 
 No image asset is generated or installed in this phase. The brief is ready for an
-owner-approved design step; keep the Planning marker until the status changes.
+owner-approved design step; keep the Pre-alpha marker until the status changes.
 
 ## Proposed social announcement
 
-> AgentNest is at the planning stage: a proposed local-first workspace for creating
-> agents with explicit tools and inspectable runs. Our first target is a single
-> agent that summarizes local notes with source references. There is no runnable
-> app or working AI integration yet. We're looking for feedback on the product
-> brief, architecture proposal, and first workflow:
+> AgentNest now has a pre-alpha Electron desktop foundation with navigation and
+> explicit Coming soon screens. Agent execution and AI integrations are not
+> implemented yet. Our first target remains a single agent that summarizes local
+> notes with source references. We're looking for feedback on the product,
+> architecture, and first workflow:
 > <https://github.com/Bekzhanizb/AgentNest>
 
 Publish only after the foundation is available on the default branch and the

@@ -1,6 +1,7 @@
 # Product brief
 
-Status: proposed scope, Planning. No application or AI integration is implemented.
+Status: Pre-alpha foundation. A desktop shell exists; agent execution, provider
+integrations, and databases are not implemented. The scenario below remains proposed.
 
 ## Users and pain
 
@@ -32,7 +33,7 @@ shell must fail. A mocked response alone does not meet acceptance.
 
 ## MVP scope
 
-- One local user, one active agent run, and a local browser interface.
+- One local user, one active agent run, and an Electron desktop interface.
 - A saved agent definition: instructions, provider/model, allowed tools, limits.
 - One real local provider adapter, proposed as Ollama in
   [ADR-001](docs/adr/ADR-001-local-architecture.md).

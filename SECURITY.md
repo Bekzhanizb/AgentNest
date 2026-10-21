@@ -2,9 +2,9 @@
 
 ## Current support
 
-AgentNest is in Planning. There are no released application versions or supported
-production deployments. Documentation tooling still has dependencies; dependency
-issues and accidentally exposed sensitive material are relevant security concerns.
+AgentNest is Pre-alpha with a minimal desktop shell. There are no released
+application versions or supported production deployments. Dependency issues,
+desktop IPC/renderer boundaries, and exposed sensitive material are relevant concerns.
 
 ## Report privately
 
@@ -23,10 +23,17 @@ Once a private channel is available, include the affected commit or dependency,
 impact, reproduction steps, and a sanitized example. Never send live credentials
 or personal data. The owner coordinates fixes and any disclosure with the reporter.
 
-## Planned boundaries
+## Desktop boundaries and future requirements
+
+The current Electron shell enables context isolation and renderer sandboxing,
+disables Node integration, denies new windows and permissions, and exposes only
+validated application information through preload. Production assets use a custom
+local protocol and restrictive CSP. See [desktop architecture](docs/adr/ADR-002-desktop-foundation.md).
+The development server is loopback-only; development CSP additionally permits Vite
+styles and its local WebSocket. It must not be used as a production server.
 
 The [architecture proposal](docs/adr/ADR-001-local-architecture.md) calls for
 bounded tools, approved-directory reads, local API access checks, secret redaction,
-and explicit user actions. These are requirements to implement and verify, not
-existing security guarantees. Local-first design alone does not establish a
+and explicit user actions. Those agent/tool requirements remain unimplemented.
+Local-first design alone does not establish a
 sandbox, encryption, or protection from prompt injection.

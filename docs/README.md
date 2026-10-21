@@ -1,13 +1,15 @@
 # Documentation
 
-AgentNest is in Planning. These documents define intended behavior and repository
-practices; they do not demonstrate an implemented agent or provider integration.
+AgentNest is Pre-alpha. A desktop foundation exists; these documents distinguish
+implemented shell behavior from planned agent execution and provider integrations.
 
 | Document | Purpose |
 | --- | --- |
 | [Product](../PRODUCT.md) | Users, pain, first scenario, scope, and non-goals |
 | [Roadmap](../ROADMAP.md) | Stages and evidence required for completion |
 | [ADR-001](adr/ADR-001-local-architecture.md) | Local runtime, provider adapters, database tradeoffs |
+| [ADR-002](adr/ADR-002-desktop-foundation.md) | Electron boundaries, npm workspaces, and pinned tooling |
+| [Desktop development](DEVELOPMENT.md) | Commands, PowerShell, structure, and platform limits |
 | [Contributing](../CONTRIBUTING.md) | Small changes, checks, and review |
 | [Code of Conduct](../CODE_OF_CONDUCT.md) | Community behavior and reporting |
 | [Security](../SECURITY.md) | Sensitive reports and current support limits |

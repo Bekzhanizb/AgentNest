@@ -3,7 +3,9 @@
 - Status: Proposed; owner review pending.
 - Date: 2026-10-21.
 - Scope: architecture for the first [product scenario](../../PRODUCT.md).
-- Implementation status: no runtime, adapter, database, or UI exists yet.
+- Implementation status: a desktop shell now exists; no agent runtime, provider
+  adapter, or database exists. [ADR-002](ADR-002-desktop-foundation.md) refines the
+  proposed browser/API transport to an Electron renderer and narrow IPC.
 
 ## Context
 
