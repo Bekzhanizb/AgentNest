@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a reproducible problem in existing documents, tooling, or code.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        AgentNest is in Planning; no application or provider integration exists yet.
+        Report problems with existing repository content here. For sensitive findings,
+        follow SECURITY.md instead of posting details in an issue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and affected file or component
+      description: Explain what currently fails and why it matters.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the commit, command or document path, and sanitized output.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment, if relevant
+      description: OS, Node.js/npm versions, and browser for rendering issues.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked existing issues and the current project status.
+          required: true
+        - label: I removed secrets and private data from this report.
+          required: true

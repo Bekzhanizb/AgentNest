@@ -1,0 +1,24 @@
+name: Documentation improvement
+description: Improve clarity, consistency, links, or translations.
+title: "[Docs]: "
+body:
+  - type: input
+    id: location
+    attributes:
+      label: File, section, or broken link
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is unclear or incorrect?
+      description: Mention inconsistent status or unsupported functionality claims.
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: Suggested improvement
+      description: Include the English or Russian counterpart when relevant.
+    validations:
+      required: true

@@ -1,0 +1,25 @@
+{
+  "name": "agentnest-documentation",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Documentation validation only; AgentNest has no application implementation yet.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "lint:md": "node scripts/check-docs.mjs lint",
+    "check:links": "node scripts/check-docs.mjs links",
+    "check:structure": "node scripts/check-docs.mjs structure",
+    "check": "npm run lint:md && npm run check:links && npm run check:structure"
+  },
+  "devDependencies": {
+    "github-slugger": "2.0.0",
+    "markdown-it": "15.0.3",
+    "markdownlint": "0.42.0",
+    "yaml": "2.9.1"
+  },
+  "overrides": {
+    "katex": "0.18.2"
+  }
+}

@@ -1,0 +1,35 @@
+name: Feature or architecture proposal
+description: Propose a scoped improvement tied to a real user problem.
+title: "[Proposal]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read PRODUCT.md, ROADMAP.md, and ADR-001 first. Planned capabilities are
+        not implemented integrations. A proposal does not imply a delivery date.
+  - type: textarea
+    id: user_problem
+    attributes:
+      label: User and problem
+      description: Who needs this, and what task is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed outcome and scope
+      description: Explain the smallest useful change and its roadmap stage.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance evidence
+      description: How can a reviewer verify the outcome? Separate mocks from real runs.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives, risks, and non-goals
+      description: Include tool permissions, data egress, or persistence implications.
