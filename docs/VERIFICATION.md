@@ -1,6 +1,7 @@
 # Documentation verification
 
-Use Node.js 22 or newer and npm. There is no application test suite in this phase.
+Use Node.js 24.19.0 and npm 11.9.0. Full desktop commands and platform evidence
+are in [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ```sh
 npm ci
@@ -37,3 +38,19 @@ The tooling uses markdownlint directly to avoid unnecessary CLI/glob dependencie
 A pinned KaTeX override addresses a transitive security advisory until the upstream
 math extension updates its dependency range. Review that override when upgrading
 markdownlint; it is part of documentation tooling, not an application dependency.
+
+## Desktop checks
+
+- `npm run typecheck`: strict TypeScript across configs, Electron, renderer, and packages.
+- `npm run lint`: ESLint, React hooks, import boundaries, and the document checks above.
+- `npm test`: Vitest validation, asset-path/IPC policy, loading/error/retry, and navigation.
+- `npm run build`: Electron main/preload bundles and production renderer assets.
+- `npm run test:e2e`: actual Electron window, preload isolation/sandbox state, absence
+  of renderer Node globals, narrow bridge, navigation, CSP eval denial, and popup denial.
+
+The smoke opens the built app; run build first. It creates an isolated temporary
+user-data directory and a screenshot under ignored `test-results/`. Unit fixtures
+are clearly synthetic test data and are never shipped as agent activity.
+Playwright's Electron launcher disables Chromium sandboxing by default, so the
+smoke explicitly enables it. A host incapable of running that sandbox must fail
+the smoke instead of silently weakening the test.

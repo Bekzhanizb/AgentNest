@@ -1,8 +1,9 @@
 # AgentNest
 
-**Status: Planning.** This repository contains product, architecture, and
-contribution documents. There is no runnable application, agent runtime, working
-AI integration, or product release yet.
+**Status: Pre-alpha desktop foundation.** Electron opens a React interface with
+Office / Agents / Tasks / Settings navigation and real application information.
+Agent execution, AI integrations, and database adapters are not implemented.
+Unimplemented features are labeled **Coming soon**. There is no product release yet.
 
 AgentNest is a proposed local-first workspace for creating and running AI agents:
 define an agent's instructions, select a provider, grant specific tools, run a
@@ -19,7 +20,9 @@ acceptance criteria.
 
 | Capability | Current state | Intended stage |
 | --- | --- | --- |
-| Product brief, architecture proposal, community files | Documents in this change | Foundation |
+| Product brief, architecture proposals, community files | Available | Foundation |
+| Electron shell, navigation, loading/error states, app information | Implemented | Pre-alpha |
+| Strict TypeScript workspaces, unit/component and Electron smoke tests | Available | Pre-alpha |
 | Define and save one agent with instructions and limits | Not implemented | MVP |
 | Run one agent through a real local provider adapter | Not implemented | MVP |
 | Read approved notes and inspect a source-linked result | Not implemented | MVP |
@@ -36,6 +39,8 @@ An adapter proposal is not a supported integration.
 
 - [Product and first real scenario](PRODUCT.md)
 - [ADR-001: local architecture, adapters, and database choices](docs/adr/ADR-001-local-architecture.md)
+- [ADR-002: Electron boundaries and npm workspaces](docs/adr/ADR-002-desktop-foundation.md)
+- [Desktop development and platform limits](docs/DEVELOPMENT.md)
 - [Roadmap and acceptance gates](ROADMAP.md)
 - [Documentation index](docs/README.md)
 - [Кратко по-русски](docs/ru/README.md)
@@ -48,15 +53,25 @@ issue forms. Read [CONTRIBUTING](CONTRIBUTING.md) and the
 [Code of Conduct](CODE_OF_CONDUCT.md) before opening a PR. Report sensitive
 findings using the [security policy](SECURITY.md).
 
-There are no application setup commands yet. To check the documentation, install
-Node.js 22 or newer with npm and run:
+Use Node.js **24.19.0** and npm **11.9.0**, with npm workspaces and the committed
+root lockfile. In a fresh clone, the same commands work in PowerShell and other
+supported terminals:
 
-```sh
+```powershell
 npm ci
-npm run check
+npm run typecheck
+npm run lint
+npm test
+npm run build
+npm run test:e2e
+npm run dev
 ```
 
-These commands validate repository documents; they do not start AgentNest.
+`dev` starts Vite and Electron. After a build, `npm start` opens the production
+assets without a Vite server. `build` creates unpackaged application bundles,
+not a signed installer. E2E tests require a graphical desktop and the Electron
+binary; they do not need a separate Playwright browser download. See
+[development](docs/DEVELOPMENT.md) for version choices and platform evidence.
 
 ## License
 

@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        AgentNest is in Planning; no application or provider integration exists yet.
+        AgentNest has a Pre-alpha desktop shell; no agent runtime or provider integration exists yet.
         Report problems with existing repository content here. For sensitive findings,
         follow SECURITY.md instead of posting details in an issue.
   - type: textarea
