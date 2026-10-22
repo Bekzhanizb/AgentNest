@@ -32,7 +32,7 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
     await page.getByRole('button', { name: 'Choose notes folder' }).click();
     await expect(page.getByRole('list', { name: 'Approved note files' }).getByRole('listitem')).toHaveCount(2);
     const read = () => page.evaluate(async () => { const result = await (Reflect.get(window, 'agentnest') as DesktopBridge).notes.read(); if (!result.ok) throw new Error('Unavailable'); return result.snapshot; });
-    const selected = await read(); expect(selected.events).toEqual([]); expect(JSON.stringify(selected)).not.toContain(folder);
+    const selected = await read(); expect(selected.events).toEqual([]); expect(selected.selection?.folderName).toBe(path.basename(folder)); expect(JSON.stringify(selected)).not.toContain(folder);
     const model = live ? liveModel! : 'agentnest-missing:proof';
     await page.getByLabel('Installed Ollama model').fill(model);
     await expect(page.getByRole('button', { name: 'Run notes summary' })).toBeDisabled();
@@ -72,11 +72,14 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
       expect((await read()).events.at(-1)).toMatchObject({ type: 'run_failed', code: 'INPUT_CHANGED' });
       expect((await read()).events.some((event) => event.type === 'provider_ready')).toBe(false);
     }
-    await page.getByRole('button', { name: 'Choose notes folder' }).click(); const grant = (await read()).selection?.id;
+    await page.getByRole('button', { name: 'Choose notes folder' }).click();
+    await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('Ready for your permission');
+    const grant = (await read()).selection?.id;
+    if (!grant) throw new Error('Native folder review did not issue a grant');
     await page.reload(); await page.getByRole('button', { name: 'Tasks', exact: true }).click();
     await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('No run started');
     expect((await read()).selection).toBeNull();
-    const replay = await page.evaluate((grantId) => (Reflect.get(window, 'agentnest') as DesktopBridge).notes.start({ apiVersion: 1, grantId: grantId!, model: 'qwen3:1.7b', consent: true }), grant);
+    const replay = await page.evaluate((grantId) => (Reflect.get(window, 'agentnest') as DesktopBridge).notes.start({ apiVersion: 1, grantId, model: 'qwen3:1.7b', consent: true }), grant);
     expect(replay).toMatchObject({ ok: false, error: { code: 'NO_GRANT' } });
     expect(errors).toEqual([]); expect(requests).toEqual([]);
   } finally { await app.close(); await rm(data, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }); await rm(folder, { recursive: true, force: true }); }
