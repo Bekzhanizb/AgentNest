@@ -82,5 +82,6 @@ describe('actual SQLite files (explicit event fixtures, no provider simulation)'
     for (let i = 0; i < 100; i++) { const first = started(); repo.append(first, definition, null); repo.append(terminal(first), definition, null); }
     expect(() => repo.ensureRunCapacity()).toThrow('LIMIT'); expect(() => repo.append(started(), definition, null)).toThrow('LIMIT'); expect(repo.listRuns()).toHaveLength(100);
     repo.clearHistory(); expect(repo.listRuns()).toEqual([]); expect(repo.listAgents()).toHaveLength(32);
-  });
+  }, 30_000); // 232 separate durable transactions can exceed 5 seconds on Windows CI disks.
+
 });
