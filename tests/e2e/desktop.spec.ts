@@ -34,12 +34,16 @@ test('opens an isolated Electron office with explicit demo, keyboard controls, a
       process: typeof Reflect.get(window, 'process'),
       bridge: Object.keys(Reflect.get(window, 'agentnest') as object).sort(),
     }));
-    expect(exposed).toEqual({ require: 'undefined', process: 'undefined', bridge: ['getAppInfo', 'security'] });
-    for (const name of ['Agents', 'Tasks', 'Settings']) {
+    expect(exposed).toEqual({ require: 'undefined', process: 'undefined', bridge: ['getAppInfo', 'notes', 'security'] });
+    for (const name of ['Agents', 'Settings']) {
       await page.getByRole('button', { name }).click();
       await expect(page.getByRole('heading', { name, level: 2 })).toBeVisible();
       await expect(page.getByText('Coming soon', { exact: true })).toBeVisible();
     }
+    await page.getByRole('button', { name: 'Tasks', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Tasks', level: 2 })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Run notes summary' })).toBeDisabled();
+    await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('No run started');
     await page.getByRole('button', { name: 'Office', exact: true }).click();
     await expect(page.getByText('Office scene ready', { exact: true })).toBeVisible();
     await expect(page.getByRole('region', { name: 'Session mode' })).toContainText('NO SESSION CONNECTED');

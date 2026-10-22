@@ -1,9 +1,11 @@
 # Product brief
 
-Status: Pre-alpha foundation. A desktop shell exists; agent execution, provider
-integrations, and databases are not implemented. An original pixel-office preview
-and explicitly fictional Demo Mode are available without a runtime. The scenario
-below remains proposed.
+Status: Pre-alpha. A desktop shell, independent pixel office and fictional Demo
+Mode exist. An experimental Node CLI now exercises a bounded notes run through
+local Ollama; see the [proof guide](docs/OLLAMA_PROOF.md). Tasks adds a one-off
+[desktop notes run](docs/DESKTOP_NOTES.md) with explicit permission and cancellation.
+Saved agent editing, persisted history and databases remain unimplemented. The complete scenario below
+remains the proposed MVP.
 
 ## Users and pain
 

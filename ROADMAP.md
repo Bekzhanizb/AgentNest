@@ -1,7 +1,8 @@
 # Roadmap
 
 Status: Pre-alpha desktop foundation. Stages are ordered by dependencies, without
-release dates. A desktop shell and contracts exist; no agent execution is implemented.
+release dates. Desktop preview, a Node CLI proof and experimental one-off Tasks
+runs exist. Saved agent editing, persisted history and databases remain unimplemented.
 
 ## Stage 0 — Foundation
 
@@ -32,26 +33,38 @@ Owner decisions still to record:
 
 This UI work does not complete any provider or MVP gate. See the
 [pixel office](docs/OFFICE.md) for provenance, controls, and verification limits.
-The actual runtime feed remains future work.
+The actual office runtime feed remains future work. Tasks now shows real typed
+events and results through a separate bridge without connecting the office.
 
 ## Stage 1 — Provider and execution proof
 
-- [ ] Define an adapter contract and a minimal agent definition.
-- [ ] Complete a real local model call; document provider/model prerequisites.
-- [ ] Exercise tool calls against approved fixture notes through the real adapter.
-- [ ] Verify bounded reads, symlink/path traversal rejection, and no shell tool.
-- [ ] Demonstrate timeout, cancellation, exhausted limits, and provider errors.
+- [x] Define an adapter contract and a minimal agent definition.
+- [x] Complete a real local model call; document provider/model prerequisites.
+- [x] Exercise tool calls against approved fixture notes through the real adapter.
+- [x] Verify bounded reads, symlink/path traversal rejection, and no shell tool.
+- [x] Demonstrate timeout, cancellation, exhausted limits, and provider errors.
 
 Exit evidence: reproducible commands, provider/model versions, sanitized real
 run output, and meaningful contract and permission tests. A fake adapter is useful
 for tests but cannot satisfy this gate.
 
+Stage 1 evidence: [real local proof guide](docs/OLLAMA_PROOF.md) and
+[sanitized run with source hashes and failure controls](docs/proofs/ollama-notes-2026-10-22.json),
+2026-10-22 on managed Debian x64/CPU. This closes the experimental CLI proof only;
+Windows inference, arbitrary model quality and the full desktop MVP are not claimed.
+
 ## Stage 2 — First usable MVP
+
+Experimental slice: [desktop notes run](docs/DESKTOP_NOTES.md), governed by
+[ADR-004](docs/adr/ADR-004-desktop-notes-permission.md), implements a native folder
+preview, one-use permission, bounded worker execution, cancellation and an
+in-memory result/history. Its real Electron/provider evidence is tracked
+separately from unit mocks. This does not complete the saved-agent workflow below.
 
 - [ ] Create, edit, save, and reload one agent definition in a local interface.
 - [ ] Persist definitions and run events in SQLite with tested migrations.
 - [ ] Run the notes-to-summary workflow end to end; validate source references.
-- [ ] Show running, completed, failed, and cancelled states with readable errors.
+- [x] Show running, completed, failed, and cancelled states with readable errors (experimental in-memory Tasks flow).
 - [ ] Export a reviewed result only on explicit user action.
 - [ ] Document installation, limits, secret handling, backup, and recovery.
 

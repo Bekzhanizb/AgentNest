@@ -17,6 +17,20 @@ There are no product releases yet.
 
 ### Added
 
+- Experimental desktop Tasks notes run with native folder metadata review, explicit
+  one-use expiring permission, strict IPC/snapshot validation, and a Node worker.
+- Actual runtime status/history, inert source-linked text, source hashes, model
+  identity, cancellation, worker deadlines and in-memory session clearing.
+- Permission mutation/replay/crash tests, actual Electron bridge/worker checks,
+  responsive Tasks accessibility checks, and a separate real-provider proof workflow.
+
+- Isolated Node CLI Ollama notes proof, backend-only adapter and SDK ToolLoopAgent
+  runner, typed actual run events and core view projection, read-only grants,
+  source hashes/citations, cancellation and bounded failure outcomes.
+- Explicit real-provider evidence and mock-model permission/contract tests; desktop
+  office remains empty by default and independent of inference and databases.
+- Keyboard-only browser lifecycle and live reduced-motion regression coverage.
+
 - Original procedural PixiJS office with four desks, lounge, coffee nook, lighting,
   characters, selection, inspector, bounded pan/zoom, and responsive text controls.
 - Typed AgentEvent/AgentViewModel projection, all five status displays, and explicit

@@ -2,7 +2,10 @@
 
 AgentNest has a Pre-alpha Electron shell and an original PixiJS office preview.
 The office is empty by default; explicit Demo Mode displays fictional events.
-Agents, Tasks, Settings, providers, and execution remain Coming soon. See the
+Tasks now provides an experimental [desktop notes run](DESKTOP_NOTES.md) using
+a native one-use permission and a Node worker. Agents, Settings, saved definitions,
+persistence and real office activity remain Coming soon. The standalone
+[Node CLI proof](OLLAMA_PROOF.md) shares that bounded runner. See the
 [office guide](OFFICE.md) for controls, accessibility, and asset provenance.
 
 ## Toolchain and install
@@ -56,10 +59,11 @@ compatibility review and actual CI evidence, not blind upgrades.
 | npm run typecheck | Strict checks for configs, tests, shell, renderer, and packages |
 | npm run lint | ESLint/import boundaries plus Markdown/link/structure checks |
 | npm test | Vitest unit/component checks, with no model calls |
-| npm run build | Emit apps/desktop/dist/electron and dist/renderer |
-| npm run test:e2e | Launch built Electron and verify window/security/navigation |
+| npm run build | Emit main/preload/notes-worker bundles and dist/renderer |
+| npm run test:e2e | Launch built Electron; verify window/security/office and actual notes IPC/worker permission failure; live inference is explicitly opt-in |
 | npm run test:ui | Production browser layout, keyboard, forced-colors, touch-emulation, and axe checks |
 | npm run preview:office | Loopback-only preview of built renderer assets on port 4173 |
+| npm run --silent proof:ollama -- --model qwen3:1.7b --notes fixtures/notes | Explicit real Node proof; needs a separately installed local Ollama/model |
 | npm run check | Documentation-only checks retained from the foundation |
 
 Commands use Node APIs and local binaries, without Bash variables, rm/cp commands,
@@ -78,26 +82,34 @@ bridge as an error. Loading/error/retry states reflect the real app-info request
 apps/desktop/
   electron/         main, sandboxed preload, asset/IPC policy
   renderer/        React UI, no Node/Electron/provider/storage imports
+  worker/          Node notes runner + adapter; no UI or Electron APIs
   vite.config.ts
 packages/
   core/            domain types, pure AgentEvent projection, IPC data validation
   office-scene/    original procedural sprites and Pixi snapshot presentation
-  provider-sdk/    provider contract only
+  provider-sdk/    backend V4 model protocol and normalized errors
+  provider-ollama/ local-only native Ollama adapter
+  runtime/         bounded notes runner; no renderer or provider-specific client
   storage/         repository contract only
-scripts/           portable build/dev/start and documentation tooling
+apps/proof/        independent Node CLI; NDJSON events and text-view projection
+scripts/           portable build/dev/start/proof and documentation tooling
 tests/e2e/         actual Electron smoke, isolated temporary user data
 tests/browser/     production UI review with browser-only emulation
 ```
 
 There is no packages/ui until another consumer needs shared UI. Provider and SQL
 implementations must be separate from these interfaces and may only be invoked
-from the main/application layer. The current interfaces are a starting boundary,
-not a complete provider protocol, runner, or database adapter. Strict TypeScript
+from the main/application layer. The CLI is a separate entry point. Desktop main owns permission and launches the
+same bounded runtime in a worker; storage remains a contract only. Main/preload
+import only the runtime notes metadata subpath, with no model SDK. Strict TypeScript
 includes unchecked-index and exact-optional checks; Electron/renderer configs have
 separate ambient libraries. ESLint enforces the import direction. The renderer
-and scene alone use skipLibCheck for an upstream PixiJS exact-optional declaration
-defect; application source is still strictly checked. Details and removal
-conditions are in the [office guide](OFFICE.md#verification-and-limits).
+and scene use skipLibCheck for an upstream PixiJS exact-optional declaration
+defect. The proof, runtime, Ollama and desktop worker configs have a separate scoped exception
+for AI SDK/provider-utils Tool declarations; all project source/tests keep strict
+checks. Core, provider-sdk, storage and Electron dependency declarations stay
+checked. See [ADR-003](adr/ADR-003-ollama-notes-proof.md#type-checking-and-consequences)
+and the [office guide](OFFICE.md#verification-and-limits) for removal conditions.
 
 ## Platform evidence and limitations
 
