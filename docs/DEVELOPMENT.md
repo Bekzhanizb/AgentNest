@@ -98,6 +98,11 @@ conditions are in the [office guide](OFFICE.md#verification-and-limits).
 - Windows x64 is verified in [GitHub Actions](https://github.com/Bekzhanizb/AgentNest/actions/runs/39662049102),
   2026-10-21, using PowerShell and a fresh checkout for install, typecheck, lint,
   eight Vitest checks, build, and actual Electron smoke with Chromium sandbox enabled.
+- The pixel-office implementation also passed a fresh Windows/PowerShell run on
+  2026-10-22: install, typecheck, lint, 25 Vitest checks, build, and a secure actual
+  Electron smoke including Pixi hit selection, keyboard camera, fictional statuses,
+  reduced motion, and axe. See the [run](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696)
+  and the latest feature PR checks for follow-up commits.
 - Local verification uses Debian 13 x64 with Node 24.19.0; exact outcomes are recorded
   in the implementation PR. A display server and compatible GTK/NSS/graphics
   libraries are required for Linux GUI tests. Headless build/unit tests need no display.

@@ -120,7 +120,12 @@ export function officeArt(): HTMLCanvasElement {
   r(67, 320, 43, 14, '#1e333c'); r(70, 322, 37, 9, '#a8a48c');
   r(69, 291, 37, 28, '#86745b'); r(72, 293, 31, 24, '#95846a');
   for (let x = 74; x < 102; x += 4) r(x, 296, 1, 18, '#82765e');
-  text('HI', 83, 302, '#d9c8a3'); r(68, 306, 3, 14, '#d5c29a');
+  text('HI', 83, 302, '#d9c8a3');
+  // Front-facing wooden door: inset panels, brass handle, and a stone threshold.
+  r(67, 321, 43, 31, '#253f46'); r(70, 323, 37, 27, '#a27d56');
+  r(73, 325, 30, 9, '#8f6949'); r(73, 337, 30, 10, '#8f6949');
+  r(75, 326, 26, 1, '#bc9566'); r(75, 338, 26, 1, '#bc9566');
+  r(100, 334, 3, 3, '#f0d496'); r(66, 351, 45, 3, '#939b8b');
   return canvas;
 }
 

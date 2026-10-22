@@ -87,7 +87,7 @@ On managed Debian 13 x64, Node 24.19.0 / npm 11.9.0:
 | npm test | Passed: 25 checks in 6 files, including every requested status |
 | npm run build | Passed: Electron bundles and lazy-loaded Pixi renderer chunks |
 | npm audit --audit-level=moderate | Passed: 0 vulnerabilities at verification time |
-| npm run test:e2e | Cannot launch secure Electron on this host; Windows result belongs in the PR checks |
+| npm run test:e2e | Cannot launch secure Electron on this host; Windows passed as recorded below |
 | git diff --check | Passed |
 
 A separate Playwright harness opened the production assets through Vite preview
@@ -117,3 +117,14 @@ Manual screen-reader, high-contrast OS settings, physical touch devices, macOS,
 ARM, and other GPUs are not verified. Passing axe is not a complete accessibility
 certification. The scoped Pixi dependency declaration-check exception is recorded
 in the [office guide](OFFICE.md#verification-and-limits).
+
+Windows x64 / PowerShell passed a fresh checkout on 2026-10-22 in
+[Desktop checks](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696):
+`npm ci`, `npm run typecheck`, `npm run lint`, `npm test` (25 checks),
+`npm run build`, and `npm run test:e2e` all succeeded. That smoke opened an actual
+sandboxed Electron/Pixi window and passed the fictional-state, keyboard, sprite
+selection/drag, reduced-motion, axe, narrow-bridge, CSP, and popup assertions.
+The recorded run tested e26cf438e2c04ff515869e0b0e805b8826b2ab5b. A follow-up
+adds a clearer procedural door panel and records this evidence; the
+[feature PR](https://github.com/Bekzhanizb/AgentNest/pull/7) carries checks for its
+latest head. AI, providers, and persistence remain unimplemented.

@@ -62,7 +62,7 @@ npm run dev
 `dev` запускает Vite и Electron; `npm start` открывает собранные локальные ресурсы.
 Сборка пока не создаёт установщик. Smoke-тест открывает настоящее окно и требует
 дисплея; отдельный браузер Playwright скачивать не нужно. Windows x64 подтверждён
-в [CI с PowerShell](https://github.com/Bekzhanizb/AgentNest/actions/runs/39662049102),
+в [CI с PowerShell](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696),
 включая окно с Chromium sandbox. В доступном Linux-контейнере CLI-проверки проходят,
 но GUI блокируется настройкой sandbox хоста. macOS, ARM и WSL GUI не проверены.
 Подробнее — в документе о разработке.
