@@ -4,7 +4,9 @@
 Office / Agents / Tasks / Settings navigation, an original PixiJS office, and real
 application information. The office starts empty; its opt-in **Demo Mode** shows
 clearly fictional characters and a deterministic timeline.
-Agent execution, AI integrations, and database adapters are not implemented.
+A separate experimental **Node CLI** exercises real local Ollama tool calls over
+public notes; see the [proof and limits](docs/OLLAMA_PROOF.md). Desktop agent
+execution, saved agent editing, runtime-to-office IPC and databases remain unimplemented.
 Unimplemented features are labeled **Coming soon**. There is no product release yet.
 
 AgentNest is a proposed local-first workspace for creating and running AI agents:
@@ -15,7 +17,8 @@ product's foundation.
 
 The first planned workflow is a single agent reading an explicitly selected local
 notes directory and producing a source-linked summary for human review. This
-workflow is not implemented. See [Product](PRODUCT.md) for users, scope, and
+complete workflow is not implemented; the isolated CLI proves only its read/tool
+boundary. See [Product](PRODUCT.md) for users, scope, and
 acceptance criteria.
 
 ## Capability map
@@ -28,8 +31,8 @@ acceptance criteria.
 | Original pixel office, selection, inspector, pan/zoom, accessible text view | Implemented | Presentation preview |
 | Explicit fictional Demo Mode; five typed display states, no provider calls | Implemented | Presentation preview |
 | Define and save one agent with instructions and limits | Not implemented | MVP |
-| Run one agent through a real local provider adapter | Not implemented | MVP |
-| Read approved notes and inspect a source-linked result | Not implemented | MVP |
+| Bounded Ollama calls, read-only tool, source-linked result and typed events | Experimental Node CLI; separate from desktop | Provider proof |
+| Run a saved agent and inspect its result in the desktop | Not implemented | MVP |
 | Store agent definitions and run records in SQLite | Not implemented | MVP |
 | Additional local or hosted provider adapters | Not implemented | After MVP |
 | Optional pixel view of actual run events | Not implemented | After MVP |
@@ -37,13 +40,15 @@ acceptance criteria.
 | MySQL backend | Deferred; needs a demonstrated use case | Later |
 
 The [roadmap](ROADMAP.md) defines evidence required to call each stage complete.
-An adapter proposal is not a supported integration.
+The CLI proof is not a supported end-user integration or a release.
 
 ## Start here
 
 - [Product and first real scenario](PRODUCT.md)
 - [ADR-001: local architecture, adapters, and database choices](docs/adr/ADR-001-local-architecture.md)
 - [ADR-002: Electron boundaries and npm workspaces](docs/adr/ADR-002-desktop-foundation.md)
+- [Local Ollama proof, prerequisites, permission limits and evidence](docs/OLLAMA_PROOF.md)
+- [ADR-003: isolated runtime and provider boundaries](docs/adr/ADR-003-ollama-notes-proof.md)
 - [Pixel office, Demo Mode, controls, and asset provenance](docs/OFFICE.md)
 - [Accessibility checks and manual review gates](docs/ACCESSIBILITY.md)
 - [Desktop development and platform limits](docs/DEVELOPMENT.md)

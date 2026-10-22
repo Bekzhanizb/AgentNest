@@ -2,7 +2,9 @@
 
 AgentNest has a Pre-alpha Electron shell and an original PixiJS office preview.
 The office is empty by default; explicit Demo Mode displays fictional events.
-Agents, Tasks, Settings, providers, and execution remain Coming soon. See the
+Desktop Agents, Tasks, Settings and execution remain Coming soon. A separate
+[Node CLI proof](OLLAMA_PROOF.md) invokes local Ollama with explicit grants; it
+adds no desktop IPC or office activity. See the
 [office guide](OFFICE.md) for controls, accessibility, and asset provenance.
 
 ## Toolchain and install
@@ -60,6 +62,7 @@ compatibility review and actual CI evidence, not blind upgrades.
 | npm run test:e2e | Launch built Electron and verify window/security/navigation |
 | npm run test:ui | Production browser layout, keyboard, forced-colors, touch-emulation, and axe checks |
 | npm run preview:office | Loopback-only preview of built renderer assets on port 4173 |
+| npm run --silent proof:ollama -- --model qwen3:1.7b --notes fixtures/notes | Explicit real Node proof; needs a separately installed local Ollama/model |
 | npm run check | Documentation-only checks retained from the foundation |
 
 Commands use Node APIs and local binaries, without Bash variables, rm/cp commands,
@@ -82,22 +85,28 @@ apps/desktop/
 packages/
   core/            domain types, pure AgentEvent projection, IPC data validation
   office-scene/    original procedural sprites and Pixi snapshot presentation
-  provider-sdk/    provider contract only
+  provider-sdk/    backend V4 model protocol and normalized errors
+  provider-ollama/ local-only native Ollama adapter
+  runtime/         bounded notes runner; no renderer or provider-specific client
   storage/         repository contract only
-scripts/           portable build/dev/start and documentation tooling
+apps/proof/        independent Node CLI; NDJSON events and text-view projection
+scripts/           portable build/dev/start/proof and documentation tooling
 tests/e2e/         actual Electron smoke, isolated temporary user data
 tests/browser/     production UI review with browser-only emulation
 ```
 
 There is no packages/ui until another consumer needs shared UI. Provider and SQL
 implementations must be separate from these interfaces and may only be invoked
-from the main/application layer. The current interfaces are a starting boundary,
-not a complete provider protocol, runner, or database adapter. Strict TypeScript
+from the main/application layer. The experimental CLI runner is separate from desktop services; storage remains
+a contract only. Strict TypeScript
 includes unchecked-index and exact-optional checks; Electron/renderer configs have
 separate ambient libraries. ESLint enforces the import direction. The renderer
-and scene alone use skipLibCheck for an upstream PixiJS exact-optional declaration
-defect; application source is still strictly checked. Details and removal
-conditions are in the [office guide](OFFICE.md#verification-and-limits).
+and scene use skipLibCheck for an upstream PixiJS exact-optional declaration
+defect. The proof, runtime and Ollama configs have a separate scoped exception
+for AI SDK/provider-utils Tool declarations; all project source/tests keep strict
+checks. Core, provider-sdk, storage and Electron dependency declarations stay
+checked. See [ADR-003](adr/ADR-003-ollama-notes-proof.md#type-checking-and-consequences)
+and the [office guide](OFFICE.md#verification-and-limits) for removal conditions.
 
 ## Platform evidence and limitations
 

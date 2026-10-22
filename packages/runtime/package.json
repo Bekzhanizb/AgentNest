@@ -1,0 +1,21 @@
+{
+  "name": "@agentnest/runtime",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@agentnest/core": "0.0.0",
+    "@agentnest/provider-sdk": "0.0.0",
+    "ai": "7.0.148",
+    "zod": "4.6.7"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@ai-sdk/provider": "4.0.31"
+  }
+}

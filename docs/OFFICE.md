@@ -3,6 +3,8 @@
 Status: implemented presentation preview with an explicit **Demo Mode**. There is
 no AI runtime, provider connection, database, real task, or approval action here.
 Agents, Tasks, and Settings remain Coming soon.
+A separate [Node CLI proof](OLLAMA_PROOF.md) now emits real runtime events, but
+none is connected to this desktop view. Its models and SDKs are never loaded here.
 
 ## Explore
 

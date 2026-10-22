@@ -44,12 +44,33 @@ loopback-only Vite preview. Its software WebGL flags apply only to that browser
 preview. It does not change Electron's sandbox, production CSP, IPC, or permissions.
 No new runtime or development dependency was introduced for this polish.
 
-The UI suite checks the initial empty room and explicitly fictional demo, keyboard
+The subsequent Node-only Ollama proof adds backend dependencies; none is loaded
+by the renderer, scene or this browser review.
+
+The four-scenario UI suite checks the initial empty room and explicitly fictional demo, keyboard
 skip/focus/return, all five status presentations through the existing component
 suite, actual Pixi selection, reduced motion, forced colors, narrow layouts at
 1440/390/320 pixels, touch emulation, and axe WCAG 2 A/AA plus 2.1 AA. It rejects
 horizontal overflow, uncaught page errors, and external HTTP requests. Screenshots
 are saved under ignored `test-results/browser/`.
+
+## Review performed on 2026-10-22
+
+Environment: managed Debian 13 x64, system Chromium 154.0.8037.57, production
+renderer built from this feature branch. The browser suite passed all four
+scenarios. A visual review of its 1440- and 320-pixel screenshots confirmed a
+readable room, persistent fictional-session labels, selected-character outline,
+textual status, and a stacked inspector with no essential content clipped.
+This is a screenshot review, not a manual assistive-technology test.
+
+The added keyboard-only scenario uses Tab and Enter from the initial empty screen
+to enter Demo Mode, select Ada, open the inspector, Escape back to Ada, enable
+ambient motion, and leave the demo. It also changes reduced-motion live and checks
+that motion becomes disabled/off. Browser reflow at 640/320 CSS pixels represents
+the layout widths of 200%/400% zoom from 1280 pixels; it is **not** actual browser
+zoom or Windows text scaling. Axe found zero WCAG 2 A/AA and 2.1 AA violations in
+the scanned empty, demo, narrow and forced-color states. Automated checks do not
+establish full conformance.
 
 To use an already installed Chromium instead of a Playwright download, set
 `AGENTNEST_BROWSER_EXECUTABLE` to its full path for the test command. This is a

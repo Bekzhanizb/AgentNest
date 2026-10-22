@@ -3,9 +3,11 @@
 - Status: Proposed; owner review pending.
 - Date: 2026-10-21.
 - Scope: architecture for the first [product scenario](../../PRODUCT.md).
-- Implementation status: a desktop shell now exists; no agent runtime, provider
-  adapter, or database exists. [ADR-002](ADR-002-desktop-foundation.md) refines the
-  proposed browser/API transport to an Electron renderer and narrow IPC.
+- Implementation status: a desktop shell and isolated experimental Node CLI now
+  exist. [ADR-002](ADR-002-desktop-foundation.md) refines the proposed browser/API
+  transport to Electron and narrow IPC. [ADR-003](ADR-003-ollama-notes-proof.md)
+  records the limited real-provider proof. Saved editing, desktop execution and
+  databases remain unimplemented; the broader proposal below is not an MVP claim.
 
 ## Context
 
@@ -57,7 +59,8 @@ is unacceptable. Streaming is a later extension, not an MVP requirement.
 
 Propose one Ollama adapter for the first local run, with a model that demonstrably
 supports the required tool protocol. The Stage 1 proof must establish its actual
-behavior and hardware/model prerequisites; Ollama is not integrated today. Local
+behavior and hardware/model prerequisites; the CLI proof now records those in
+[ADR-003](ADR-003-ollama-notes-proof.md), independently of desktop integration. Local
 execution still requires a running model service and downloaded model assets.
 Hosted providers may follow after the contract is tested. They will need explicit
 data-egress disclosure, credentials, and provider-specific capability checks.

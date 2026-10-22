@@ -48,3 +48,4 @@ export function isAppInfoResult(value: unknown): value is AppInfoResult {
     && ['version', 'electron', 'node', 'platform'].every((key) =>
       typeof info[key] === 'string' && info[key].length > 0 && info[key].length <= 100);
 }
+export * from './run-event';

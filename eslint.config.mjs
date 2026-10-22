@@ -23,14 +23,18 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       'no-restricted-imports': ['error', { patterns: [
-        { group: [...builtinModules, 'node:*', 'electron', '@agentnest/storage', '@agentnest/provider-sdk', '**/packages/storage/**', '**/packages/provider-sdk/**', '**/electron/**'], message: 'Renderer code may only use the narrow preload bridge and core contracts.' },
+        { group: [...builtinModules, 'node:*', 'electron', 'ai', 'ai/*', '@ai-sdk/*', 'ollama-ai-provider-v2', '@agentnest/storage', '@agentnest/provider-*', '@agentnest/runtime', '**/packages/storage/**', '**/packages/provider-*/**', '**/packages/runtime/**', '**/electron/**'], message: 'Renderer code may only use the narrow preload bridge and core contracts.' },
       ] }],
       'no-restricted-globals': ['error', 'process', 'require', 'Buffer'],
     },
   },
   {
     files: ['packages/core/**/*.ts'],
-    rules: { 'no-restricted-imports': ['error', { patterns: [...builtinModules, 'node:*', 'electron', 'react', '@agentnest/provider-sdk', '@agentnest/storage', '**/apps/**'] }] },
+    rules: { 'no-restricted-imports': ['error', { patterns: [...builtinModules, 'node:*', 'electron', 'react', 'ai', 'ai/*', '@ai-sdk/*', 'ollama-ai-provider-v2', '@agentnest/provider-*', '@agentnest/runtime', '@agentnest/storage', '**/apps/**'] }] },
+  },
+  {
+    files: ['packages/runtime/**/*.ts'],
+    rules: { 'no-restricted-imports': ['error', { patterns: ['electron', 'react', 'pixi.js', '@agentnest/office-scene', '@agentnest/provider-ollama', 'ollama-ai-provider-v2', '**/apps/**'] }] },
   },
   {
     files: ['packages/provider-sdk/**/*.ts', 'packages/storage/**/*.ts'],
@@ -39,7 +43,7 @@ export default tseslint.config(
   {
     files: ['packages/office-scene/**/*.ts', 'apps/desktop/renderer/src/office/**/*.ts', 'apps/desktop/renderer/src/office/**/*.tsx'],
     rules: {
-      'no-restricted-imports': ['error', { patterns: [...builtinModules, 'node:*', 'electron', '@agentnest/provider-sdk', '@agentnest/storage', '**/packages/provider-sdk/**', '**/packages/storage/**', '**/electron/**'] }],
+      'no-restricted-imports': ['error', { patterns: [...builtinModules, 'node:*', 'electron', 'ai', 'ai/*', '@ai-sdk/*', 'ollama-ai-provider-v2', '@agentnest/provider-*', '@agentnest/runtime', '@agentnest/storage', '**/packages/provider-*/**', '**/packages/runtime/**', '**/packages/storage/**', '**/electron/**'] }],
       'no-restricted-globals': ['error', 'fetch', 'XMLHttpRequest', 'WebSocket', 'process', 'require'],
     },
   },

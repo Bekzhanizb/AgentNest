@@ -5,6 +5,10 @@
 - Refines: [ADR-001](ADR-001-local-architecture.md), transport and UI deployment only.
 - Scope: shell and package boundaries; no agent runtime, provider, or database implementation.
 
+This ADR records the original shell stage. The later isolated Node-only provider
+proof is described by [ADR-003](ADR-003-ollama-notes-proof.md); it does not change
+the desktop security boundary below.
+
 ## Decision and rationale
 
 Use Electron with a React/Vite renderer, TypeScript strict, and a Node.js main
