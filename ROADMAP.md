@@ -23,7 +23,7 @@ Owner decisions still to record:
 - [x] Strict TypeScript workspaces and provider/storage contracts without fake adapters.
 - [x] Context isolation, sandboxed preload, restrictive CSP, and a validated IPC operation.
 - [x] Unit/component checks and an Electron smoke test; Windows-first CI configuration.
-- [ ] Agent creation and execution remain gated on Stages 1 and 2 below.
+- [x] Bounded notes authoring/execution delivered in experimental Stage 1/2 slices; broader MVP gates stay open.
 
 ## Presentation preview — independent of runtime gates
 
@@ -66,8 +66,11 @@ is tracked separately from unit mocks; this is not a full MVP/release claim.
 
 - [x] Create, edit, save, and reload one bounded notes agent definition in a local interface.
 - [x] Persist definitions and run events in SQLite with tested migrations.
-- [ ] Run the notes-to-summary workflow end to end; validate source references.
+- [x] Run a saved notes agent end to end and reload exact history; validate public source hashes/references.
 - [x] Show running, completed, failed, and cancelled states with readable errors (experimental Tasks flow with saved history).
+Evidence: [actual Windows saved-agent/SQLite run](docs/proofs/sqlite-notes-2026-10-22.json),
+including completed/cancelled records after restart; manual accessibility remains open.
+
 - [ ] Export a reviewed result only on explicit user action.
 - [ ] Document installation, limits, secret handling, backup, and recovery.
 

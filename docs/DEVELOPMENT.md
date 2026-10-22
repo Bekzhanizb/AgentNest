@@ -123,6 +123,11 @@ and the [office guide](OFFICE.md#verification-and-limits) for removal conditions
   Electron smoke including Pixi hit selection, keyboard camera, fictional statuses,
   reduced motion, and axe. See the [run](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696)
   and the latest feature PR checks for follow-up commits.
+- Saved agents/SQLite also passed [fresh Windows checks](https://github.com/Bekzhanizb/AgentNest/actions/runs/39804597471):
+  118 tests, 3 actual Electron cases and 6 browser cases. The separate
+  [provider run](https://github.com/Bekzhanizb/AgentNest/actions/runs/39804584689) confirms
+  real saved-agent inference and persisted records after restart; see
+  [durable evidence](proofs/sqlite-notes-2026-10-22.json).
 - Local verification uses Debian 13 x64 with Node 24.19.0; exact outcomes are recorded
   in the implementation PR. A display server and compatible GTK/NSS/graphics
   libraries are required for Linux GUI tests. Headless build/unit tests need no display.

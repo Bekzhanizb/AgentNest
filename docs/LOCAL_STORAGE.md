@@ -104,3 +104,9 @@ suite additionally checks a real completed result and cancellation after restart
 Actual outcomes belong in [Verification](VERIFICATION.md); a test's existence is
 not evidence it passed. Manual NVDA, native-dialog focus, OS contrast/text scaling
 and physical touch remain open in [Accessibility](ACCESSIBILITY.md).
+
+The [Windows evidence record](proofs/sqlite-notes-2026-10-22.json) now verifies actual
+saved-agent inference plus exact completed/cancelled history after a full Electron
+restart, with public source hashes and implementation revision. Its seven-day ZIP
+checksum and completed JSON were checked; the committed JSON remains available
+after artifact expiry. This does not close the manual accessibility gates.

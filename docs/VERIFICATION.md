@@ -293,7 +293,7 @@ failed/cancelled attempts, never fictional demo activity.
 | Command / boundary | Managed Debian 13 x64 result |
 | --- | --- |
 | npm ci | Passed: 327 packages; only one internal SQLite workspace/edges added; no external dependency upgrades |
-| npm run lint | Passed: ESLint, 30 Markdown files, 197 local links and structure |
+| npm run lint | Passed: ESLint, 30 Markdown files, local links and structure |
 | npm run typecheck | Passed: strict source/tests across nine workspaces; existing upstream declaration exceptions unchanged |
 | npm test | Passed: 118 tests in 16 files; actual SQLite files/migrations/rollback/busy writer/reopen/recovery/deletion plus explicitly labeled component/worker fixtures |
 | npm run build | Passed: main/preload/worker/production renderer bundles |
@@ -301,11 +301,35 @@ failed/cancelled attempts, never fictional demo activity.
 | npm run test:e2e | Cannot launch secure Electron here: host sandbox operation denied, SIGTRAP; no bypass added |
 | git diff --check | Passed |
 
-System Node 24.19.0 reports SQLite 3.53.3. Actual Electron node:sqlite compatibility,
-editor save/edit/delete/restart and persisted worker failure require the Windows
-workflow for this revision. The separate real-provider workflow additionally tests
-saved-agent execution and exact completed/cancelled history after a full restart.
-Their outcomes will be recorded separately; the earlier in-memory proof does not
-verify this changed code. Native dialog responses in E2E are automated public
-fixtures, not a manual Windows/NVDA review. The expanded manual authoring/history/
-delete/contrast/touch matrix remains Open in [Accessibility](ACCESSIBILITY.md).
+System Node 24.19.0 reports SQLite 3.53.3. **Windows x64 / PowerShell passed** at
+source commit 1a3d0587bdfb4cdf3c5ad8d7dfd0084c5282ecae:
+[Desktop checks](https://github.com/Bekzhanizb/AgentNest/actions/runs/39804597471)
+completed npm ci, strict typecheck, lint/docs, all 118 tests, CLI help, build,
+actual Electron E2E (3 passed / 1 opt-in inference skipped), and all 6 browser UI
+cases. This includes real editor save/edit/delete/restart and persisted worker
+failure. The retention test allows 30 seconds for 232 separate durable transactions
+on Windows disks; its full 32-agent/100-run assertions and production durability
+settings remain intact.
+
+The separate [real-provider workflow](https://github.com/Bekzhanizb/AgentNest/actions/runs/39804584689)
+also passed both cases at that exact source commit. A saved public notes agent
+completed in 18.722 seconds, with two model calls, two real reads, 605 input / 145
+output tokens and all source hashes/citations checked. After another real call
+was cancelled, Electron was fully restarted against the same isolated profile.
+Both the completed and cancelled event records matched exactly; no grant/session
+was restored. The changed-input failure also survived restart without a provider
+call. Renderer HTTP requests, uncaught page errors and scanned completed-result
+axe violations were zero.
+
+The [durable sanitized record](proofs/sqlite-notes-2026-10-22.json) preserves the
+actual saved records, source/implementation hashes and checksum-verified seven-day
+public-fixture artifact. Downloaded completed JSON matched the workflow log; the
+actual persisted-history screenshot was visually reviewed. Its footer reports
+Electron 45.0.0 / Node 24.22.0 / win32. The embedded SQLite version was not collected,
+but actual repository operations ran inside Electron. Final follow-up commits add
+only documentation/evidence; the feature PR tracks their ordinary CI separately.
+
+Native dialog responses are automated public fixtures, not a manual Windows/NVDA
+review. The expanded manual authoring/history/delete/contrast/touch matrix remains
+Open in [Accessibility](ACCESSIBILITY.md). No secure Linux GUI, broader platform,
+power-loss, semantic-correctness or accessibility-conformance guarantee is made.

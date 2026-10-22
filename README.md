@@ -93,7 +93,7 @@ binary; they do not need a separate Playwright browser download. See
 [development](docs/DEVELOPMENT.md) for version choices and platform evidence.
 
 Verified target: **Windows x64 / PowerShell**, including an actual sandboxed
-Electron window in [CI](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696).
+Electron window in [CI](https://github.com/Bekzhanizb/AgentNest/actions/runs/39804597471).
 The managed Linux test container passes CLI checks/build but cannot launch the
 Chromium sandbox; macOS and ARM are unverified.
 

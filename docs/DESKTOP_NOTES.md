@@ -119,3 +119,8 @@ Actual Windows evidence is now available in the
 tested source commit and successful live workflow. It contains a real summary,
 read hashes and cancellation, plus a seven-day artifact link. The native dialog
 responses were automated; manual dialog accessibility remains unverified.
+
+The later [SQLite/saved-agent proof](proofs/sqlite-notes-2026-10-22.json) verifies
+the same real flow from a saved definition, then reloads exact completed/cancelled
+records after a full app restart. It is separate from the earlier in-memory
+record and identifies the changed implementation revision.
