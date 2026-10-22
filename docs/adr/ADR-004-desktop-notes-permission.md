@@ -8,8 +8,10 @@
 ## Decision
 
 Expose the existing bounded notes runner through a dedicated Tasks screen. Keep
-Office and its fictional Demo Mode independent. This is a one-off, in-memory
-local run, not a saved-agent editor, database integration or production release.
+Office and its fictional Demo Mode independent. This ADR introduced a one-off,
+in-memory run. [ADR-005](ADR-005-local-persistence.md) subsequently adds saved notes
+definitions/SQLite without persisting permissions or changing the worker boundary.
+Neither slice constitutes a production release.
 
 ```text
 React Tasks (permission, status, plain result and history)
@@ -60,9 +62,10 @@ events and watchdog expiry are failed outcomes, never successful activity.
 Navigation among the app's four screens preserves the session and exposes a
 return-to-run control. Actual document reload/navigation revokes permission and
 stops work; renderer failure and window close do the same. Clear revokes the grant
-and drops in-memory output. There is no app-written run file, database, telemetry
-or export. OS swap/crash dumps and the independently operated model service are
-outside this memory-retention statement.
+and drops in-memory output. ADR-005 now records cancellation before revocation
+and persists real events/definition snapshots/results separately; Clear does not
+delete that history. Retention/unencrypted storage is disclosed in the native dialog.
+No telemetry or export is added. OS/model-service retention remains independent.
 
 ## IPC and presentation
 
@@ -103,5 +106,5 @@ Ollama inference. A normal CI pass without a model cannot establish real inferen
 The local daemon must be trusted, cloud disabled by its operator, and inputs stable.
 Path checks are not an OS sandbox against malicious same-user filesystem races.
 Source identity/citations do not prove semantic correctness or injection immunity.
-The complete saved-agent/SQLite/export MVP and manual assistive-technology gates
-remain open. Do not treat a worker thread or a passing axe scan as those guarantees.
+The broader MVP, reviewed export and manual assistive-technology gates remain open.
+Saved bounded notes definitions and SQLite are subsequently implemented in ADR-005. Do not treat a worker thread or a passing axe scan as those guarantees.

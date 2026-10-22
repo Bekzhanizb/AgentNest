@@ -14,7 +14,7 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
   const data = await mkdtemp(path.join(tmpdir(), 'agentnest-notes-ui-'));
   const folder = await mkdtemp(path.join(tmpdir(), 'agentnest-public-notes-'));
   for (const name of ['purpose.md', 'permissions.md']) await copyFile(path.resolve('fixtures/notes', name), path.join(folder, name));
-  const app = await electron.launch({ chromiumSandbox: true, args: [path.resolve('apps/desktop'), `--user-data-dir=${data}`], env: Object.fromEntries(Object.entries(process.env).filter((entry): entry is [string, string] => typeof entry[1] === 'string' && entry[0] !== 'ELECTRON_RUN_AS_NODE')) });
+  let app = await electron.launch({ chromiumSandbox: true, args: [path.resolve('apps/desktop'), `--user-data-dir=${data}`], env: Object.fromEntries(Object.entries(process.env).filter((entry): entry is [string, string] => typeof entry[1] === 'string' && entry[0] !== 'ELECTRON_RUN_AS_NODE')) });
   try {
     const page = await app.firstWindow(); const errors: string[] = []; const requests: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
@@ -25,7 +25,14 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
       dialog.showOpenDialog = async () => ({ canceled: false, filePaths: [selected] });
       dialog.showMessageBox = async () => ({ response: 1, checkboxChecked: false });
     }, folder);
+    const model = live ? liveModel! : 'agentnest-missing:proof';
+    await page.getByRole('button', { name: 'Agents', exact: true }).click();
+    await page.getByLabel('Agent name', { exact: true }).fill('Public notes agent');
+    await page.getByLabel('Installed model', { exact: true }).fill(model);
+    await page.getByRole('button', { name: 'Save agent', exact: true }).click();
+    await expect(page.getByRole('list', { name: 'Saved agents' })).toContainText('Public notes agent');
     await page.getByRole('button', { name: 'Tasks', exact: true }).click();
+    await page.getByLabel('Agent definition', { exact: true }).selectOption({ label: 'Public notes agent · revision 1' });
     await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('No run started');
     const invalid = await page.evaluate(() => (Reflect.get(window, 'agentnest') as DesktopBridge).notes.start({ apiVersion: 1, grantId: '12345678-1234-4234-8234-123456789abc', model: 'qwen3:1.7b', consent: true }));
     expect(invalid).toMatchObject({ ok: false, error: { code: 'NO_GRANT' } });
@@ -33,15 +40,15 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
     await expect(page.getByRole('list', { name: 'Approved note files' }).getByRole('listitem')).toHaveCount(2);
     const read = () => page.evaluate(async () => { const result = await (Reflect.get(window, 'agentnest') as DesktopBridge).notes.read(); if (!result.ok) throw new Error('Unavailable'); return result.snapshot; });
     const selected = await read(); expect(selected.events).toEqual([]); expect(selected.selection?.folderName).toBe(path.basename(folder)); expect(JSON.stringify(selected)).not.toContain(folder);
-    const model = live ? liveModel! : 'agentnest-missing:proof';
-    await page.getByLabel('Installed Ollama model').fill(model);
+    await expect(page.getByLabel('Installed Ollama model')).toHaveValue(model);
     await expect(page.getByRole('button', { name: 'Run notes summary' })).toBeDisabled();
     await page.getByRole('checkbox').check();
     if (!live) await writeFile(path.join(folder, 'unapproved.md'), 'Added after the user reviewed the permission.');
     await page.getByRole('button', { name: 'Run notes summary' }).click();
+    let completedSession: NotesSession | undefined;
     if (live) {
       await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('Completed · review the result', { timeout: 185_000 });
-      const result: NotesSession = await read(); const completed = result.events.at(-1);
+      const result: NotesSession = await read(); completedSession = result; const completed = result.events.at(-1);
       expect(completed?.type).toBe('run_completed');
       if (completed?.type !== 'run_completed') throw new Error('No real summary');
       expect(completed.sources).toHaveLength(2);
@@ -62,6 +69,9 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
       await expect(page.getByRole('button', { name: 'View notes run' })).toBeVisible();
       await expect(page.getByRole('button', { name: /Inspect Ada/ })).toHaveCount(0);
       await page.getByRole('button', { name: 'View notes run' }).click();
+      await expect(page.getByText('Running agent', { exact: true })).toBeVisible();
+      await expect(page.getByText('Public notes agent', { exact: true }).first()).toBeVisible();
+      await expect(page.getByRole('combobox', { name: 'Agent definition', exact: true })).toHaveCount(0);
       await page.getByRole('button', { name: 'Cancel run' }).click();
       await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('Cancelled · no successful result', { timeout: 10_000 });
       const cancelled = await read(); expect(cancelled.events.some((event) => event.type === 'run_completed')).toBe(false);
@@ -72,6 +82,11 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
       expect((await read()).events.at(-1)).toMatchObject({ type: 'run_failed', code: 'INPUT_CHANGED' });
       expect((await read()).events.some((event) => event.type === 'provider_ready')).toBe(false);
     }
+    const saved = await page.evaluate(async () => {
+      const result = await (Reflect.get(window, 'agentnest') as DesktopBridge).library.read(); if (!result.ok || !result.value.runs[0]) throw new Error('No stored run');
+      return (Reflect.get(window, 'agentnest') as DesktopBridge).library.readRun({ apiVersion: 1, id: result.value.runs[0].id });
+    });
+    expect(saved).toMatchObject({ ok: true, value: { selectedRun: { definitionRevision: 1, definition: { name: 'Public notes agent', model }, status: live ? 'cancelled' : 'failed' } } });
     await page.getByRole('button', { name: 'Choose notes folder' }).click();
     await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('Ready for your permission');
     const grant = (await read()).selection?.id;
@@ -82,5 +97,30 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
     const replay = await page.evaluate((grantId) => (Reflect.get(window, 'agentnest') as DesktopBridge).notes.start({ apiVersion: 1, grantId, model: 'qwen3:1.7b', consent: true }), grant);
     expect(replay).toMatchObject({ ok: false, error: { code: 'NO_GRANT' } });
     expect(errors).toEqual([]); expect(requests).toEqual([]);
+    await app.close();
+    app = await electron.launch({ chromiumSandbox: true, args: [path.resolve('apps/desktop'), `--user-data-dir=${data}`], env: Object.fromEntries(Object.entries(process.env).filter((entry): entry is [string, string] => typeof entry[1] === 'string' && entry[0] !== 'ELECTRON_RUN_AS_NODE')) });
+    const restarted = await app.firstWindow();
+    await restarted.getByRole('button', { name: 'Tasks', exact: true }).click();
+    await expect(restarted.getByRole('status', { name: 'Notes run status' })).toHaveText('No run started');
+    const reloaded = await restarted.evaluate(async () => {
+      const result = await (Reflect.get(window, 'agentnest') as DesktopBridge).library.read(); if (!result.ok || !result.value.runs[0]) throw new Error('No persisted run after restart');
+      return (Reflect.get(window, 'agentnest') as DesktopBridge).library.readRun({ apiVersion: 1, id: result.value.runs[0].id });
+    });
+    expect(reloaded).toEqual(saved);
+    if (completedSession) {
+      const runId = completedSession.events[0]!.runId;
+      const completedHistory = await restarted.evaluate((id) => (Reflect.get(window, 'agentnest') as DesktopBridge).library.readRun({ apiVersion: 1, id }), runId);
+      if (!completedHistory.ok || !completedHistory.value.selectedRun) throw new Error('Completed history missing after restart');
+      expect(completedHistory.value.selectedRun.status).toBe('completed');
+      expect(completedHistory.value.selectedRun.events).toEqual(completedSession.events);
+      await writeFile(test.info().outputPath('persisted-completed-run.json'), JSON.stringify(completedHistory.value.selectedRun, null, 2));
+      console.log(`AGENTNEST_PERSISTED_COMPLETED ${JSON.stringify(completedHistory.value.selectedRun)}`);
+    }
+    await expect(restarted.getByRole('list', { name: 'Saved runs' }).getByRole('listitem')).toHaveCount(live ? 2 : 1);
+    await restarted.getByRole('list', { name: 'Saved runs' }).getByRole('button').first().click();
+    await expect(restarted.getByRole('heading', { name: 'Public notes agent', exact: true })).toBeVisible();
+    await restarted.screenshot({ path: test.info().outputPath('persisted-history.png'), fullPage: true });
+    await writeFile(test.info().outputPath('persisted-history.json'), JSON.stringify(reloaded, null, 2));
+    console.log(`AGENTNEST_PERSISTED_HISTORY ${JSON.stringify(reloaded)}`);
   } finally { await app.close(); await rm(data, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }); await rm(folder, { recursive: true, force: true }); }
 });

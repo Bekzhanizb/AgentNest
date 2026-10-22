@@ -9,8 +9,8 @@
 .notes-card-heading h3 { font-family: Georgia, serif; font-size: 23px; margin: 13px 0; }
 .notes-card p { color: #586c51; font-size: 12px; line-height: 1.8; }
 .notes-card h4 { font-size: 12px; color: #324b37; margin: 22px 0 12px; overflow-wrap: anywhere; }
-.notes-page button { min-height: 44px; border-radius: 6px; padding: 11px 15px; cursor: pointer; font-size: 12px; }
-.notes-page button:disabled { opacity: .6; cursor: default; }
+:is(.notes-page, .library-page) button { min-height: 44px; border-radius: 6px; padding: 11px 15px; cursor: pointer; font-size: 12px; }
+:is(.notes-page, .library-page) button:disabled { opacity: .6; cursor: default; }
 .notes-primary { border: 1px solid #36563c; background: #36563c; color: #fffef6; }
 .notes-primary:hover:enabled { background: #27452e; }
 .notes-secondary { border: 1px solid #b6c5a9; background: #fffef9; color: #355536; }
@@ -28,7 +28,7 @@
 .notes-field label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 9px; }
 .notes-field input { width: 100%; padding: 12px; min-height: 44px; border-radius: 5px; border: 1px solid #afbea4; background: #fffef9; color: #283b30; font: 13px ui-monospace, monospace; }
 .notes-field input::placeholder { color: #66745e; }
-.notes-field input:focus-visible, .notes-consent input:focus-visible, .notes-page summary:focus-visible { outline: 3px solid #426e3f; outline-offset: 3px; }
+.notes-field input:focus-visible, .notes-consent input:focus-visible, :is(.notes-page, .library-page) summary:focus-visible { outline: 3px solid #426e3f; outline-offset: 3px; }
 .notes-consent { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.8; padding: 12px 0; min-height: 44px; cursor: pointer; }
 .notes-consent input { margin: 4px 0 0; accent-color: #385f42; min-width: 17px; min-height: 17px; }
 .notes-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 11px; }
@@ -45,8 +45,8 @@
 .notes-review { padding-left: 12px; border-left: 2px solid #809a65; }
 .notes-sources { list-style: none; padding: 0; }
 .notes-sources li { padding: 12px 0; border-top: 1px solid #dbe2d1; font-size: 12px; }
-.notes-page summary { cursor: pointer; font-size: 12px; padding: 12px 0; min-height: 44px; line-height: 1.7; }
-.notes-page code { font: 10px/1.8 ui-monospace, monospace; overflow-wrap: anywhere; display: block; }
+:is(.notes-page, .library-page) summary { cursor: pointer; font-size: 12px; padding: 12px 0; min-height: 44px; line-height: 1.7; }
+:is(.notes-page, .library-page) code { font: 10px/1.8 ui-monospace, monospace; overflow-wrap: anywhere; display: block; }
 .notes-history { margin-top: 15px; border-top: 1px solid #d5dfcb; }
 .notes-history ol { list-style: none; padding: 0; margin: 8px 0 20px; }
 .notes-history li { display: grid; grid-template-columns: 43px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #e2e6db; font-size: 11px; line-height: 1.8; overflow-wrap: anywhere; }
@@ -57,4 +57,4 @@
 .active-notes-run button { min-height: 44px; border: 1px solid #8da476; border-radius: 5px; background: #fffef9; color: #365034; padding: 8px 12px; font: inherit; }
 @media (max-width: 1100px) { .notes-layout { grid-template-columns: 1fr; } .notes-heading { flex-wrap: wrap; } }
 @media (max-width: 600px) { .notes-card { padding: 19px 15px; } .notes-real { font-size: 8px; } .notes-actions { flex-direction: column; } .active-notes-run { padding: 10px 14px; } }
-@media (forced-colors: active) { .notes-card, .notes-selection, .notes-summary, .notes-real, .notes-phase, .notes-page button, .notes-field input, .active-notes-run { border: 1px solid CanvasText; } .notes-page button:disabled { opacity: 1; color: GrayText; border-color: GrayText; } .notes-error { border: 2px solid CanvasText; } .notes-consent input { forced-color-adjust: auto; } }
+@media (forced-colors: active) { .notes-card, .notes-selection, .notes-summary, .notes-real, .notes-phase, :is(.notes-page, .library-page) button, .notes-field input, .active-notes-run { border: 1px solid CanvasText; } :is(.notes-page, .library-page) button:disabled { opacity: 1; color: GrayText; border-color: GrayText; } .notes-error { border: 2px solid CanvasText; } .notes-consent input { forced-color-adjust: auto; } }

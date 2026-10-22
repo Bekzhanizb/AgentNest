@@ -17,6 +17,14 @@ There are no product releases yet.
 
 ### Added
 
+- Local notes-agent editor with explicit save/edit/delete, fixed tools/limits, and
+  versioned immutable definitions selected from Tasks without reusable file permission.
+- Built-in SQLite adapter behind a repository boundary: transactional migrations,
+  saved real run events/results, interrupted recovery, bounded retention and explicit
+  deletion. Local storage is unencrypted; offline backup/recovery is documented.
+- Actual-file persistence tests and Electron editor/history restart checks; the
+  opt-in live workflow verifies persisted provider results separately from mocks.
+
 - Experimental desktop Tasks notes run with native folder metadata review, explicit
   one-use expiring permission, strict IPC/snapshot validation, and a Node worker.
 - Actual runtime status/history, inert source-linked text, source hashes, model

@@ -7,8 +7,9 @@ clearly fictional characters and a deterministic timeline.
 **Tasks** now exposes an experimental real local notes run: native folder choice,
 file review, explicit permission, bounded Ollama calls, cancellation and a
 source-linked result. The standalone [CLI proof](docs/OLLAMA_PROOF.md) remains
-available. Saved agent editing, real events in the office, persistence and export
-remain unimplemented. See the [desktop run guide](docs/DESKTOP_NOTES.md).
+available. **Agents** saves reusable notes definitions; **Tasks** can run them and
+reload immutable definitions/events/results from local SQLite history. Real events
+in the office and reviewed export remain unimplemented. See the [desktop run guide](docs/DESKTOP_NOTES.md).
 Unimplemented features are labeled **Coming soon**. There is no product release yet.
 
 AgentNest is a proposed local-first workspace for creating and running AI agents:
@@ -17,10 +18,10 @@ bounded task, and inspect the result. A pixel workspace is an optional way to
 display real execution state; the agent definition and execution engine are the
 product's foundation.
 
-The first planned workflow is a single agent reading an explicitly selected local
-notes directory and producing a source-linked summary for human review. This
-complete saved-agent workflow is not implemented; the experimental desktop and
-CLI cover a one-off run with explicit read-only permissions. See [Product](PRODUCT.md) for users, scope, and
+The first workflow is one saved notes agent reading an explicitly selected local
+directory and producing a source-linked summary for human review. The experimental
+desktop now saves definitions and history, with fresh permission for each run.
+Tools and limits remain fixed; export and full MVP/release gates are still open. See [Product](PRODUCT.md) for users, scope, and
 acceptance criteria.
 
 ## Capability map
@@ -32,11 +33,11 @@ acceptance criteria.
 | Strict TypeScript workspaces, unit/component and Electron smoke tests | Available | Pre-alpha |
 | Original pixel office, selection, inspector, pan/zoom, accessible text view | Implemented | Presentation preview |
 | Explicit fictional Demo Mode; five typed display states, no provider calls | Implemented | Presentation preview |
-| Define and save one agent with instructions and limits | Not implemented | MVP |
+| Create/edit/save a notes agent with instructions/model; fixed read tool/limits | Experimental desktop Agents | Partial MVP |
 | Bounded Ollama calls, read-only tool, source-linked result and typed events | Experimental Node CLI and desktop Tasks | Provider proof / partial MVP |
 | Native permission preview, cancellation and in-memory desktop result | Implemented experimental slice; real-run evidence is separate from mocks | Partial MVP |
-| Run a saved agent and reload its history in the desktop | Not implemented | MVP |
-| Store agent definitions and run records in SQLite | Not implemented | MVP |
+| Run a saved notes agent and reload immutable history in the desktop | Experimental Tasks; fresh permission every run | Partial MVP |
+| SQLite definitions/run records, tested migrations, explicit deletion | Experimental local-only adapter | Partial MVP |
 | Additional local or hosted provider adapters | Not implemented | After MVP |
 | Optional pixel view of actual run events | Not implemented | After MVP |
 | Shared deployments with PostgreSQL | Under consideration | Later |
@@ -51,6 +52,8 @@ The CLI proof is not a supported end-user integration or a release.
 - [ADR-001: local architecture, adapters, and database choices](docs/adr/ADR-001-local-architecture.md)
 - [ADR-002: Electron boundaries and npm workspaces](docs/adr/ADR-002-desktop-foundation.md)
 - [Desktop notes run, explicit permission and cancellation](docs/DESKTOP_NOTES.md)
+- [Saved agents, SQLite retention, deletion, backup and recovery](docs/LOCAL_STORAGE.md)
+- [ADR-005: local persistence and immutable history](docs/adr/ADR-005-local-persistence.md)
 - [ADR-004: window-owned grants, narrow IPC and Node worker](docs/adr/ADR-004-desktop-notes-permission.md)
 - [Local Ollama proof, prerequisites, permission limits and evidence](docs/OLLAMA_PROOF.md)
 - [ADR-003: isolated runtime and provider boundaries](docs/adr/ADR-003-ollama-notes-proof.md)
@@ -90,7 +93,7 @@ binary; they do not need a separate Playwright browser download. See
 [development](docs/DEVELOPMENT.md) for version choices and platform evidence.
 
 Verified target: **Windows x64 / PowerShell**, including an actual sandboxed
-Electron window in [CI](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696).
+Electron window in [CI](https://github.com/Bekzhanizb/AgentNest/actions/runs/39804597471).
 The managed Linux test container passes CLI checks/build but cannot launch the
 Chromium sandbox; macOS and ARM are unverified.
 

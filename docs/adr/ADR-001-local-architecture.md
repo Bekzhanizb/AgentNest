@@ -6,8 +6,9 @@
 - Implementation status: a desktop shell and isolated experimental Node CLI now
   exist. [ADR-002](ADR-002-desktop-foundation.md) refines the proposed browser/API
   transport to Electron and narrow IPC. [ADR-003](ADR-003-ollama-notes-proof.md)
-  records the limited real-provider proof. Saved editing, desktop execution and
-  databases remain unimplemented; the broader proposal below is not an MVP claim.
+  records the limited real-provider proof. ADR-004 adds desktop execution and
+  [ADR-005](ADR-005-local-persistence.md) adds saved notes agents/SQLite. The broader
+  proposal below is not a full MVP or editable-tool/limit claim.
 
 ## Context
 

@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-22",
+  "sourceCommit": "1a3d0587bdfb4cdf3c5ad8d7dfd0084c5282ecae",
+  "scope": "Actual sandboxed Windows Electron → saved notes definition → fresh native permission → Node worker → local Ollama → SQLite → complete app restart → exact read-only history. Public repository fixtures only.",
+  "workflows": {
+    "desktop": "https://github.com/Bekzhanizb/AgentNest/actions/runs/39804597471",
+    "provider": "https://github.com/Bekzhanizb/AgentNest/actions/runs/39804584689"
+  },
+  "environment": {
+    "platform": "Windows x64 / PowerShell",
+    "toolingNode": "24.19.0",
+    "npm": "11.9.0",
+    "electron": "45.0.0",
+    "embeddedNode": "24.22.0",
+    "embeddedVersionEvidence": "Actual persisted-history screenshot footer",
+    "sqlite": "Built-in node:sqlite; adapter exercised in actual Electron, embedded SQLite version not collected",
+    "ollama": "0.40.8",
+    "model": "qwen3:1.7b"
+  },
+  "artifact": {
+    "id": 12437782285,
+    "url": "https://github.com/Bekzhanizb/AgentNest/actions/runs/39804584689/artifacts/12437782285",
+    "sha256": "a2c7b734f9d7ca750f47afa2efd315310533cfecaa5ed6a1d091d0141690b450",
+    "expiresAt": "2026-10-29T15:26:47Z",
+    "verified": "Downloaded ZIP checksum and completed JSON match the workflow log; screenshots visually inspected."
+  },
+  "verification": {
+    "completedHistoryExactAfterRestart": true,
+    "cancelledHistoryExactAfterRestart": true,
+    "freshSessionAfterReloadAndRestart": true,
+    "grantReplayRejected": true,
+    "changedInputRejectedBeforeProvider": true,
+    "rendererHttpRequests": 0,
+    "uncaughtPageErrors": 0,
+    "scannedCompletedResultAxeViolations": 0,
+    "nativeDialogs": "Automated responses over actual public temporary notes; not a manual dialog/AT review",
+    "unverified": [
+      "Manual NVDA",
+      "Native-dialog focus",
+      "OS contrast/text scaling and true zoom",
+      "Physical touch",
+      "macOS/ARM/Linux secure GUI",
+      "Power-loss/fsync guarantees beyond SQLite transactions"
+    ]
+  },
+  "implementationSha256": {
+    "apps/desktop/electron/library-service.ts": "6e0d0a16fb0a1c1f8126fdff5951f0e7f8b065139c3faea631986c6d18ff6dd4",
+    "apps/desktop/electron/main.ts": "262d0094a1b43569433856f8411aac957334bfa5a5189b80ea23030a0e2dcd45",
+    "apps/desktop/electron/notes-session.ts": "823552a6852675a419f8a6b20d382bfc355ba3e88c973e48a1f14fb993fde598",
+    "apps/desktop/electron/notes-worker-client.ts": "af83f16a6b34bde2645ef4a120a895a4aaee63dd6792867d5b72064010791203",
+    "apps/desktop/electron/preload.ts": "0e4983f82f79821871a5b0d126259e0332d1280adc0e7ba5799d95131bf652b6",
+    "apps/desktop/package.json": "af42e25d6b071a03a7a6b9bfecfebb271cdf62d67f7e16b9d46dbe35a5ace03c",
+    "apps/desktop/renderer/src/App.tsx": "adf021b256827f5df1882ed75447ba40b5a79f986ffc3bef14792d9395594f12",
+    "apps/desktop/renderer/src/library/AgentsPanel.tsx": "8dd46e1e7d502ae73b13ce795f75e736818fe8f0fb207a32b70132f95109241b",
+    "apps/desktop/renderer/src/library/ConfirmDelete.tsx": "5f25a2f3398b56976d4a8755f1ce5d6a469a7bbf04d77ae902269d3987c7bab6",
+    "apps/desktop/renderer/src/library/RunHistory.tsx": "6d1c79a9fc1deafeb588c05522743812a34da00ee4dcc53dc8f49e7d53b0dd31",
+    "apps/desktop/renderer/src/library/library.css": "15388fbc6b91fdda29e31466a19099aab716b604692c5169226d5b611896b99b",
+    "apps/desktop/renderer/src/library/useLibrary.ts": "3e57cb277196d4801c53b1d749fa1f65d80f06a2cc9767b518baba6349c4e7a6",
+    "apps/desktop/renderer/src/notes/NotesRunPanel.tsx": "057e2c555424282a29c37922a992864c698ea9ee4373b660f15b1dbc797e2232",
+    "apps/desktop/worker/notes-worker.ts": "1d4b9eaa37af95a26c17362c3136bf38a06fd1fc7c869c5c38e83129676dad6c",
+    "package-lock.json": "c7ce2fd72bae1333b3a61fc14f49f2885cecea50e92bf654cfad66ca63796b11",
+    "packages/core/src/index.ts": "d0bcd15a49136149889a3155bfb31d148a81d42ea809575c28a4facfc379dac5",
+    "packages/core/src/library.ts": "bd27b36b1ce304f506a149a0bcb7eceb78972571cb561d57e83b7d753ced1227",
+    "packages/core/src/notes-session.ts": "c7d6fd75c6a633db0e4f10215ccf97302b09a27087205ed75f2266b29b98ec3e",
+    "packages/runtime/src/index.ts": "17e57943c1c6d7ed07f18d87e6648c53a8335c872b04d61bcef4a136dc67eab2",
+    "packages/storage-sqlite/package.json": "fbdf232c68a7597db12becf39c7299e7cc36ce26c7ad7aa95a60bd39422d2990",
+    "packages/storage-sqlite/src/index.ts": "381561efc3a54a2c9682b7e3e7630193778224c78b365f7f083d0bf6565374d5",
+    "packages/storage-sqlite/tsconfig.json": "71283cc3c8caea1b7750a4bbd315951a4794833a2ff08489244a49c1680d06f3",
+    "packages/storage/src/index.ts": "022c24bfff57b5548b0c73d76e8ee814f6b543cac098d4c0eb72b3c968d90393",
+    "apps/desktop/renderer/src/notes/notes.css": "44342ba50c90c936cbd2e52bd0a7b37ef0d4b4ce9146c9dfbd326dae297e0273",
+    "tests/e2e/notes.spec.ts": "aad464b9ca7d6e1a5abfbf21f0e1b4873e6faf46c5f3b9068e710a0d7821af9a"
+  },
+  "implementationHashConvention": "SHA-256 of committed UTF-8 Git file contents with LF newlines; original source files, not compiled bundles.",
+  "completedRun": {
+    "id": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+    "name": "Public notes agent",
+    "model": "qwen3:1.7b",
+    "status": "completed",
+    "startedAt": 1792682778659,
+    "updatedAt": 1792682797413,
+    "definition": {
+      "id": "e141c2c8-e7a7-4318-bbae-76c256073e3f",
+      "name": "Public notes agent",
+      "instructions": "Read the approved notes and summarize their purpose, permissions and limits for human review.",
+      "providerId": "ollama",
+      "model": "qwen3:1.7b"
+    },
+    "definitionRevision": 1,
+    "events": [
+      {
+        "type": "run_started",
+        "agent": {
+          "id": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+          "name": "Public notes agent",
+          "role": "Read-only notes agent",
+          "desk": 0,
+          "appearance": {
+            "skin": "warm",
+            "shirt": "sage",
+            "hair": "short"
+          }
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 0,
+        "elapsedMs": 0
+      },
+      {
+        "type": "provider_ready",
+        "provider": "ollama",
+        "version": "0.40.8",
+        "model": "qwen3:1.7b",
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 1,
+        "elapsedMs": 144
+      },
+      {
+        "type": "provider_call_started",
+        "step": 1,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 2,
+        "elapsedMs": 156
+      },
+      {
+        "type": "provider_call_completed",
+        "step": 1,
+        "finishReason": "tool-calls",
+        "usage": {
+          "inputTokens": 250,
+          "outputTokens": 42
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 3,
+        "elapsedMs": 7775
+      },
+      {
+        "type": "note_read",
+        "source": {
+          "path": "permissions.md",
+          "bytes": 340,
+          "sha256": "a272657152733621797e6826599ea384b18da7fde93bf9599e1af5194f3d21ed"
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 4,
+        "elapsedMs": 7780
+      },
+      {
+        "type": "note_read",
+        "source": {
+          "path": "purpose.md",
+          "bytes": 265,
+          "sha256": "6b61aa9fc7bf9e3e532a18faf882a2d5bbd28b72d0466b8ed271abd757483785"
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 5,
+        "elapsedMs": 7782
+      },
+      {
+        "type": "provider_call_started",
+        "step": 2,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 6,
+        "elapsedMs": 7784
+      },
+      {
+        "type": "provider_call_completed",
+        "step": 2,
+        "finishReason": "stop",
+        "usage": {
+          "inputTokens": 355,
+          "outputTokens": 103
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 7,
+        "elapsedMs": 18720
+      },
+      {
+        "type": "run_completed",
+        "summary": "- **Purpose**: The proof reads explicitly approved local Markdown notes and produces a short source-linked summary for human review. [purpose.md]\n- **Permissions**: Only the explicitly selected notes directory is approved. The proof reads a bounded set of regular Markdown files and cannot write notes, run a shell, publish results, or open arbitrary tools. [permissions.md]\n- **Limits**: Time, input size, tool calls, and model steps are bounded. A timeout or cancellation is not successful completion. [permissions.md]",
+        "sources": [
+          {
+            "path": "permissions.md",
+            "bytes": 340,
+            "sha256": "a272657152733621797e6826599ea384b18da7fde93bf9599e1af5194f3d21ed"
+          },
+          {
+            "path": "purpose.md",
+            "bytes": 265,
+            "sha256": "6b61aa9fc7bf9e3e532a18faf882a2d5bbd28b72d0466b8ed271abd757483785"
+          }
+        ],
+        "usage": {
+          "inputTokens": 605,
+          "outputTokens": 145
+        },
+        "modelCalls": 2,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "agentId": "21253113-a68c-4b46-80e3-3fd141d4fa22",
+        "sequence": 8,
+        "elapsedMs": 18722
+      }
+    ]
+  },
+  "cancelledRun": {
+    "id": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+    "name": "Public notes agent",
+    "model": "qwen3:1.7b",
+    "status": "cancelled",
+    "startedAt": 1792682798948,
+    "updatedAt": 1792682799955,
+    "definition": {
+      "id": "e141c2c8-e7a7-4318-bbae-76c256073e3f",
+      "name": "Public notes agent",
+      "instructions": "Read the approved notes and summarize their purpose, permissions and limits for human review.",
+      "providerId": "ollama",
+      "model": "qwen3:1.7b"
+    },
+    "definitionRevision": 1,
+    "events": [
+      {
+        "type": "run_started",
+        "agent": {
+          "id": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+          "name": "Public notes agent",
+          "role": "Read-only notes agent",
+          "desk": 0,
+          "appearance": {
+            "skin": "warm",
+            "shirt": "sage",
+            "hair": "short"
+          }
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "agentId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "sequence": 0,
+        "elapsedMs": 1
+      },
+      {
+        "type": "provider_ready",
+        "provider": "ollama",
+        "version": "0.40.8",
+        "model": "qwen3:1.7b",
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "agentId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "sequence": 1,
+        "elapsedMs": 50
+      },
+      {
+        "type": "provider_call_started",
+        "step": 1,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "agentId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "sequence": 2,
+        "elapsedMs": 61
+      },
+      {
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "agentId": "edf3d235-d555-4152-a5bb-5e0ea046bbb4",
+        "sequence": 3,
+        "elapsedMs": 1110,
+        "type": "run_cancelled"
+      }
+    ]
+  },
+  "changedInputFailure": {
+    "id": "d1a9d497-f9bb-4168-8567-26f07febf335",
+    "name": "Public notes agent",
+    "model": "agentnest-missing:proof",
+    "status": "failed",
+    "startedAt": 1792682775053,
+    "updatedAt": 1792682775136,
+    "definition": {
+      "id": "42a8e155-436e-47b2-8b47-1aebcfba5a0e",
+      "name": "Public notes agent",
+      "instructions": "Read the approved notes and summarize their purpose, permissions and limits for human review.",
+      "providerId": "ollama",
+      "model": "agentnest-missing:proof"
+    },
+    "definitionRevision": 1,
+    "events": [
+      {
+        "type": "run_started",
+        "agent": {
+          "id": "d1a9d497-f9bb-4168-8567-26f07febf335",
+          "name": "Public notes agent",
+          "role": "Read-only notes agent",
+          "desk": 0,
+          "appearance": {
+            "skin": "warm",
+            "shirt": "sage",
+            "hair": "short"
+          }
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "d1a9d497-f9bb-4168-8567-26f07febf335",
+        "agentId": "d1a9d497-f9bb-4168-8567-26f07febf335",
+        "sequence": 0,
+        "elapsedMs": 0
+      },
+      {
+        "type": "run_failed",
+        "code": "INPUT_CHANGED",
+        "message": "A note or its approved directory changed during reading.",
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "d1a9d497-f9bb-4168-8567-26f07febf335",
+        "agentId": "d1a9d497-f9bb-4168-8567-26f07febf335",
+        "sequence": 1,
+        "elapsedMs": 2
+      }
+    ]
+  }
+}

@@ -32,7 +32,7 @@ export async function runNotesProof(options: NotesRunOptions): Promise<NotesRunR
   if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 300_000 || !Number.isSafeInteger(maxModelCalls) || maxModelCalls < 1 || maxModelCalls > 4
     || !agent.instructions.trim() || agent.instructions.length > 4000 || agent.providerId !== provider.id || !agent.model || agent.model.length > 128) throw new RunFailure('INVALID_INPUT');
   const runId = randomUUID();
-  const profile: AgentProfile = { id: runId, name: 'Notes proof', role: 'Read-only notes agent', desk: 0, appearance: { skin: 'warm', shirt: 'sage', hair: 'short' } };
+  const profile: AgentProfile = { id: runId, name: agent.name, role: 'Read-only notes agent', desk: 0, appearance: { skin: 'warm', shirt: 'sage', hair: 'short' } };
   const start = performance.now(); let sequence = 0; let modelCalls = 0;
   const stop = new AbortController();
   const deadline = AbortSignal.timeout(timeoutMs);

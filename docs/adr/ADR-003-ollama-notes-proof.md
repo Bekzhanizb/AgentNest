@@ -24,7 +24,7 @@ apps/proof (explicit CLI command, abort signals, NDJSON output)
   -> packages/core (RunEvent -> AgentEvent -> AgentViewModel)
 
 apps/desktop -> core + office-scene (presentation remains independent)
-packages/storage (contract only; no database adapter)
+packages/storage (contract only at this proof stage; later ADR-005 adds SQLite)
 ```
 
 Use AI SDK's built-in ToolLoopAgent, with explicit stop conditions, zero retries,
@@ -69,7 +69,8 @@ correctness or prompt-injection immunity; output still needs human review.
 
 The CLI prints the real event and its pure text-view projection. It exposes no
 desktop bridge and makes no character animation simulate completion. An IPC
-decoder, agent editor, consent UI, persistence and export remain later work.
+decoder/consent UI were later added by ADR-004, and saved notes definitions/SQLite
+by [ADR-005](ADR-005-local-persistence.md). Export remains later work.
 
 ## Type checking and consequences
 
@@ -85,6 +86,7 @@ exception remains scoped to renderer/scene. Remove each exception after its pinn
 upstream declarations pass with the existing strict flags, without blind upgrades.
 
 The experiment proves one small local scenario only. No database selection changes:
-SQLite remains the proposed MVP default; PostgreSQL and MySQL stay deferred.
+SQLite was selected for MVP and is implemented later in ADR-005; PostgreSQL and
+MySQL stay deferred.
 See the [proof guide](../OLLAMA_PROOF.md), [verification](../VERIFICATION.md), and
 [roadmap](../../ROADMAP.md) for evidence and remaining gates.

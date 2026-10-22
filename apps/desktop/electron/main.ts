@@ -2,15 +2,22 @@ import { app, BrowserWindow, dialog, ipcMain, net, protocol, session } from 'ele
 import type { IpcMainInvokeEvent } from 'electron';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { mkdirSync } from 'node:fs';
+import { SqliteRepository } from '@agentnest/storage-sqlite';
+import { LibraryService } from './library-service';
 import { APP_NAME, APP_STAGE, isAppInfoRequest } from '@agentnest/core';
 import type { AppInfoResult } from '@agentnest/core';
 import { NOTES_CHANNELS, isNotesRequest, isStartNotesRequest, sessionError } from '@agentnest/core';
 import type { NotesResult } from '@agentnest/core';
+import { LIBRARY_CHANNELS, isActiveSession } from '@agentnest/core';
+import type { LibraryResult } from '@agentnest/core';
 import { NotesSessionOwner } from './notes-session';
 import { notesWorkerLauncher } from './notes-worker-client';
 import { APP_INFO_CHANNEL, APP_URL, DEV_URL, DEVELOPMENT_CSP, PRODUCTION_CSP, isTrustedFrame, resolveAsset } from './security';
 
 app.setName(APP_NAME);
+const primary = app.requestSingleInstanceLock();
+if (!primary) app.quit();
 
 protocol.registerSchemesAsPrivileged([{
   scheme: 'agentnest',
@@ -21,6 +28,7 @@ const development = !app.isPackaged && app.commandLine.hasSwitch('development');
 const trustedUrl = development ? DEV_URL : APP_URL;
 let mainWindow: BrowserWindow | null = null;
 let notesOwner: NotesSessionOwner | null = null;
+let library = new LibraryService(null);
 
 function trustedSender(event: IpcMainInvokeEvent): boolean {
   return !!mainWindow && event.sender === mainWindow.webContents && event.senderFrame === mainWindow.webContents.mainFrame
@@ -55,10 +63,12 @@ function createWindow(): void {
       return result.canceled ? null : result.filePaths[0] ?? null;
     },
     launch: notesWorkerLauncher(path.join(__dirname, 'notes-worker.cjs')),
-    confirmRun: async (approval, model) => {
+    prepare: (request) => library.prepare(request),
+    record: (event, agent) => library.record(event, agent),
+    confirmRun: async (approval, model, agent) => {
       const answer = await dialog.showMessageBox(window, {
         type: 'question', title: 'Allow this local notes run?', message: 'Read these notes and send them to local Ollama?',
-        detail: `Folder: ${approval.root}\nFiles: ${approval.files.map((file) => file.path).join(', ')}\nModel: ${model}\n\nOne run only. Up to 3 minutes, 4 model calls and 4 read calls. No writing, shell or publishing. The app keeps the result in memory only.`,
+        detail: `Agent: ${agent.name}\nFolder: ${approval.root}\nFiles: ${approval.files.map((file) => file.path).join(', ')}\nModel: ${model}\n\nOne run only. Up to 3 minutes, 4 model calls and 4 read calls. No writing, shell or publishing. Instructions, result, source filenames/hashes and events are saved locally in unencrypted SQLite history until you delete them. Folder paths and permission grants are not saved.`,
         buttons: ['Cancel', 'Allow this run'], defaultId: 0, cancelId: 0, noLink: true,
       });
       return answer.response === 1;
@@ -88,6 +98,12 @@ function createWindow(): void {
 }
 
 void app.whenReady().then(() => {
+  if (!primary) return;
+  try {
+    const directory = app.getPath('userData');
+    mkdirSync(directory, { recursive: true, mode: 0o700 });
+    library = new LibraryService(new SqliteRepository(path.join(directory, 'agentnest.sqlite')));
+  } catch { console.error('Local storage unavailable. Existing database was not replaced.'); }
   session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
   session.defaultSession.setPermissionCheckHandler(() => false);
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
@@ -130,6 +146,13 @@ void app.whenReady().then(() => {
     });
   }
 
+  for (const operation of ['read', 'saveAgent', 'removeAgent', 'readRun', 'removeRun', 'clearHistory'] as const) {
+    ipcMain.handle(LIBRARY_CHANNELS[operation], (event, ...args: unknown[]): LibraryResult => {
+      if (!trustedSender(event) || args.length !== 1) return { ok: false, error: 'INVALID_REQUEST' };
+      const current = notesOwner?.read();
+      return library.command(operation, args[0], !!current?.ok && isActiveSession(current.snapshot));
+    });
+  }
   createWindow();
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 }).catch((error: unknown) => {
@@ -138,3 +161,6 @@ void app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+app.on('second-instance', () => { if (mainWindow) { if (mainWindow.isMinimized()) mainWindow.restore(); mainWindow.focus(); } });
+app.on('before-quit', () => notesOwner?.dispose());
+app.on('will-quit', () => library.close());

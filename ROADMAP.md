@@ -2,7 +2,8 @@
 
 Status: Pre-alpha desktop foundation. Stages are ordered by dependencies, without
 release dates. Desktop preview, a Node CLI proof and experimental one-off Tasks
-runs exist. Saved agent editing, persisted history and databases remain unimplemented.
+runs exist. Saved notes agents and SQLite history are implemented experimentally;
+reviewed export, editable tool/limit configuration and release gates remain open.
 
 ## Stage 0 — Foundation
 
@@ -22,7 +23,7 @@ Owner decisions still to record:
 - [x] Strict TypeScript workspaces and provider/storage contracts without fake adapters.
 - [x] Context isolation, sandboxed preload, restrictive CSP, and a validated IPC operation.
 - [x] Unit/component checks and an Electron smoke test; Windows-first CI configuration.
-- [ ] Agent creation and execution remain gated on Stages 1 and 2 below.
+- [x] Bounded notes authoring/execution delivered in experimental Stage 1/2 slices; broader MVP gates stay open.
 
 ## Presentation preview — independent of runtime gates
 
@@ -58,13 +59,18 @@ Windows inference, arbitrary model quality and the full desktop MVP are not clai
 Experimental slice: [desktop notes run](docs/DESKTOP_NOTES.md), governed by
 [ADR-004](docs/adr/ADR-004-desktop-notes-permission.md), implements a native folder
 preview, one-use permission, bounded worker execution, cancellation and an
-in-memory result/history. Its real Electron/provider evidence is tracked
-separately from unit mocks. This does not complete the saved-agent workflow below.
+current-session result/history. [ADR-005](docs/adr/ADR-005-local-persistence.md) and
+the [local storage guide](docs/LOCAL_STORAGE.md) add saved definitions, immutable run
+snapshots, SQLite migrations and explicit deletion. Real Electron/provider evidence
+is tracked separately from unit mocks; this is not a full MVP/release claim.
 
-- [ ] Create, edit, save, and reload one agent definition in a local interface.
-- [ ] Persist definitions and run events in SQLite with tested migrations.
-- [ ] Run the notes-to-summary workflow end to end; validate source references.
-- [x] Show running, completed, failed, and cancelled states with readable errors (experimental in-memory Tasks flow).
+- [x] Create, edit, save, and reload one bounded notes agent definition in a local interface.
+- [x] Persist definitions and run events in SQLite with tested migrations.
+- [x] Run a saved notes agent end to end and reload exact history; validate public source hashes/references.
+- [x] Show running, completed, failed, and cancelled states with readable errors (experimental Tasks flow with saved history).
+Evidence: [actual Windows saved-agent/SQLite run](docs/proofs/sqlite-notes-2026-10-22.json),
+including completed/cancelled records after restart; manual accessibility remains open.
+
 - [ ] Export a reviewed result only on explicit user action.
 - [ ] Document installation, limits, secret handling, backup, and recovery.
 

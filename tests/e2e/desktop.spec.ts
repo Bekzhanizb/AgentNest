@@ -34,8 +34,8 @@ test('opens an isolated Electron office with explicit demo, keyboard controls, a
       process: typeof Reflect.get(window, 'process'),
       bridge: Object.keys(Reflect.get(window, 'agentnest') as object).sort(),
     }));
-    expect(exposed).toEqual({ require: 'undefined', process: 'undefined', bridge: ['getAppInfo', 'notes', 'security'] });
-    for (const name of ['Agents', 'Settings']) {
+    expect(exposed).toEqual({ require: 'undefined', process: 'undefined', bridge: ['getAppInfo', 'library', 'notes', 'security'] });
+    for (const name of ['Settings']) {
       await page.getByRole('button', { name }).click();
       await expect(page.getByRole('heading', { name, level: 2 })).toBeVisible();
       await expect(page.getByText('Coming soon', { exact: true })).toBeVisible();

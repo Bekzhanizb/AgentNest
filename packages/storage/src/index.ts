@@ -1,7 +1,19 @@
-import type { AgentDefinition } from '@agentnest/core';
+import type { AgentDefinition, AgentEdit, AgentRef, SavedAgent, RunEvent, RunSummary, StoredRun, LibraryErrorCode } from '@agentnest/core';
 
-// Persistence boundary only. No database driver, migration, or fake store.
+/** Backend-only persistence contract. No filesystem permissions or provider objects. */
 export interface AgentRepository {
-  list(): Promise<readonly AgentDefinition[]>;
-  save(definition: AgentDefinition): Promise<void>;
+  listAgents(): readonly SavedAgent[];
+  saveAgent(edit: AgentEdit): SavedAgent;
+  removeAgent(ref: AgentRef): void;
+  resolveAgent(ref: AgentRef): SavedAgent;
+  listRuns(): readonly RunSummary[];
+  readRun(id: string): StoredRun;
+  append(event: RunEvent, definition: AgentDefinition, revision: number | null): void;
+  ensureRunCapacity(): void;
+  removeRun(id: string): void;
+  clearHistory(): void;
+  close(): void;
+}
+export class StorageError extends Error {
+  constructor(readonly code: LibraryErrorCode = 'UNAVAILABLE') { super(code); }
 }

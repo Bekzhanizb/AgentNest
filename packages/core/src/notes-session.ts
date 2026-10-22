@@ -1,4 +1,6 @@
 import type { RunEvent, NoteSource } from './run-event';
+import { isAgentRef } from './library';
+import type { AgentRef } from './library';
 
 export const NOTES_CHANNELS = Object.freeze({ read: 'agentnest:notes-read', choose: 'agentnest:notes-choose', start: 'agentnest:notes-start', cancel: 'agentnest:notes-cancel', clear: 'agentnest:notes-clear', changed: 'agentnest:notes-changed' });
 export const SESSION_ERRORS = {
@@ -7,6 +9,9 @@ export const SESSION_ERRORS = {
   FOLDER_UNAVAILABLE: 'Choose 1–4 regular .md files, up to 8 KiB each and 16 KiB total, using ASCII letters, digits, dots, underscores or hyphens in filenames. The folder is unavailable or exceeds these limits.',
   INVALID_EVENT: 'The runtime returned an invalid event. The run was stopped.', WORKER_EXITED: 'The runtime stopped unexpectedly. No successful result was recorded.',
   RUN_TIMEOUT: 'The runtime exceeded its deadline and was stopped.', UNAVAILABLE: 'The desktop notes service is unavailable.',
+  STORAGE_UNAVAILABLE: 'The run was stopped because local history could not be saved. Close AgentNest and check the storage recovery guide.',
+  AGENT_CHANGED: 'This saved agent changed or was deleted. Reload the library and review permission again.',
+  LIBRARY_LIMIT: 'The local history already holds 100 runs. Delete saved history before starting another run.',
 } as const;
 export type SessionErrorCode = keyof typeof SESSION_ERRORS;
 export interface SessionError { readonly code: SessionErrorCode; readonly message: string }
@@ -21,7 +26,7 @@ export interface NotesSession {
 }
 export type NotesResult = { readonly ok: true; readonly snapshot: NotesSession } | { readonly ok: false; readonly error: SessionError };
 export interface NotesRequest { readonly apiVersion: 1 }
-export interface StartNotesRequest extends NotesRequest { readonly grantId: string; readonly model: string; readonly consent: true }
+export interface StartNotesRequest extends NotesRequest { readonly grantId: string; readonly model: string; readonly consent: true; readonly agent?: AgentRef }
 export interface NotesBridge {
   read(): Promise<NotesResult>; choose(): Promise<NotesResult>; start(request: StartNotesRequest): Promise<NotesResult>;
   cancel(): Promise<NotesResult>; clear(): Promise<NotesResult>;
@@ -39,7 +44,7 @@ export const isNoteName = (v: unknown): v is string => typeof v === 'string' && 
 export const isLocalModelName = (v: unknown): v is string => typeof v === 'string' && v.length <= 128 && /^[a-z0-9][a-z0-9._-]*(?::[a-zA-Z0-9._-]+)?$/.test(v) && !v.toLowerCase().includes('cloud');
 export function isNotesRequest(v: unknown): v is NotesRequest { return record(v) && keys(v, ['apiVersion']) && v['apiVersion'] === 1; }
 export function isStartNotesRequest(v: unknown): v is StartNotesRequest {
-  return record(v) && keys(v, ['apiVersion', 'grantId', 'model', 'consent']) && v['apiVersion'] === 1 && uuid(v['grantId']) && isLocalModelName(v['model']) && v['consent'] === true;
+  return record(v) && keys(v, Object.hasOwn(v, 'agent') ? ['apiVersion', 'grantId', 'model', 'consent', 'agent'] : ['apiVersion', 'grantId', 'model', 'consent']) && (!Object.hasOwn(v, 'agent') || isAgentRef(v['agent'])) && v['apiVersion'] === 1 && uuid(v['grantId']) && isLocalModelName(v['model']) && v['consent'] === true;
 }
 function isSource(v: unknown): v is NoteSource {
   return record(v) && keys(v, ['path', 'bytes', 'sha256']) && isNoteName(v['path']) && integer(v['bytes'], 8192) && typeof v['sha256'] === 'string' && /^[a-f0-9]{64}$/.test(v['sha256']);

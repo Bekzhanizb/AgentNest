@@ -11,6 +11,8 @@ the desktop preview, experimental real Node CLI proof, and unimplemented MVP wor
 | [ADR-002](adr/ADR-002-desktop-foundation.md) | Electron boundaries, npm workspaces, and pinned tooling |
 | [ADR-003](adr/ADR-003-ollama-notes-proof.md) | Isolated Node runtime, provider protocol, grants and SDK choice |
 | [ADR-004](adr/ADR-004-desktop-notes-permission.md) | Native window grant, strict notes IPC, Node worker and event validation |
+| [Local storage](LOCAL_STORAGE.md) | Saved agents, SQLite retention/deletion, offline backup and recovery |
+| [ADR-005](adr/ADR-005-local-persistence.md) | Built-in SQLite adapter, immutable snapshots and migration/lifecycle decisions |
 | [Desktop notes](DESKTOP_NOTES.md) | Explicit one-off local run, cancellation, retention and opt-in real inference tests |
 | [Ollama proof](OLLAMA_PROOF.md) | Real local commands, model prerequisites, events, evidence and limits |
 | [Accessibility review](ACCESSIBILITY.md) | Repeatable UI checks and open NVDA, contrast-theme, zoom, and physical touch gates |
