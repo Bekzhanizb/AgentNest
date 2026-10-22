@@ -48,13 +48,14 @@ export class SqliteRepository implements AgentRepository {
       if (application === 0 && (version !== 0 || this.db.prepare("SELECT name FROM sqlite_schema WHERE type='table' AND name NOT LIKE 'sqlite_%'").all().length)) throw new StorageError();
       if (this.db.prepare('PRAGMA quick_check').get()?.['quick_check'] !== 'ok') throw new StorageError();
       // DELETE mode deliberately avoids active WAL sidecars in this bounded local workload.
-      this.db.exec('PRAGMA journal_mode=DELETE;');
+      this.db.exec('PRAGMA journal_mode=DELETE; PRAGMA synchronous=FULL;');
       this.transaction(() => {
         for (let index = version; index < MIGRATIONS.length; index++) {
           this.db.exec(MIGRATIONS[index]!);
           this.db.exec(`PRAGMA user_version=${index + 1}`);
         }
         this.db.exec(`PRAGMA application_id=${APPLICATION_ID}`);
+        if (this.db.prepare('PRAGMA foreign_key_check').all().length) throw new StorageError();
         // Validate persisted content before marking interrupted runs. Never replace bad data.
         this.listAgents();
         for (const run of this.listRuns()) this.readRun(run.id);

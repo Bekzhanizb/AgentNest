@@ -69,6 +69,9 @@ for (const live of [false, true]) test(live ? 'real local Ollama produces a sour
       await expect(page.getByRole('button', { name: 'View notes run' })).toBeVisible();
       await expect(page.getByRole('button', { name: /Inspect Ada/ })).toHaveCount(0);
       await page.getByRole('button', { name: 'View notes run' }).click();
+      await expect(page.getByText('Running agent', { exact: true })).toBeVisible();
+      await expect(page.getByText('Public notes agent', { exact: true }).first()).toBeVisible();
+      await expect(page.getByRole('combobox', { name: 'Agent definition', exact: true })).toHaveCount(0);
       await page.getByRole('button', { name: 'Cancel run' }).click();
       await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('Cancelled · no successful result', { timeout: 10_000 });
       const cancelled = await read(); expect(cancelled.events.some((event) => event.type === 'run_completed')).toBe(false);
