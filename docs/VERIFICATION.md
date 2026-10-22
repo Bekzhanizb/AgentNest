@@ -187,6 +187,7 @@ are committed. Recorded implementation hashes identify the exact proof sources.
 | npm run typecheck | Passed: strict source/tests across eight workspaces; scoped SDK declaration exception documented in ADR-003 |
 | npm run lint | Passed: ESLint boundaries, 26 Markdown files, relative links and structure |
 | npm test | Passed: 68 tests in 9 files, including real filesystem permission tests and explicitly mocked model/HTTP contracts |
+| npm run --silent proof:ollama -- --help | Passed: bundles and opens the CLI without starting a provider; also required by Windows CI |
 | npm run build | Passed: Electron/preload/renderer output; no model SDK added to desktop bundles |
 | npm run test:ui with system Chromium 154.0.8037.57 | Passed: 4 production-browser scenarios; zero axe violations in scanned states |
 | npm run test:e2e | Failed to launch the secure Electron process on this sandbox-restricted Linux host; no sandbox bypass added |
