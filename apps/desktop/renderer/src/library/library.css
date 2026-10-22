@@ -12,6 +12,7 @@
 .notes-field textarea, .notes-field select { display: block; box-sizing: border-box; width: 100%; max-width: 100%; padding: .8rem; border: 1px solid #a6b1a8; border-radius: 8px; background: #fffef9; color: #20352d; font: inherit; line-height: 1.6; }
 .notes-field textarea { resize: vertical; min-height: 10rem; }
 .notes-field textarea:focus-visible, .notes-field select:focus-visible { outline: 3px solid #285b48; outline-offset: 3px; }
+.library-save-status:empty { display: none; }
 .library-save-status { min-height: 2.5em; font-size: .85rem; color: var(--muted); }
 .library-delete { margin-top: 1.25rem; }
 .library-confirm { margin-top: .75rem; padding: 1rem; border: 1px solid #9d6551; border-radius: 10px; background: #fff8ec; }

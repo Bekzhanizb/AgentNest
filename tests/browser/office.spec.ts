@@ -46,6 +46,7 @@ test('saved-agent browser preview is honest, readable and accessible without SQL
   await expect(page.getByText(/Browser preview cannot save agents or history/)).toBeVisible();
   await expect(page.getByRole('button', { name: 'Save agent', exact: true })).toBeDisabled();
   await expect(page.getByRole('list', { name: 'Saved agents' }).getByRole('listitem')).toHaveCount(0);
+  for (const button of await page.locator('.library-page button').all()) expect((await button.boundingBox())?.height).toBeGreaterThanOrEqual(44);
   for (const width of [1440, 390, 320]) { await page.setViewportSize({ width, height: 1000 }); await noOverflow(page); await scan(page); }
   await page.emulateMedia({ forcedColors: 'active' }); await scan(page);
   await page.locator('.library-page').screenshot({ path: test.info().outputPath('agents-preview.png') });
