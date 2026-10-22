@@ -107,3 +107,9 @@ Consult the feature PR and [verification](VERIFICATION.md) for actual outcomes;
 the existence of this workflow alone is not a successful live-run claim. Manual
 NVDA, OS contrast/text scaling, actual browser zoom and physical touch remain
 open in the [accessibility matrix](ACCESSIBILITY.md).
+
+Actual Windows evidence is now available in the
+[sanitized desktop record](proofs/desktop-notes-2026-10-22.json), tied to the exact
+tested source commit and successful live workflow. It contains a real summary,
+read hashes and cancellation, plus a seven-day artifact link. The native dialog
+responses were automated; manual dialog accessibility remains unverified.

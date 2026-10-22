@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "86c06c5605d15d0a1c751bba975ac62da4cb3d12",
+  "recordedDate": "2026-10-22",
+  "scope": "Actual sandboxed Windows Electron -> narrow preload/main IPC -> Node worker -> real local Ollama -> verified public-file reads -> source-linked result and cancellation.",
+  "environment": {
+    "runner": "windows-latest / x64",
+    "nodeTooling": "24.19.0",
+    "npm": "11.9.0",
+    "electron": "45.0.0",
+    "electronNode": "24.22.0",
+    "modelExecution": "CPU only",
+    "cloudDisabledByWorkflow": true
+  },
+  "verification": {
+    "windowsChecks": "https://github.com/Bekzhanizb/AgentNest/actions/runs/39782482866",
+    "liveProviderProof": "https://github.com/Bekzhanizb/AgentNest/actions/runs/39782473891",
+    "result": "success",
+    "nativeDialogs": "Only native chooser/confirmation responses are supplied by the test harness, using actual temporary copies of public repository notes. Application IPC, grants, runtime, worker, provider and filesystem reads are production code.",
+    "assertions": [
+      "No run before explicit permission; no renderer-supplied filesystem path.",
+      "Changes after native folder review fail before provider readiness.",
+      "Actual source-linked completion, two file hashes/byte counts match on disk.",
+      "Completed result has zero scanned axe WCAG 2 A/AA and 2.1 AA violations.",
+      "Navigation returns to active work; explicit cancellation records no successful result.",
+      "Reload clears the session and a reviewed old grant cannot be replayed.",
+      "Zero renderer HTTP requests and uncaught page errors."
+    ],
+    "ordinaryCI": {
+      "unitTestsPassed": 93,
+      "electronTestsPassed": 2,
+      "liveTestSkippedUnlessOptIn": true,
+      "browserScenariosPassed": 5
+    },
+    "liveElectronTestsPassed": 2
+  },
+  "artifact": {
+    "id": 12426529689,
+    "url": "https://github.com/Bekzhanizb/AgentNest/actions/runs/39782473891/artifacts/12426529689",
+    "sha256": "b36e3e3fe4af44c9d158738f4417697fec7c1b8fa3b0ccc5dc22c258858af1c5",
+    "expiresAt": "2026-10-29T12:57:38Z",
+    "content": "Public fixture snapshots and screenshots only; no daemon keys, weights or model-service logs."
+  },
+  "model": {
+    "tag": "qwen3:1.7b",
+    "manifestDigest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+    "ollama": "0.40.8",
+    "windowsArchiveSHA256": "04d1d43ac62c2deb0393307bb49fed7caf6b192de41bdd497aaa9488089d5552"
+  },
+  "inputFiles": {
+    "sourceDirectory": "fixtures/notes",
+    "encoding": "UTF-8 with CRLF from the Windows checkout; hashes identify those actual bytes, which differ from an LF checkout."
+  },
+  "completedSession": {
+    "revision": 12,
+    "phase": "completed",
+    "selection": {
+      "id": "b464b3b4-b980-443f-ba01-245a49763ba3",
+      "folderName": "agentnest-public-notes-BgtUXC",
+      "expiresAt": 1792674436064,
+      "consumed": true,
+      "files": [
+        {
+          "path": "permissions.md",
+          "bytes": 340
+        },
+        {
+          "path": "purpose.md",
+          "bytes": 265
+        }
+      ]
+    },
+    "model": "qwen3:1.7b",
+    "events": [
+      {
+        "type": "run_started",
+        "agent": {
+          "id": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+          "name": "Notes proof",
+          "role": "Read-only notes agent",
+          "desk": 0,
+          "appearance": {
+            "skin": "warm",
+            "shirt": "sage",
+            "hair": "short"
+          }
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 0,
+        "elapsedMs": 0
+      },
+      {
+        "type": "provider_ready",
+        "provider": "ollama",
+        "version": "0.40.8",
+        "model": "qwen3:1.7b",
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 1,
+        "elapsedMs": 79
+      },
+      {
+        "type": "provider_call_started",
+        "step": 1,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 2,
+        "elapsedMs": 90
+      },
+      {
+        "type": "provider_call_completed",
+        "step": 1,
+        "finishReason": "tool-calls",
+        "usage": {
+          "inputTokens": 250,
+          "outputTokens": 42
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 3,
+        "elapsedMs": 6550
+      },
+      {
+        "type": "note_read",
+        "source": {
+          "path": "permissions.md",
+          "bytes": 340,
+          "sha256": "a272657152733621797e6826599ea384b18da7fde93bf9599e1af5194f3d21ed"
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 4,
+        "elapsedMs": 6559
+      },
+      {
+        "type": "note_read",
+        "source": {
+          "path": "purpose.md",
+          "bytes": 265,
+          "sha256": "6b61aa9fc7bf9e3e532a18faf882a2d5bbd28b72d0466b8ed271abd757483785"
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 5,
+        "elapsedMs": 6564
+      },
+      {
+        "type": "provider_call_started",
+        "step": 2,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 6,
+        "elapsedMs": 6566
+      },
+      {
+        "type": "provider_call_completed",
+        "step": 2,
+        "finishReason": "stop",
+        "usage": {
+          "inputTokens": 355,
+          "outputTokens": 103
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 7,
+        "elapsedMs": 14970
+      },
+      {
+        "type": "run_completed",
+        "summary": "- **Purpose**: The proof reads explicitly approved local Markdown notes and produces a short source-linked summary for human review. [purpose.md]\n- **Permissions**: Only the explicitly selected notes directory is approved. The proof reads a bounded set of regular Markdown files and cannot write notes, run a shell, publish results, or open arbitrary tools. [permissions.md]\n- **Limits**: Time, input size, tool calls, and model steps are bounded. A timeout or cancellation is not successful completion. [permissions.md]",
+        "sources": [
+          {
+            "path": "permissions.md",
+            "bytes": 340,
+            "sha256": "a272657152733621797e6826599ea384b18da7fde93bf9599e1af5194f3d21ed"
+          },
+          {
+            "path": "purpose.md",
+            "bytes": 265,
+            "sha256": "6b61aa9fc7bf9e3e532a18faf882a2d5bbd28b72d0466b8ed271abd757483785"
+          }
+        ],
+        "usage": {
+          "inputTokens": 605,
+          "outputTokens": 145
+        },
+        "modelCalls": 2,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "agentId": "a11fe6c9-f4db-469f-978a-cab2a42dc96d",
+        "sequence": 8,
+        "elapsedMs": 14971
+      }
+    ],
+    "error": null
+  },
+  "cancelledSession": {
+    "revision": 20,
+    "phase": "cancelled",
+    "selection": {
+      "id": "450d5b55-da2a-4a97-8117-221121f0fbbf",
+      "folderName": "agentnest-public-notes-BgtUXC",
+      "expiresAt": 1792674452251,
+      "consumed": true,
+      "files": [
+        {
+          "path": "permissions.md",
+          "bytes": 340
+        },
+        {
+          "path": "purpose.md",
+          "bytes": 265
+        }
+      ]
+    },
+    "model": "qwen3:1.7b",
+    "events": [
+      {
+        "type": "run_started",
+        "agent": {
+          "id": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+          "name": "Notes proof",
+          "role": "Read-only notes agent",
+          "desk": 0,
+          "appearance": {
+            "skin": "warm",
+            "shirt": "sage",
+            "hair": "short"
+          }
+        },
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "agentId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "sequence": 0,
+        "elapsedMs": 0
+      },
+      {
+        "type": "provider_ready",
+        "provider": "ollama",
+        "version": "0.40.8",
+        "model": "qwen3:1.7b",
+        "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "agentId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "sequence": 1,
+        "elapsedMs": 42
+      },
+      {
+        "type": "provider_call_started",
+        "step": 1,
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "agentId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "sequence": 2,
+        "elapsedMs": 53
+      },
+      {
+        "apiVersion": 1,
+        "origin": "runtime",
+        "runId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "agentId": "390a9c60-afa1-4485-8ecf-14ce8501171f",
+        "sequence": 3,
+        "elapsedMs": 573,
+        "type": "run_cancelled"
+      }
+    ],
+    "error": null
+  },
+  "humanReview": "Compared the three final bullets with public purpose.md and permissions.md. Purpose, approved-directory restriction, forbidden writes/shell/publishing, bounded resources and unsuccessful timeout/cancellation agree. This one reviewed sample is not a semantic validator or general model-quality guarantee.",
+  "limitations": [
+    "Native dialog focus/readout, NVDA, OS contrast/text scaling, true browser zoom and physical touch are not manually verified.",
+    "Worker threads and path checks are not OS security isolation against hostile same-user races.",
+    "The independently operated local daemon must be trusted and cloud-disabled; cancellation does not attest to its internal computation.",
+    "Saved agents, SQLite history, export and a real office event feed remain unimplemented.",
+    "Screenshots/ZIP expire after seven days; this sanitized JSON preserves the observed facts."
+  ],
+  "implementationSHA256": {
+    "apps/desktop/electron/main.ts": "02230c029bb7d8f89b7f8de057bc3e82ab657f1c8c9c644cb6951d810989abf0",
+    "apps/desktop/electron/preload.ts": "7b735a486e5e7440ccf36545c16025a6a9e23259eaf6077322678e9bac448b72",
+    "apps/desktop/electron/notes-session.ts": "2745d2e6a3829befabd34e7afec1b3a05fd7e6f78fc358f0f20c9a8492f7cded",
+    "apps/desktop/electron/notes-worker-client.ts": "19d376c9c505157d9378987ff06df2d334bff61f32e6a4ab859c7d153f9a04d7",
+    "apps/desktop/worker/notes-worker.ts": "6d63ea8f386e9787707e95fc8007e7a858ef5d018a5eea774d9d74b8ecbe1d38",
+    "packages/core/src/notes-session.ts": "f5d95d9419ae9796c301b5ddfb0077af26577f41ef3281a98d0e5b2ec530cc18",
+    "packages/runtime/src/index.ts": "831520a4d0352e2df9d47d5e063430a9c6d0cb59c010ebcb772788b594cc6562",
+    "packages/runtime/src/notes.ts": "caa1d3a9ade2b740e9fc4b87a2d01c75b9c16c4df7a9612ddc83dfaac1cd93ba",
+    "tests/e2e/notes.spec.ts": "bd6ea56acf5cc880b4c410317712c344499575d332481568ccea5b6800c598bf",
+    ".github/workflows/desktop-provider-proof.yml": "322ca57c3a63fc9c4524f3679ebfe9826af7c7ca279cd766cdb44b4a1754a38b",
+    "scripts/desktop.mjs": "e51bc234e3512f96d367560bf3af858cebf25e10b22dd79930b9bd6765d710f4",
+    "package-lock.json": "9c9a33890c226acd527d0bd573924eb5dbf9880b715f79f54b005da694500d3d"
+  }
+}

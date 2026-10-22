@@ -260,3 +260,24 @@ The feature PR records the exact tested head, run outcomes and public artifacts;
 workflow configuration alone is not real-run evidence. Ordinary checks download
 no model. Manual NVDA, native dialog focus, OS contrast/text scaling, physical touch
 and broader platforms remain open in the [review matrix](ACCESSIBILITY.md).
+
+Windows x64 / PowerShell passed a fresh checkout of
+86c06c5605d15d0a1c751bba975ac62da4cb3d12 in
+[Desktop checks](https://github.com/Bekzhanizb/AgentNest/actions/runs/39782482866):
+install, strict checks, 93 unit/component tests, CLI bundling, build, actual secure
+Electron smoke and permission/worker checks (two passed, live case explicitly
+skipped), and all five browser scenarios. The separate
+[Desktop provider proof](https://github.com/Bekzhanizb/AgentNest/actions/runs/39782473891)
+also passed both Electron notes cases with real Ollama 0.40.8/qwen3:1.7b.
+
+The [durable sanitized record](proofs/desktop-notes-2026-10-22.json) preserves the
+actual completed and cancelled sessions, commit/model/source identity, source
+hashes, assertions and temporary artifact reference. The real completion took
+14.971 seconds, two model calls, 605 input/145 output tokens and two file reads.
+Windows checkout inputs used CRLF (340/265 bytes), so their byte hashes differ
+from the older LF CLI record. Hashes were checked against those actual file bytes.
+The final three bullets were compared with the public purpose/permissions notes.
+Cancellation after Office navigation recorded no completion, and reload revoked
+the reviewed grant. Renderer HTTP requests, uncaught errors and scanned completed
+result axe violations were zero. Native dialog responses were supplied by the
+test driver; this does not establish manual focus, NVDA or physical device results.
