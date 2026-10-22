@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 async function openOffice(page: Page) {
@@ -18,6 +18,60 @@ async function scan(page: Page) {
 async function noOverflow(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 }
+
+test('Tasks preview explains real-run permissions without a desktop bridge or fake activity', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Tasks', exact: true }).click();
+  await expect(page.getByText('REAL LOCAL RUN · EXPERIMENTAL', { exact: true })).toBeVisible();
+  await expect(page.getByText(/Browser preview cannot access notes or models/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Run notes summary' })).toBeDisabled();
+  await expect(page.getByRole('status', { name: 'Notes run status' })).toHaveText('No run started');
+  for (const width of [1440, 390, 320]) {
+    await page.setViewportSize({ width, height: 1000 }); await noOverflow(page); await scan(page);
+  }
+  await page.locator('.notes-page').screenshot({ path: test.info().outputPath('tasks-permissions.png') });
+});
+
+async function tabTo(page: Page, target: Locator) {
+  for (let attempt = 0; attempt < 60; attempt++) {
+    if (await target.evaluate((element) => element === document.activeElement)) return;
+    await page.keyboard.press('Tab');
+  }
+  await expect(target).toBeFocused();
+}
+
+test('keyboard-only demo lifecycle and live reduced-motion changes keep controls reachable', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await openOffice(page);
+  await tabTo(page, page.getByRole('button', { name: 'Enter Demo Mode' }));
+  await page.keyboard.press('Enter');
+  await tabTo(page, page.getByRole('button', { name: /Inspect Ada/ }));
+  await page.keyboard.press('Enter');
+  await tabTo(page, page.getByRole('button', { name: 'View Ada’s details' }));
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('complementary', { name: 'Inspector' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: /Inspect Ada/ })).toBeFocused();
+  await tabTo(page, page.getByRole('button', { name: 'Ambient motion off' }));
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('button', { name: 'Ambient motion on' })).toHaveAttribute('aria-pressed', 'true');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const motion = page.getByRole('button', { name: 'Motion off · system preference' });
+  await expect(motion).toBeDisabled();
+  await expect(motion).toHaveAttribute('aria-pressed', 'false');
+  // Reflow equivalents, not actual browser zoom or Windows text scaling.
+  for (const width of [640, 320]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await noOverflow(page);
+    await expect(page.getByRole('button', { name: 'Exit Demo Mode' })).toBeVisible();
+    await scan(page);
+  }
+  await tabTo(page, page.getByRole('button', { name: 'Exit Demo Mode' }));
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('button', { name: /Inspect Ada/ })).toHaveCount(0);
+  await expect(page.getByRole('status', { name: 'Office announcements' })).toContainText('No live session');
+});
 
 test('production office keeps keyboard focus, readable statuses, and layout at desktop and narrow widths', async ({ page }) => {
   const errors: string[] = [];

@@ -1,3 +1,4 @@
+import type { NotesBridge } from './notes-session';
 export const APP_NAME = 'AgentNest';
 export const APP_STAGE = 'pre-alpha';
 export * from './agent-view';
@@ -26,6 +27,7 @@ export type AppInfoResult =
   | { readonly ok: false; readonly error: 'UNAVAILABLE' };
 
 export interface DesktopBridge {
+  readonly notes: NotesBridge;
   readonly security: { readonly contextIsolated: boolean; readonly sandboxed: boolean };
   getAppInfo(): Promise<AppInfoResult>;
 }
@@ -48,3 +50,5 @@ export function isAppInfoResult(value: unknown): value is AppInfoResult {
     && ['version', 'electron', 'node', 'platform'].every((key) =>
       typeof info[key] === 'string' && info[key].length > 0 && info[key].length <= 100);
 }
+export * from './run-event';
+export * from './notes-session';

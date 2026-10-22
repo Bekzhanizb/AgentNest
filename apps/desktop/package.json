@@ -7,11 +7,13 @@
   "main": "dist/electron/main.cjs",
   "dependencies": {
     "@agentnest/core": "0.0.0",
+    "@agentnest/runtime": "0.0.0",
+    "@agentnest/provider-ollama": "0.0.0",
     "@agentnest/office-scene": "0.0.0",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p electron/tsconfig.json && tsc --noEmit -p renderer/tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p electron/tsconfig.json && tsc --noEmit -p renderer/tsconfig.json && tsc --noEmit -p worker/tsconfig.json"
   }
 }

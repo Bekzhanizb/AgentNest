@@ -1,0 +1,92 @@
+name: Desktop provider proof
+
+# This feature-branch trigger records the initial integration proof. After merge,
+# model downloads are explicit workflow_dispatch runs, outside ordinary checks.
+on:
+  push:
+    branches: [feat/desktop-notes-run]
+    paths: ["apps/desktop/**", "packages/**", "scripts/desktop.mjs", "tests/e2e/notes.spec.ts", ".github/workflows/desktop-provider-proof.yml", "package*.json"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-windows:
+    name: Real Ollama / sandboxed Windows desktop
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      OLLAMA_HOST: 127.0.0.1:11434
+      OLLAMA_NO_CLOUD: "1"
+      OLLAMA_NUM_PARALLEL: "1"
+      OLLAMA_CONTEXT_LENGTH: "4096"
+      OLLAMA_MAX_LOADED_MODELS: "1"
+      OLLAMA_KEEP_ALIVE: 60s
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Install verified Ollama and run the real desktop proof
+        env:
+          AGENTNEST_LIVE_NOTES_MODEL: qwen3:1.7b
+        run: |
+          $archivePath = Join-Path $env:RUNNER_TEMP "ollama-0.40.8.zip"
+          $runtimePath = Join-Path $env:RUNNER_TEMP "agentnest-ollama"
+          Invoke-WebRequest "https://github.com/ollama/ollama/releases/download/v0.40.8/ollama-windows-amd64.zip" -OutFile $archivePath
+          $digest = (Get-FileHash $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($digest -ne "04d1d43ac62c2deb0393307bb49fed7caf6b192de41bdd497aaa9488089d5552") { throw "Ollama archive checksum mismatch" }
+          New-Item -ItemType Directory -Force $runtimePath | Out-Null
+          $zip = [System.IO.Compression.ZipFile]::OpenRead($archivePath)
+          try {
+            foreach ($entry in $zip.Entries) {
+              if (-not $entry.Name -or $entry.FullName -match "cuda|cublas|cufft|cudart|rocm|rocblas|hipblas|amdhip|vulkan|mlx") { continue }
+              $targetPath = [System.IO.Path]::GetFullPath((Join-Path $runtimePath $entry.FullName))
+              if (-not $targetPath.StartsWith($runtimePath + [System.IO.Path]::DirectorySeparatorChar, [System.StringComparison]::OrdinalIgnoreCase)) { throw "Invalid archive path" }
+              New-Item -ItemType Directory -Force ([System.IO.Path]::GetDirectoryName($targetPath)) | Out-Null
+              [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $targetPath, $true)
+            }
+          } finally { $zip.Dispose() }
+          $env:OLLAMA_MODELS = Join-Path $env:RUNNER_TEMP "agentnest-ollama-models"
+          $process = Start-Process (Join-Path $runtimePath "ollama.exe") -ArgumentList "serve" -PassThru -RedirectStandardOutput (Join-Path $env:RUNNER_TEMP "ollama-out.log") -RedirectStandardError (Join-Path $env:RUNNER_TEMP "ollama-error.log")
+          $process.Id | Set-Content (Join-Path $env:RUNNER_TEMP "agentnest-ollama.pid")
+          $ready = $false
+          for ($attempt = 0; $attempt -lt 30; $attempt++) {
+            try {
+              $version = Invoke-RestMethod "http://127.0.0.1:11434/api/version"
+              if ($version.version -eq "0.40.8") { $ready = $true; break }
+            } catch { Start-Sleep -Seconds 1 }
+          }
+          if (-not $ready) { throw "Verified Ollama did not become ready" }
+          # Keep the Windows daemon and its clients in the same shell lifetime.
+          Invoke-RestMethod "http://127.0.0.1:11434/api/pull" -Method Post -ContentType "application/json" -Body '{"model":"qwen3:1.7b","stream":false}' -TimeoutSec 600
+          $models = Invoke-RestMethod "http://127.0.0.1:11434/api/tags"
+          $model = $models.models | Where-Object { $_.name -eq "qwen3:1.7b" }
+          if ($model.digest -ne "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7") { throw "Model tag changed; review its manifest before repinning" }
+          Write-Output "Verified Ollama 0.40.8 / qwen3:1.7b / $($model.digest)"
+          npx playwright test tests/e2e/notes.spec.ts
+          if ($LASTEXITCODE -ne 0) { throw "The actual desktop provider proof failed" }
+      - name: Save public-fixture proof artifacts
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: desktop-notes-proof
+          path: test-results/electron/
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Stop the temporary daemon
+        if: always()
+        run: |
+          $pidPath = Join-Path $env:RUNNER_TEMP "agentnest-ollama.pid"
+          if (Test-Path $pidPath) {
+            $daemonId = [int](Get-Content $pidPath)
+            $daemon = Get-Process -Id $daemonId -ErrorAction SilentlyContinue
+            if ($daemon -and $daemon.Path -eq (Join-Path $env:RUNNER_TEMP "agentnest-ollama/ollama.exe")) { Stop-Process -Id $daemonId }
+          }

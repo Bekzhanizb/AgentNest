@@ -14,6 +14,7 @@ async function buildShell() {
     entryPoints: {
       main: path.join(desktop, 'electron/main.ts'),
       preload: path.join(desktop, 'electron/preload.ts'),
+      'notes-worker': path.join(desktop, 'worker/notes-worker.ts'),
     },
     outdir: path.join(desktop, 'dist/electron'),
     outExtension: { '.js': '.cjs' },

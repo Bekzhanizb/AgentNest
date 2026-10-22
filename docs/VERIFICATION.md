@@ -168,6 +168,116 @@ feature PR records the current Windows run for the exact head.
 
 NVDA, a Windows OS contrast theme, Windows text scaling, physical touch and broader
 hardware testing remain open in the [manual review matrix](ACCESSIBILITY.md).
-Automated browser emulation does not close those gates. No real provider call or
-runtime proof was performed; no configured provider/credential is available in
-this managed environment. The corresponding roadmap stage remains open.
+Automated browser emulation does not close those gates. At that UI-polish stage, no real provider call or runtime proof had been performed.
+The later isolated proof below records new evidence; it does not retroactively
+change the scope of those earlier UI checks.
+
+## Isolated Ollama proof and accessibility follow-up — 2026-10-22
+
+The [proof guide](OLLAMA_PROOF.md) and [ADR-003](adr/ADR-003-ollama-notes-proof.md)
+separate this Node experiment from desktop integration. The committed
+[real-run record](proofs/ollama-notes-2026-10-22.json) contains actual events,
+source SHA-256, provider/model metadata, usage and negative controls. Only public
+repository fixtures were used; no private prompts, daemon keys or model weights
+are committed. Recorded implementation hashes identify the exact proof sources.
+
+| Command / boundary | Actual managed Debian 13 x64 result |
+| --- | --- |
+| npm ci | Passed: 326 packages; 13 new external packages, existing dependency versions unchanged |
+| npm run typecheck | Passed: strict source/tests across eight workspaces; scoped SDK declaration exception documented in ADR-003 |
+| npm run lint | Passed: ESLint boundaries, 26 Markdown files, relative links and structure |
+| npm test | Passed: 68 tests in 9 files, including real filesystem permission tests and explicitly mocked model/HTTP contracts |
+| npm run --silent proof:ollama -- --help | Passed: bundles and opens the CLI without starting a provider; also required by Windows CI |
+| npm run build | Passed: Electron/preload/renderer output; no model SDK added to desktop bundles |
+| npm run test:ui with system Chromium 154.0.8037.57 | Passed: 4 production-browser scenarios; zero axe violations in scanned states |
+| npm run test:e2e | Failed to launch the secure Electron process on this sandbox-restricted Linux host; no sandbox bypass added |
+| npm run --silent proof:ollama -- --model qwen3:1.7b --notes fixtures/notes | Passed: actual CPU inference, 2 model calls, 2 read_note executions, 9 events, exit 0 |
+| Real timeout / step limit / unavailable daemon | Passed expected-failure assertions: exit 1, TIMEOUT / LIMIT_EXCEEDED / UNAVAILABLE, no completion |
+| Real cancellation | POSIX SIGINT and fixed parent IPC message both produced run_cancelled, exit 130, no completion |
+| Evidence source and implementation SHA-256 validation | Passed against the actual public inputs and recorded implementation files |
+| git diff --check | Passed |
+
+Official Ollama 0.40.8 was installed temporarily outside the repository after
+verifying its release archive SHA-256. Cloud features were disabled; the daemon
+bound only to 127.0.0.1 with one model and one parallel request. The actual model
+manifest was 8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7.
+The selected tag is qwen3:1.7b; installed metadata reports Q4_K_M, 2,031,739,904
+parameters and 1,359,293,444 bytes. Tags alone do not identify immutable weights.
+The final recorded run took 41.722 seconds on a 3-logical-CPU, 8-GiB-limit container.
+Its three summary bullets were compared with the actual purpose/permissions notes.
+That one reviewed result does not establish general model quality.
+
+The new keyboard-only browser scenario exercises entry, selection, inspector
+focus/return, motion enable, live reduced-motion disable, narrow reflow, and demo
+exit. Desktop, phone and forced-color screenshots were visually reviewed. The
+[manual matrix](ACCESSIBILITY.md#manual-review-still-required) remains open for
+NVDA, actual Windows contrast/text-size settings, true browser zoom, OS motion
+settings and physical touch. Browser emulation and screenshot review do not close
+those gates.
+
+Windows CI continues to run a fresh PowerShell checkout, strict checks, all mock
+and filesystem tests, build, the actual sandboxed Electron smoke, and the browser
+suite. Consult the feature PR for its exact head and current run; earlier Windows
+passes are not attributed to this change. Real inference, interactive Ctrl+C and
+manual assistive-technology review on Windows remain unverified. Model installation
+and downloads are not part of normal CI. macOS and ARM remain unverified.
+
+## Desktop notes permission and worker — 2026-10-22
+
+The [Tasks guide](DESKTOP_NOTES.md) and [ADR-004](adr/ADR-004-desktop-notes-permission.md)
+describe the experimental one-off desktop flow. The earlier CLI evidence above
+belongs to its recorded original revision; newer desktop approval code is not
+retroactively attributed to those old implementation hashes.
+
+Managed Debian 13 x64, Node 24.19.0/npm 11.9.0:
+
+| Command / boundary | Actual result |
+| --- | --- |
+| npm ci | Passed: 326 packages; zero new external packages and zero external version changes |
+| npm run typecheck | Passed: strict project sources; main/preload/core dependency declaration checks retained; worker shares the scoped SDK exception |
+| npm run lint | Passed: import boundaries, 28 Markdown files, relative links and repository structure |
+| npm test | Passed: 93 tests in 12 files; permission/expiry/replay/native-confirmation/revocation, worker failure and frontend inert-text cases are explicitly mocked where appropriate |
+| npm run build | Passed: main, sandboxed preload, separate notes-worker bundle and production renderer |
+| npm run test:ui with system Chromium 154.0.8037.57 | Passed: 5 browser scenarios, including Tasks at 1440/390/320 CSS pixels; zero scanned axe violations |
+| Node owner + bundled worker + actual Ollama | Completed: two model calls, two public notes read and a source-linked summary; this is backend evidence, not an Electron-window claim |
+| npm run test:e2e | Secure Electron cannot launch on this managed Linux host; no sandbox bypass used |
+| git diff --check | Passed |
+
+The initial Linux Electron attempt could not download its lazy binary through the
+managed proxy/cache defaults. Using Node's inherited environment-proxy support and
+Electron's documented electron_config_cache restored the cached verified binary;
+the host then blocked secure process launch as in earlier stages. The actual GUI
+and provider integration are delegated to compatible Windows CI, not inferred
+from the Node-only run or browser preview.
+
+Normal Windows CI now includes an actual Electron permission/worker test using a
+native-dialog harness over real public temporary files. It rejects Markdown added
+after permission review before a provider call and revokes grants on reload.
+A separate Desktop provider proof workflow installs checksum-verified Ollama and
+an explicit digest-verified model, then requires actual desktop completion,
+source hashes, cancellation after navigation, axe and zero renderer HTTP requests.
+The feature PR records the exact tested head, run outcomes and public artifacts;
+workflow configuration alone is not real-run evidence. Ordinary checks download
+no model. Manual NVDA, native dialog focus, OS contrast/text scaling, physical touch
+and broader platforms remain open in the [review matrix](ACCESSIBILITY.md).
+
+Windows x64 / PowerShell passed a fresh checkout of
+86c06c5605d15d0a1c751bba975ac62da4cb3d12 in
+[Desktop checks](https://github.com/Bekzhanizb/AgentNest/actions/runs/39782482866):
+install, strict checks, 93 unit/component tests, CLI bundling, build, actual secure
+Electron smoke and permission/worker checks (two passed, live case explicitly
+skipped), and all five browser scenarios. The separate
+[Desktop provider proof](https://github.com/Bekzhanizb/AgentNest/actions/runs/39782473891)
+also passed both Electron notes cases with real Ollama 0.40.8/qwen3:1.7b.
+
+The [durable sanitized record](proofs/desktop-notes-2026-10-22.json) preserves the
+actual completed and cancelled sessions, commit/model/source identity, source
+hashes, assertions and temporary artifact reference. The real completion took
+14.971 seconds, two model calls, 605 input/145 output tokens and two file reads.
+Windows checkout inputs used CRLF (340/265 bytes), so their byte hashes differ
+from the older LF CLI record. Hashes were checked against those actual file bytes.
+The final three bullets were compared with the public purpose/permissions notes.
+Cancellation after Office navigation recorded no completion, and reload revoked
+the reviewed grant. Renderer HTTP requests, uncaught errors and scanned completed
+result axe violations were zero. Native dialog responses were supplied by the
+test driver; this does not establish manual focus, NVDA or physical device results.

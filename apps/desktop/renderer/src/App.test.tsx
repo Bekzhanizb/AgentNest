@@ -27,7 +27,7 @@ describe('pre-alpha shell', () => {
       if (name === 'Office') expect(screen.getByRole('button', { name: 'Enter Demo Mode' })).toBeDefined();
       else expect(screen.getByRole('heading', { name, level: 2 })).toBeDefined();
       expect(screen.getByRole('button', { name }).getAttribute('aria-current')).toBe('page');
-      if (name !== 'Office') expect(screen.getByText('Coming soon')).toBeDefined();
+      if (name === 'Agents' || name === 'Settings') expect(screen.getByText('Coming soon')).toBeDefined();
     }
     expect(screen.queryByRole('button', { name: /run|create agent/i })).toBeNull();
   });

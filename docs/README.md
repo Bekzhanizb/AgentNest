@@ -1,7 +1,7 @@
 # Documentation
 
 AgentNest is Pre-alpha. A desktop foundation exists; these documents distinguish
-implemented shell behavior from planned agent execution and provider integrations.
+the desktop preview, experimental real Node CLI proof, and unimplemented MVP work.
 
 | Document | Purpose |
 | --- | --- |
@@ -9,6 +9,10 @@ implemented shell behavior from planned agent execution and provider integration
 | [Roadmap](../ROADMAP.md) | Stages and evidence required for completion |
 | [ADR-001](adr/ADR-001-local-architecture.md) | Local runtime, provider adapters, database tradeoffs |
 | [ADR-002](adr/ADR-002-desktop-foundation.md) | Electron boundaries, npm workspaces, and pinned tooling |
+| [ADR-003](adr/ADR-003-ollama-notes-proof.md) | Isolated Node runtime, provider protocol, grants and SDK choice |
+| [ADR-004](adr/ADR-004-desktop-notes-permission.md) | Native window grant, strict notes IPC, Node worker and event validation |
+| [Desktop notes](DESKTOP_NOTES.md) | Explicit one-off local run, cancellation, retention and opt-in real inference tests |
+| [Ollama proof](OLLAMA_PROOF.md) | Real local commands, model prerequisites, events, evidence and limits |
 | [Accessibility review](ACCESSIBILITY.md) | Repeatable UI checks and open NVDA, contrast-theme, zoom, and physical touch gates |
 | [Pixel office](OFFICE.md) | Demo semantics, controls, projection boundaries, original art, and a11y |
 | [Desktop development](DEVELOPMENT.md) | Commands, PowerShell, structure, and platform limits |

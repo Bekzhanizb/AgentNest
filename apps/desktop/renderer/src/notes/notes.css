@@ -1,0 +1,60 @@
+.notes-page { margin-top: 26px; }
+.notes-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.notes-heading h2 { font-size: 32px; margin: 7px 0; }
+.notes-heading p { margin: 5px 0; color: #52644f; font-size: 13px; line-height: 1.7; }
+.notes-real { flex-shrink: 0; font-size: 9px; letter-spacing: 1px; color: #37543d; border: 1px solid #9fb39c; background: #edf2e6; padding: 10px 12px; border-radius: 5px; }
+.notes-disclosure { font-size: 12px; line-height: 1.8; padding: 15px 18px; border-left: 3px solid #587746; background: #edf1e5; color: #41553c; margin: 20px 0; }
+.notes-layout { display: grid; grid-template-columns: minmax(260px, .85fr) minmax(300px, 1.15fr); gap: 20px; align-items: start; }
+.notes-card { background: var(--surface); border: 1px solid #cbd5c0; border-radius: 12px; padding: 24px; min-width: 0; }
+.notes-card-heading h3 { font-family: Georgia, serif; font-size: 23px; margin: 13px 0; }
+.notes-card p { color: #586c51; font-size: 12px; line-height: 1.8; }
+.notes-card h4 { font-size: 12px; color: #324b37; margin: 22px 0 12px; overflow-wrap: anywhere; }
+.notes-page button { min-height: 44px; border-radius: 6px; padding: 11px 15px; cursor: pointer; font-size: 12px; }
+.notes-page button:disabled { opacity: .6; cursor: default; }
+.notes-primary { border: 1px solid #36563c; background: #36563c; color: #fffef6; }
+.notes-primary:hover:enabled { background: #27452e; }
+.notes-secondary { border: 1px solid #b6c5a9; background: #fffef9; color: #355536; }
+.notes-secondary:hover:enabled { background: #edf2e7; }
+.notes-selection { padding: 0 15px 2px; border: 1px solid #cbd5c0; background: #f3f5eb; border-radius: 7px; margin-top: 18px; }
+.notes-selection h4 { margin-top: 15px; }
+.notes-selection ul { list-style: none; margin: 0; padding: 0; }
+.notes-selection li { display: flex; gap: 12px; justify-content: space-between; font: 11px ui-monospace, monospace; padding: 9px 0; border-bottom: 1px solid #dbe1d1; overflow-wrap: anywhere; }
+.notes-selection li span:first-child { min-width: 0; }
+.notes-selection li span:last-child { white-space: nowrap; }
+.notes-empty { border-top: 1px solid #dde3d4; border-bottom: 1px solid #dde3d4; margin: 22px 0; padding: 27px 12px; text-align: center; }
+.notes-empty strong { display: block; font-size: 13px; color: #405d41; }
+.notes-paper { display: block; font: 32px Georgia, serif; color: #617b4f; margin-bottom: 12px; }
+.notes-field { margin-top: 23px; }
+.notes-field label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 9px; }
+.notes-field input { width: 100%; padding: 12px; min-height: 44px; border-radius: 5px; border: 1px solid #afbea4; background: #fffef9; color: #283b30; font: 13px ui-monospace, monospace; }
+.notes-field input::placeholder { color: #66745e; }
+.notes-field input:focus-visible, .notes-consent input:focus-visible, .notes-page summary:focus-visible { outline: 3px solid #426e3f; outline-offset: 3px; }
+.notes-consent { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.8; padding: 12px 0; min-height: 44px; cursor: pointer; }
+.notes-consent input { margin: 4px 0 0; accent-color: #385f42; min-width: 17px; min-height: 17px; }
+.notes-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 11px; }
+.notes-limits { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid #d9e1ce; padding-top: 18px; margin-top: 25px; }
+.notes-limits div { display: grid; gap: 6px; }
+.notes-limits dt { font-size: 10px; color: #617454; }
+.notes-limits dd { margin: 0; color: #334d37; font-size: 12px; }
+.notes-phase { display: inline-block; border: 1px solid #a6b597; border-radius: 5px; padding: 7px 10px; font-size: 11px !important; color: #37513a !important; }
+.notes-phase-failed { border-color: #b77966; color: #8d3c2b !important; }
+.notes-model-name { font-family: ui-monospace, monospace; overflow-wrap: anywhere; }
+.notes-notice { padding: 13px 16px; border: 1px solid #b5c6a3; border-radius: 6px; font-size: 12px; line-height: 1.8; }
+.notes-error { border-color: #bd7d66; color: #853b2e !important; background: #fff2e9; }
+.notes-summary { font-size: 13px; line-height: 1.9; color: #293e2e; white-space: pre-wrap; overflow-wrap: anywhere; unicode-bidi: plaintext; padding: 17px; border: 1px solid #d4ddc9; border-radius: 7px; background: #f5f6ee; }
+.notes-review { padding-left: 12px; border-left: 2px solid #809a65; }
+.notes-sources { list-style: none; padding: 0; }
+.notes-sources li { padding: 12px 0; border-top: 1px solid #dbe2d1; font-size: 12px; }
+.notes-page summary { cursor: pointer; font-size: 12px; padding: 12px 0; min-height: 44px; line-height: 1.7; }
+.notes-page code { font: 10px/1.8 ui-monospace, monospace; overflow-wrap: anywhere; display: block; }
+.notes-history { margin-top: 15px; border-top: 1px solid #d5dfcb; }
+.notes-history ol { list-style: none; padding: 0; margin: 8px 0 20px; }
+.notes-history li { display: grid; grid-template-columns: 43px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #e2e6db; font-size: 11px; line-height: 1.8; overflow-wrap: anywhere; }
+.notes-event-time { color: #627650; font: 10px/2 ui-monospace, monospace; }
+.notes-retention { border-top: 1px solid #d4deca; margin-top: 25px; padding-top: 12px; }
+.notes-future { font-size: 12px; color: #596c50; line-height: 1.8; padding: 15px 0; }
+.active-notes-run { display: flex; gap: 15px; justify-content: space-between; align-items: center; background: #e6eddc; color: #365034; padding: 12px 25px; font-size: 12px; }
+.active-notes-run button { min-height: 44px; border: 1px solid #8da476; border-radius: 5px; background: #fffef9; color: #365034; padding: 8px 12px; font: inherit; }
+@media (max-width: 1100px) { .notes-layout { grid-template-columns: 1fr; } .notes-heading { flex-wrap: wrap; } }
+@media (max-width: 600px) { .notes-card { padding: 19px 15px; } .notes-real { font-size: 8px; } .notes-actions { flex-direction: column; } .active-notes-run { padding: 10px 14px; } }
+@media (forced-colors: active) { .notes-card, .notes-selection, .notes-summary, .notes-real, .notes-phase, .notes-page button, .notes-field input, .active-notes-run { border: 1px solid CanvasText; } .notes-page button:disabled { opacity: 1; color: GrayText; border-color: GrayText; } .notes-error { border: 2px solid CanvasText; } .notes-consent input { forced-color-adjust: auto; } }
