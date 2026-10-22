@@ -4,7 +4,7 @@ name: Desktop provider proof
 # model downloads are explicit workflow_dispatch runs, outside ordinary checks.
 on:
   push:
-    branches: [feat/desktop-notes-run]
+    branches: [feat/sqlite-library]
     paths: ["apps/desktop/**", "packages/**", "scripts/desktop.mjs", "tests/e2e/notes.spec.ts", ".github/workflows/desktop-provider-proof.yml", "package*.json"]
   workflow_dispatch:
 

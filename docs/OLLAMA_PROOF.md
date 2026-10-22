@@ -4,8 +4,9 @@ This is an experimental **real Node CLI run**, separate from the fictional offic
 Demo Mode. It reads public Markdown fixtures through one bounded tool and emits
 actual runtime events plus a pure AgentViewModel projection. The later
 [desktop Tasks slice](DESKTOP_NOTES.md) shares this runner through window-owned
-permissions and a Node worker. Saved agent editing, SQLite and runtime-to-office
-IPC are still Coming soon.
+permissions and a Node worker. [Saved notes agents and SQLite history](LOCAL_STORAGE.md)
+are now a separate desktop slice; the CLI remains independent of persistence.
+Runtime-to-office IPC and reviewed export are still Coming soon.
 
 ## Prerequisites and commands
 

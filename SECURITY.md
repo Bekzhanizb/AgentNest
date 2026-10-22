@@ -27,7 +27,7 @@ or personal data. The owner coordinates fixes and any disclosure with the report
 
 The current Electron shell enables context isolation and renderer sandboxing,
 disables Node integration, denies new windows and permissions, and exposes only
-validated application information through preload. Production assets use a custom
+validated application information and named notes/library operations through preload. Production assets use a custom
 local protocol and restrictive CSP. See [desktop architecture](docs/adr/ADR-002-desktop-foundation.md).
 The development server is loopback-only; development CSP additionally permits Vite
 styles and its local WebSocket. It must not be used as a production server.
@@ -43,10 +43,12 @@ The experimental [desktop notes flow](docs/DESKTOP_NOTES.md) adds native metadat
 preflight, a window-owned single-use ten-minute permission, exact top-level-frame
 IPC checks, strict request/event decoding and a bounded Node worker. Renderer CSP
 still denies network access. Reload, renderer failure and window close revoke the
-grant and stop its worker; inactive Clear drops the in-memory output. No run file,
-SQLite record or telemetry is written. OS/model-service retention and swap/crash
-dumps are outside that statement. Saved agents, persisted retention and export
-remain unimplemented. A worker thread is not an OS sandbox. The CLI trusts a local loopback Ollama daemon and stable
+grant and stop its worker; inactive Clear drops only the in-memory output. The
+[SQLite library](docs/LOCAL_STORAGE.md) now stores instructions, real run events,
+results and relative source metadata until explicit deletion. It does not persist
+native grants/selected roots or original note bodies; generated text may reproduce
+sensitive source material. Storage is unencrypted. No telemetry is added. OS/model-
+service retention, backups and swap/crash dumps remain independent. Export is deferred. A worker thread is not an OS sandbox. The CLI trusts a local loopback Ollama daemon and stable
 input directories; its path checks are not an OS sandbox against malicious
 same-user races. Public evidence must contain only approved public fixture notes.
 Local-first design alone does not establish a

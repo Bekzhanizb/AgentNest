@@ -7,6 +7,9 @@ import { WorkspaceIcon } from './WorkspaceIcon';
 import { useNotesSession } from './notes/useNotesSession';
 import { NotesRunPanel } from './notes/NotesRunPanel';
 import { isActiveSession } from '@agentnest/core';
+import { useLibrary } from './library/useLibrary';
+import { AgentsPanel } from './library/AgentsPanel';
+import { RunHistory } from './library/RunHistory';
 
 const screens: readonly Screen[] = ['Office', 'Agents', 'Tasks', 'Settings'];
 const descriptions: Record<Screen, string> = {
@@ -19,6 +22,9 @@ type InfoState = { status: 'loading' } | { status: 'ready'; info: AppInfo } | { 
 
 export function App() {
   const notes = useNotesSession();
+  const library = useLibrary();
+  const refreshLibrary = library.refresh;
+  useEffect(() => { if (['completed', 'failed', 'cancelled'].includes(notes.snapshot.phase)) void refreshLibrary(); }, [notes.snapshot.phase, refreshLibrary]);
   const [screen, setScreen] = useState<Screen>('Office');
   const [state, setState] = useState<InfoState>({ status: 'loading' });
   const [attempt, setAttempt] = useState(0);
@@ -59,21 +65,21 @@ export function App() {
         {isActiveSession(notes.snapshot) && screen !== 'Tasks' && <div className="active-notes-run" role="status"><span>A real local notes run is {notes.snapshot.phase === 'cancelling' ? 'cancelling' : 'active'}.</span><button onClick={() => { setScreen('Tasks'); document.getElementById('main-content')?.focus(); }}>View notes run</button></div>}
         <main id="main-content" tabIndex={-1} className={screen === 'Office' ? 'office-page' : undefined}>
           <h1 className={screen === 'Office' ? 'shell-heading' : undefined}>AgentNest — Pre-alpha</h1>
-          {screen === 'Office' ? <OfficeWorkspace /> : screen === 'Tasks' ? <NotesRunPanel session={notes} /> : <><p className="intro">A local home for agents you define, understand, and control.</p><section className="feature-panel" aria-labelledby="screen-title">
+          {screen === 'Office' ? <OfficeWorkspace /> : screen === 'Agents' ? <AgentsPanel library={library} /> : screen === 'Tasks' ? <><NotesRunPanel session={notes} agents={library.snapshot.agents} /><RunHistory library={library} active={isActiveSession(notes.snapshot)} /></> : <><p className="intro">A local home for agents you define, understand, and control.</p><section className="feature-panel" aria-labelledby="screen-title">
             <div className="panel-top"><span className="section-number">0{screens.indexOf(screen) + 1}</span><span className="coming-soon">Coming soon</span></div>
             <h2 id="screen-title">{screen}</h2>
             <p>{descriptions[screen]}</p>
-            <div className="empty-state"><span className="empty-symbol" aria-hidden="true">◇</span><h3>{screen} are not available yet.</h3><p>Saved agent definitions, provider settings, and database adapters are coming soon. Experimental local notes runs are available in Tasks.</p></div>
+            <div className="empty-state"><span className="empty-symbol" aria-hidden="true">◇</span><h3>Provider settings are not available yet.</h3><p>Saved agents are available in Agents. Local notes runs and SQLite history are available in Tasks. Additional provider settings are coming soon.</p></div>
           </section></>}
           <section className={screen === 'Office' ? 'foundation-panel compact-foundation' : 'foundation-panel'} aria-labelledby="foundation-title">
-            <div><h2 id="foundation-title">Desktop foundation</h2><p>Read-only local runs are available in Tasks. Saved agents and persistence are coming soon.</p></div>
+            <div><h2 id="foundation-title">Desktop foundation</h2><p>Saved agents in Agents. Read-only local runs and SQLite history in Tasks.</p></div>
             <div className="runtime-info" aria-live="polite" aria-busy={state.status === 'loading'}>
               {state.status === 'loading' && <p role="status" aria-label="Application information">Loading application information…</p>}
               {state.status === 'error' && <div role="alert"><p>{state.message}</p><button className="retry" onClick={retry}>Retry</button></div>}
               {state.status === 'ready' && <dl><div><dt>App</dt><dd>{state.info.version} · Pre-alpha</dd></div><div><dt>Electron</dt><dd>{state.info.electron}</dd></div><div><dt>Node.js</dt><dd>{state.info.node}</dd></div><div><dt>Platform</dt><dd>{state.info.platform}</dd></div></dl>}
             </div>
           </section>
-          <footer>Built for local work. <span>Experimental Ollama notes runs · Saved agents and storage: coming soon.</span></footer>
+          <footer>Built for local work. <span>Local agents and SQLite history · Experimental Ollama notes runs.</span></footer>
         </main>
       </div>
     </div>

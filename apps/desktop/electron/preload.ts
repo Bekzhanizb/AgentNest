@@ -1,6 +1,14 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { isAppInfoResult, NOTES_CHANNELS, isNotesResult, isNotesSession, isStartNotesRequest } from '@agentnest/core';
 import type { DesktopBridge } from '@agentnest/core';
+import { LIBRARY_CHANNELS, isLibraryRequest, isLibraryResult } from '@agentnest/core';
+
+async function libraryCommand(operation: keyof typeof LIBRARY_CHANNELS, request: unknown = { apiVersion: 1 }) {
+  if (!isLibraryRequest(operation, request)) throw new Error('Invalid library request');
+  const result: unknown = await ipcRenderer.invoke(LIBRARY_CHANNELS[operation], request);
+  if (!isLibraryResult(result)) throw new Error('Invalid library service response');
+  return result;
+}
 
 async function notesCommand(operation: 'read' | 'choose' | 'start' | 'cancel' | 'clear', request: unknown = { apiVersion: 1 }) {
   const result: unknown = await ipcRenderer.invoke(NOTES_CHANNELS[operation], request);
@@ -10,6 +18,14 @@ async function notesCommand(operation: 'read' | 'choose' | 'start' | 'cancel' | 
 
 // Bundled as CJS: the sandboxed preload only requires Electron's permitted API.
 const bridge: DesktopBridge = {
+  library: Object.freeze({
+    read: () => libraryCommand('read'),
+    saveAgent: (request: Parameters<DesktopBridge['library']['saveAgent']>[0]) => libraryCommand('saveAgent', request),
+    removeAgent: (request: Parameters<DesktopBridge['library']['removeAgent']>[0]) => libraryCommand('removeAgent', request),
+    readRun: (request: Parameters<DesktopBridge['library']['readRun']>[0]) => libraryCommand('readRun', request),
+    removeRun: (request: Parameters<DesktopBridge['library']['removeRun']>[0]) => libraryCommand('removeRun', request),
+    clearHistory: () => libraryCommand('clearHistory'),
+  }),
   notes: Object.freeze({
     read: () => notesCommand('read'), choose: () => notesCommand('choose'),
     start: (request: Parameters<DesktopBridge['notes']['start']>[0]) => {

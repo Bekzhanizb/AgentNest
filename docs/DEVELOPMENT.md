@@ -3,8 +3,9 @@
 AgentNest has a Pre-alpha Electron shell and an original PixiJS office preview.
 The office is empty by default; explicit Demo Mode displays fictional events.
 Tasks now provides an experimental [desktop notes run](DESKTOP_NOTES.md) using
-a native one-use permission and a Node worker. Agents, Settings, saved definitions,
-persistence and real office activity remain Coming soon. The standalone
+a native one-use permission and a Node worker. Agents saves bounded definitions;
+Tasks includes SQLite history. Provider settings, export and real office activity
+remain Coming soon. See [local storage](LOCAL_STORAGE.md) for retention/recovery. The standalone
 [Node CLI proof](OLLAMA_PROOF.md) shares that bounded runner. See the
 [office guide](OFFICE.md) for controls, accessibility, and asset provenance.
 
@@ -90,7 +91,8 @@ packages/
   provider-sdk/    backend V4 model protocol and normalized errors
   provider-ollama/ local-only native Ollama adapter
   runtime/         bounded notes runner; no renderer or provider-specific client
-  storage/         repository contract only
+  storage/         backend repository contract
+  storage-sqlite/  built-in node:sqlite adapter, migrations, real-file tests
 apps/proof/        independent Node CLI; NDJSON events and text-view projection
 scripts/           portable build/dev/start/proof and documentation tooling
 tests/e2e/         actual Electron smoke, isolated temporary user data
@@ -100,7 +102,7 @@ tests/browser/     production UI review with browser-only emulation
 There is no packages/ui until another consumer needs shared UI. Provider and SQL
 implementations must be separate from these interfaces and may only be invoked
 from the main/application layer. The CLI is a separate entry point. Desktop main owns permission and launches the
-same bounded runtime in a worker; storage remains a contract only. Main/preload
+same bounded runtime in a worker; main owns the SQLite repository through LibraryService. Main/preload
 import only the runtime notes metadata subpath, with no model SDK. Strict TypeScript
 includes unchecked-index and exact-optional checks; Electron/renderer configs have
 separate ambient libraries. ESLint enforces the import direction. The renderer
@@ -135,7 +137,8 @@ and the [office guide](OFFICE.md#verification-and-limits) for removal conditions
 - Build produces unpackaged development artifacts, not .exe/.msi/.dmg installers.
   Signing, packaging, distribution, updates, and production hardening are not included.
 - Electron embeds its own Node runtime; the selected system Node is for tooling.
-  Nothing in this phase verifies providers, models, SQL drivers, or agent behavior.
+  Earlier scaffold checks did not verify providers or persistence. See the latest
+  [verification record](VERIFICATION.md) for subsequent real-provider/storage evidence.
 
 Security details and the change to the original local-browser proposal are in
 [ADR-002](adr/ADR-002-desktop-foundation.md). The [roadmap](../ROADMAP.md) still

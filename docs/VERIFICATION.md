@@ -127,7 +127,8 @@ selection/drag, reduced-motion, axe, narrow-bridge, CSP, and popup assertions.
 The recorded run tested e26cf438e2c04ff515869e0b0e805b8826b2ab5b. A follow-up
 adds a clearer procedural door panel and records this evidence; the
 [feature PR](https://github.com/Bekzhanizb/AgentNest/pull/7) carries checks for its
-latest head. AI, providers, and persistence remain unimplemented.
+latest head. At that historical office stage, AI, providers and persistence were
+unimplemented; later evidence below covers separate runtime and storage changes.
 
 ## Office polish and accessibility review — 2026-10-22
 
@@ -281,3 +282,30 @@ Cancellation after Office navigation recorded no completion, and reload revoked
 the reviewed grant. Renderer HTTP requests, uncaught errors and scanned completed
 result axe violations were zero. Native dialog responses were supplied by the
 test driver; this does not establish manual focus, NVDA or physical device results.
+
+## Saved notes agents and SQLite — 2026-10-22
+
+This slice implements [local persistence](LOCAL_STORAGE.md) under
+[ADR-005](adr/ADR-005-local-persistence.md). It preserves the isolated office and
+native one-use permissions. The library stores real runtime records, including
+failed/cancelled attempts, never fictional demo activity.
+
+| Command / boundary | Managed Debian 13 x64 result |
+| --- | --- |
+| npm ci | Passed: 327 packages; only one internal SQLite workspace/edges added; no external dependency upgrades |
+| npm run lint | Passed: ESLint, 30 Markdown files, 197 local links and structure |
+| npm run typecheck | Passed: strict source/tests across nine workspaces; existing upstream declaration exceptions unchanged |
+| npm test | Passed: 118 tests in 16 files; actual SQLite files/migrations/rollback/busy writer/reopen/recovery/deletion plus explicitly labeled component/worker fixtures |
+| npm run build | Passed: main/preload/worker/production renderer bundles |
+| npm run test:ui with system Chromium 154.0.8037.57 | Passed: 6 scenarios; Agents/Tasks at 1440/390/320 pixels and forced-color emulation; zero scanned axe violations |
+| npm run test:e2e | Cannot launch secure Electron here: host sandbox operation denied, SIGTRAP; no bypass added |
+| git diff --check | Passed |
+
+System Node 24.19.0 reports SQLite 3.53.3. Actual Electron node:sqlite compatibility,
+editor save/edit/delete/restart and persisted worker failure require the Windows
+workflow for this revision. The separate real-provider workflow additionally tests
+saved-agent execution and exact completed/cancelled history after a full restart.
+Their outcomes will be recorded separately; the earlier in-memory proof does not
+verify this changed code. Native dialog responses in E2E are automated public
+fixtures, not a manual Windows/NVDA review. The expanded manual authoring/history/
+delete/contrast/touch matrix remains Open in [Accessibility](ACCESSIBILITY.md).

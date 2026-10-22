@@ -3,14 +3,18 @@ import path from 'node:path';
 import { NotesGrant } from '@agentnest/runtime/notes';
 import type { NotesApproval } from '@agentnest/runtime/notes';
 import { emptyNotesSession, isActiveSession, isRunEvent, isStartNotesRequest, sessionError } from '@agentnest/core';
-import type { NotesResult, NotesSession, RunEvent, SessionErrorCode, NoteSource } from '@agentnest/core';
+import type { AgentDefinition, StartNotesRequest, NotesResult, NotesSession, RunEvent, SessionErrorCode, NoteSource } from '@agentnest/core';
+import { oneOffAgent } from './library-service';
+import type { RunDefinition } from './library-service';
 
 export interface NotesWorker { cancel(): void; stop(): void }
 export interface WorkerCallbacks { event(value: unknown): void; exited(): void }
-export type LaunchNotesWorker = (approval: NotesApproval, model: string, callbacks: WorkerCallbacks) => NotesWorker;
+export type LaunchNotesWorker = (approval: NotesApproval, model: string, callbacks: WorkerCallbacks, agent?: AgentDefinition) => NotesWorker;
 interface Dependencies {
   readonly chooseFolder: () => Promise<string | null>; readonly launch: LaunchNotesWorker;
-  readonly confirmRun: (approval: NotesApproval, model: string) => Promise<boolean>;
+  readonly confirmRun: (approval: NotesApproval, model: string, agent: AgentDefinition) => Promise<boolean>;
+  readonly prepare?: (request: StartNotesRequest) => RunDefinition;
+  readonly record?: (event: RunEvent, agent: RunDefinition) => void;
   readonly publish: (snapshot: NotesSession) => void; readonly now?: () => number;
 }
 
@@ -26,6 +30,7 @@ export class NotesSessionOwner {
   private worker: NotesWorker | undefined;
   private watchdog: ReturnType<typeof setTimeout> | undefined;
   private readonly now: () => number;
+  private runDefinition: RunDefinition | undefined;
   constructor(private readonly dependencies: Dependencies) { this.now = dependencies.now ?? Date.now; }
   read(): NotesResult { return this.closed ? this.error('UNAVAILABLE') : { ok: true, snapshot: this.snapshot }; }
   private error(code: SessionErrorCode): NotesResult { return { ok: false, error: sessionError(code) }; }
@@ -68,19 +73,24 @@ export class NotesSessionOwner {
     if (!selected || !approval || selected.id !== request.grantId || selected.consumed) return this.error('NO_GRANT');
     if (selected.expiresAt <= this.now()) { this.approval = undefined; this.update({ selection: null, phase: 'empty' }); return this.error('EXPIRED_GRANT'); }
     const epoch = this.epoch;
+    let agent: RunDefinition;
+    try { agent = this.dependencies.prepare?.(request) ?? { definition: oneOffAgent(request.model), revision: null }; }
+    catch (error) { return this.error(error instanceof Error && error.message === 'CONFLICT' ? 'AGENT_CHANGED' : error instanceof Error && error.message === 'LIMIT' ? 'LIBRARY_LIMIT' : 'STORAGE_UNAVAILABLE'); }
     this.confirming = true;
     try {
-      const allowed = await this.dependencies.confirmRun(approval, request.model);
+      const allowed = await this.dependencies.confirmRun(approval, request.model, agent.definition);
       if (this.closed || epoch !== this.epoch) return this.error('UNAVAILABLE');
       if (!allowed) return this.read();
+      if (this.dependencies.prepare && JSON.stringify(this.dependencies.prepare(request)) !== JSON.stringify(agent)) return this.error('AGENT_CHANGED');
       if (selected.expiresAt <= this.now()) { this.approval = undefined; this.update({ selection: null, phase: 'empty' }); return this.error('EXPIRED_GRANT'); }
     } catch { return this.error('UNAVAILABLE'); }
     finally { this.confirming = false; }
     this.approval = undefined;
+    this.runDefinition = agent;
     this.startedAt = performance.now();
     this.update({ phase: 'running', selection: { ...selected, consumed: true }, model: request.model, events: [], error: null });
     try {
-      this.worker = this.dependencies.launch(approval, request.model, { event: (value) => this.accept(value), exited: () => this.exited() });
+      this.worker = this.dependencies.launch(approval, request.model, { event: (value) => this.accept(value), exited: () => this.exited() }, agent.definition);
       this.watchdog = setTimeout(() => this.fail('RUN_TIMEOUT'), 190_000); this.watchdog.unref();
     } catch { this.fail('WORKER_EXITED'); }
     return this.read();
@@ -100,7 +110,7 @@ export class NotesSessionOwner {
     if (this.choosing || this.confirming || isActiveSession(this.snapshot)) return this.error('BUSY');
     this.approval = undefined; this.update({ phase: 'empty', selection: null, model: null, events: [], error: null }); return this.read();
   }
-  revoke(): void { this.epoch++; this.approval = undefined; this.worker?.cancel(); this.stopWorker(); this.update({ phase: 'empty', selection: null, model: null, events: [], error: null }); }
+  revoke(): void { this.epoch++; this.approval = undefined; this.worker?.cancel(); if (isActiveSession(this.snapshot)) this.finishCancelled(); this.stopWorker(); this.update({ phase: 'empty', selection: null, model: null, events: [], error: null }); }
   dispose(): void { this.revoke(); this.closed = true; this.snapshot = emptyNotesSession(); }
 
   private terminal(type: 'run_cancelled' | 'run_failed', code?: SessionErrorCode): RunEvent | undefined {
@@ -112,10 +122,12 @@ export class NotesSessionOwner {
   private fail(code: SessionErrorCode): void {
     if (!isActiveSession(this.snapshot)) return;
     const event = this.terminal('run_failed', code); this.stopWorker();
+    if (event && !this.persist(event)) return;
     this.update({ phase: 'failed', error: sessionError(code), events: event ? [...this.snapshot.events, event] : this.snapshot.events });
   }
   private finishCancelled(): void {
     const event = this.terminal('run_cancelled'); this.stopWorker();
+    if (event && !this.persist(event)) return;
     this.update({ phase: 'cancelled', events: event ? [...this.snapshot.events, event] : this.snapshot.events });
   }
   private exited(): void {
@@ -126,9 +138,14 @@ export class NotesSessionOwner {
     if (this.closed || !isActiveSession(this.snapshot)) return;
     if (!isRunEvent(value) || !this.validNext(value)) { this.fail('INVALID_EVENT'); return; }
     if (this.snapshot.phase === 'cancelling' && ['run_completed', 'run_failed', 'run_cancelled'].includes(value.type)) { this.finishCancelled(); return; }
+    if (!this.persist(value)) return;
     const phase = value.type === 'run_completed' ? 'completed' : value.type === 'run_failed' ? 'failed' : value.type === 'run_cancelled' ? 'cancelled' : this.snapshot.phase;
     if (phase === 'completed' || phase === 'failed' || phase === 'cancelled') this.stopWorker();
     this.update({ phase, events: [...this.snapshot.events, value] });
+  }
+  private persist(event: RunEvent): boolean {
+    try { if (this.runDefinition) this.dependencies.record?.(event, this.runDefinition); return true; }
+    catch { this.stopWorker(); this.update({ phase: 'failed', error: sessionError('STORAGE_UNAVAILABLE') }); return false; }
   }
   private validNext(event: RunEvent): boolean {
     const events = this.snapshot.events; const last = events.at(-1);

@@ -122,3 +122,43 @@ navigation away/back during a call; reading sources and generated text; Clear an
 reload. Confirm NVDA does not announce every event as a live update or lose focus.
 Actual Windows contrast/text scaling, true zoom, physical touch and OS motion
 preferences remain open. No manual gate is closed by the new automated checks.
+
+## Saved agents and history follow-up
+
+The editor uses labeled native inputs/select/textarea, explicit save actions and
+plain-text instructions. Tasks discloses unencrypted retention before permission.
+History has textual statuses, read-only snapshots and DOM events/sources; reading it
+never starts a run. Delete controls expand an inline named confirmation group, with
+Keep records and Confirm deletion buttons; there is no new custom modal/focus trap.
+The production-browser suite now has six cases, including the disabled browser-only
+Agents view at 1440/390/320 pixels and forced colors. Electron additionally scans
+the actual saved editor; the opt-in provider test checks persisted real results.
+
+The following manual Windows cases remain **Open**, in addition to the office/native
+dialog matrix above. Automation/screenshot review does not close them.
+
+| Gate | Procedure | Expected result | Status |
+| --- | --- | --- | --- |
+| NVDA agent authoring | In Agents, create/edit/save a public definition using only keyboard; reload | Names, model, instructions, constraints and save outcome are understandable; focus remains usable | Open |
+| NVDA saved selection | In Tasks select a saved revision, review instructions and folder, change definition | Labels/instructions are readable; consent must be renewed; no run starts automatically | Open |
+| NVDA saved history | Complete/cancel a public run, restart, inspect saved instructions/events/sources | Read-only origin/outcome and interrupted status are clear; reading never restores permission | Open |
+| NVDA deletion | Expand Delete, choose Keep records, then confirm deletion | Confirmation context is announced; focus stays reachable; agent/history deletion semantics are clear | Open |
+| Windows contrast and scaling | Repeat editor/history at OS contrast themes, text scaling and true 200%/400% zoom | Labels, long instructions/hashes, errors and deletion controls remain readable without lost content | Open |
+| Physical touch editor/history | Scroll long instructions/history, select agent, confirm/cancel deletion | No trapped scroll, precision-only action or accidentally confirmed deletion | Open |
+
+Use this record for each manual case, without private notes:
+
+```text
+Case: <row from matrix>
+Date / tested commit:
+Windows / Electron / NVDA version or physical device:
+Contrast / scaling / motion settings:
+Exact steps and expected outcome:
+Observed outcome: Pass | Fail | Blocked
+Evidence or issue link (public fixtures only):
+Reviewer:
+```
+
+No Windows/NVDA or physical-device manual session was available in the managed Linux
+workspace for this change. Keep these results Open until an actual reviewer records
+them; do not infer a pass from Windows CI, axe, or touch/contrast emulation.

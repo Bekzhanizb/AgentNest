@@ -9,3 +9,7 @@ test-results/
 playwright-report/
 coverage/
 *.tsbuildinfo
+
+# Local agent definitions and generated run history
+*.sqlite
+*.sqlite-*

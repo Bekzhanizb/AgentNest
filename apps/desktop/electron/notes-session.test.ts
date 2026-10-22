@@ -97,4 +97,26 @@ describe('window-owned permission and lifecycle (mock worker, real public tempor
     const choosing = owner.choose(); owner.revoke(); resolve(root); await choosing;
     expect(snapshot().selection).toBeNull(); expect(launch).not.toHaveBeenCalled();
   });
+  it('persists cancellation before revoking a running session and ignores late worker messages', async () => {
+    const record = vi.fn();
+    owner = new NotesSessionOwner({ chooseFolder: async () => root, confirmRun: async () => true, launch, publish: () => {}, record });
+    await start(); started(); owner.revoke();
+    expect(record.mock.calls.map((call) => (call[0] as RunEvent).type)).toEqual(['run_started', 'run_cancelled']);
+    expect(snapshot().selection).toBeNull(); expect(snapshot().events).toEqual([]);
+    emit({ type: 'run_cancelled' }); expect(record).toHaveBeenCalledTimes(2);
+  });
+  it('stops rather than reporting completion when history cannot be written', async () => {
+    const record = vi.fn().mockImplementation(() => { throw new Error('Storage failed'); });
+    owner = new NotesSessionOwner({ chooseFolder: async () => root, confirmRun: async () => true, launch, publish: () => {}, record });
+    await start(); started();
+    expect(stop).toHaveBeenCalledOnce(); expect(snapshot()).toMatchObject({ phase: 'failed', error: { code: 'STORAGE_UNAVAILABLE' } });
+    expect(snapshot().events).toEqual([]);
+  });
+  it('rejects a changed saved definition while native confirmation is open', async () => {
+    const definition = { id: 'saved', name: 'Saved fixture', model: 'qwen3:1.7b', providerId: 'ollama', instructions: 'First instructions.' };
+    let revision = 1;
+    owner = new NotesSessionOwner({ chooseFolder: async () => root, prepare: () => ({ definition, revision }), confirmRun: async () => { revision = 2; return true; }, launch, publish: () => {} });
+    expect(await start()).toMatchObject({ ok: false, error: { code: 'AGENT_CHANGED' } }); expect(launch).not.toHaveBeenCalled();
+    expect(snapshot().selection?.consumed).toBe(false);
+  });
 });

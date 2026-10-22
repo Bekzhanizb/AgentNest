@@ -1,0 +1,53 @@
+import path from 'node:path';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { _electron as electron, expect, test } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('saved agent editor survives restart without granting files or simulating runtime activity', async () => {
+  const data = await mkdtemp(path.join(tmpdir(), 'agentnest-library-ui-'));
+  const options = { chromiumSandbox: true, args: [path.resolve('apps/desktop'), `--user-data-dir=${data}`], env: Object.fromEntries(Object.entries(process.env).filter((entry): entry is [string, string] => typeof entry[1] === 'string' && entry[0] !== 'ELECTRON_RUN_AS_NODE')) };
+  let app = await electron.launch(options);
+  try {
+    const page = await app.firstWindow();
+    await page.getByRole('button', { name: 'Agents', exact: true }).click();
+    await expect(page.getByText('No saved agents yet.', { exact: true })).toBeVisible();
+    await page.getByLabel('Agent name', { exact: true }).fill('Public research');
+    await page.getByLabel('Installed model', { exact: true }).fill('qwen3:1.7b');
+    await page.getByLabel('Instructions', { exact: true }).fill('Summarize the public notes, focusing on permission boundaries.');
+    await page.getByRole('button', { name: 'Save agent', exact: true }).click();
+    await expect(page.getByRole('list', { name: 'Saved agents' })).toContainText('Revision 1');
+    await page.getByRole('button', { name: 'Edit Public research' }).click();
+    await page.getByLabel('Agent name', { exact: true }).fill('Public research v2');
+    await page.getByLabel('Instructions', { exact: true }).fill('Summarize purpose, permissions and limits in the public notes.');
+    await page.getByRole('button', { name: 'Save changes', exact: true }).click();
+    await expect(page.getByRole('list', { name: 'Saved agents' })).toContainText('Revision 2');
+    const scan = await new AxeBuilder({ page }).setLegacyMode().withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    expect(scan.violations).toEqual([]);
+    await page.screenshot({ path: test.info().outputPath('saved-agents.png'), fullPage: true });
+    await app.close(); app = await electron.launch(options);
+    const restarted = await app.firstWindow();
+    await restarted.getByRole('button', { name: 'Agents', exact: true }).click();
+    await expect(restarted.getByRole('list', { name: 'Saved agents' })).toContainText('Public research v2');
+    await restarted.getByRole('button', { name: 'Edit Public research v2' }).click();
+    await expect(restarted.getByLabel('Instructions', { exact: true })).toHaveValue('Summarize purpose, permissions and limits in the public notes.');
+    await restarted.getByRole('button', { name: 'Tasks', exact: true }).click();
+    await restarted.getByLabel('Agent definition', { exact: true }).selectOption({ label: 'Public research v2 · revision 2' });
+    await expect(restarted.getByLabel('Installed Ollama model')).toHaveValue('qwen3:1.7b');
+    await expect(restarted.getByRole('button', { name: 'Run notes summary' })).toBeDisabled();
+    await expect(restarted.getByText('No folder selected.', { exact: true })).toBeVisible();
+    await expect(restarted.getByText('No saved runs yet.', { exact: true })).toBeVisible();
+    await restarted.getByRole('button', { name: 'Agents', exact: true }).click();
+    await restarted.getByRole('button', { name: 'Edit Public research v2' }).click();
+    await restarted.getByRole('button', { name: 'Delete agent', exact: true }).click();
+    await restarted.getByRole('button', { name: 'Keep records', exact: true }).click();
+    await expect(restarted.getByRole('list', { name: 'Saved agents' })).toContainText('Public research v2');
+    await restarted.getByRole('button', { name: 'Delete agent', exact: true }).click();
+    await restarted.getByRole('button', { name: 'Confirm deletion', exact: true }).click();
+    await expect(restarted.getByText('No saved agents yet.', { exact: true })).toBeVisible();
+    await restarted.reload(); await restarted.getByRole('button', { name: 'Agents', exact: true }).click();
+    await expect(restarted.getByText('No saved agents yet.', { exact: true })).toBeVisible();
+    await restarted.getByRole('button', { name: 'Office', exact: true }).click();
+    await expect(restarted.getByRole('region', { name: 'Session mode' })).toContainText('NO SESSION CONNECTED');
+  } finally { await app.close(); await rm(data, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }); }
+});

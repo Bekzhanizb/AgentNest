@@ -76,7 +76,8 @@ automatic force upgrades or disable security controls to make tests pass.
 
 ## Limits
 
-Contracts do not establish provider or SQL support. SQLite remains the proposed
-first persistence adapter, PostgreSQL a later shared-use candidate, and MySQL
+Contracts alone did not establish provider or SQL support. Later ADR-003/004
+implement bounded Ollama execution; [ADR-005](ADR-005-local-persistence.md) implements
+the local SQLite adapter. PostgreSQL remains a later shared-use candidate; MySQL is
 deferred. Windows is the primary CI target; other OS support is limited to the
 evidence recorded in development documentation. This scaffold is not the agent MVP.

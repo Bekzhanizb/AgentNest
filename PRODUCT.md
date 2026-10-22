@@ -4,8 +4,9 @@ Status: Pre-alpha. A desktop shell, independent pixel office and fictional Demo
 Mode exist. An experimental Node CLI now exercises a bounded notes run through
 local Ollama; see the [proof guide](docs/OLLAMA_PROOF.md). Tasks adds a one-off
 [desktop notes run](docs/DESKTOP_NOTES.md) with explicit permission and cancellation.
-Saved agent editing, persisted history and databases remain unimplemented. The complete scenario below
-remains the proposed MVP.
+Agents now saves reusable notes definitions, and [SQLite history](docs/LOCAL_STORAGE.md)
+keeps immutable definition snapshots and real run events across restarts. Tools and
+limits remain fixed. Reviewed export and the complete MVP/release remain pending.
 
 ## Users and pain
 
@@ -22,8 +23,8 @@ to define what an agent may do, run it, and understand what happened.
 A maker selects a directory of Markdown notes and asks a saved research agent to
 summarize a topic with references to those notes.
 
-1. Define the agent's instructions, local provider/model, read-only directory,
-   and run limits; save the definition.
+1. Save the agent's instructions and local model. Review the fixed read-only tool
+   and limits, and choose/approve a notes directory anew for each run.
 2. Start a run against a real configured model through one provider adapter.
 3. Allow a bounded read-only tool to read supported files inside that directory.
 4. Inspect the summary, source paths, tool activity, and any errors; explicitly
