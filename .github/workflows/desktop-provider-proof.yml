@@ -34,7 +34,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Install verified official Ollama CPU files
+      - name: Install verified Ollama and run the real desktop proof
+        env:
+          AGENTNEST_LIVE_NOTES_MODEL: qwen3:1.7b
         run: |
           $archivePath = Join-Path $env:RUNNER_TEMP "ollama-0.40.8.zip"
           $runtimePath = Join-Path $env:RUNNER_TEMP "agentnest-ollama"
@@ -63,17 +65,14 @@ jobs:
             } catch { Start-Sleep -Seconds 1 }
           }
           if (-not $ready) { throw "Verified Ollama did not become ready" }
-      - name: Pull and verify the explicit local model
-        run: |
+          # Keep the Windows daemon and its clients in the same shell lifetime.
           Invoke-RestMethod "http://127.0.0.1:11434/api/pull" -Method Post -ContentType "application/json" -Body '{"model":"qwen3:1.7b","stream":false}' -TimeoutSec 600
           $models = Invoke-RestMethod "http://127.0.0.1:11434/api/tags"
           $model = $models.models | Where-Object { $_.name -eq "qwen3:1.7b" }
           if ($model.digest -ne "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7") { throw "Model tag changed; review its manifest before repinning" }
           Write-Output "Verified Ollama 0.40.8 / qwen3:1.7b / $($model.digest)"
-      - name: Verify the actual desktop flow with real inference
-        env:
-          AGENTNEST_LIVE_NOTES_MODEL: qwen3:1.7b
-        run: npx playwright test tests/e2e/notes.spec.ts
+          npx playwright test tests/e2e/notes.spec.ts
+          if ($LASTEXITCODE -ne 0) { throw "The actual desktop provider proof failed" }
       - name: Save public-fixture proof artifacts
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
