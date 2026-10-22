@@ -38,7 +38,12 @@ Zoom is bounded to 65–250%; pan stays bounded inside the scene. Every canvas
 interaction has a labeled native DOM control. The canvas is decorative to assistive
 technology; the roster and inspector expose the same state with text, symbols,
 selection state, and event history. Color is supplementary. The inspector stacks
-below the office at narrow widths; no drawer or focus trap is required.
+below the office at narrow widths; no drawer or focus trap is required. A skip
+link moves to the workspace. View character details focuses the inspector; Escape
+inside it returns to the roster. Forced colors preserve selection and focus;
+coarse-pointer controls use larger targets. The warm paper-and-forest palette
+frames the original artwork without obscuring demo labels. See the
+[accessibility review](ACCESSIBILITY.md) for automated and open manual checks.
 
 Ambient motion starts off and is optional: a slow light pulse and one-pixel
 breathing at a maximum 12 FPS. System reduced-motion disables it, including when
@@ -75,7 +80,10 @@ Creating real agents remains subject to the [roadmap](../ROADMAP.md).
 ## Artwork and dependencies
 
 All room, furniture, light, character sprites, and tiny bitmap glyphs are drawn
-from original rectangle instructions in `packages/office-scene/src/art.ts`.
+from original rectangle instructions in `packages/office-scene/src/art.ts` and
+`character.ts`. React portraits and Pixi sprites share those same character
+rectangles; portraits do not import PixiJS. Interface icons and the empty-state
+plant are original inline SVG, with no new asset or icon dependency.
 There are no downloaded sprites, image files, font files, generated third-party
 images, or asset service requests. System fonts are used for the surrounding UI.
 The repository's existing [LICENSE](../LICENSE) and copyright notice are preserved;

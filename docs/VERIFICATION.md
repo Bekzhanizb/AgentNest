@@ -128,3 +128,46 @@ The recorded run tested e26cf438e2c04ff515869e0b0e805b8826b2ab5b. A follow-up
 adds a clearer procedural door panel and records this evidence; the
 [feature PR](https://github.com/Bekzhanizb/AgentNest/pull/7) carries checks for its
 latest head. AI, providers, and persistence remain unimplemented.
+
+## Office polish and accessibility review — 2026-10-22
+
+The UI now uses a warm light palette with forest navigation, original geometric
+icons, and DOM portraits sharing the Pixi character rectangles. Provider/runtime
+scope is unchanged. The inferred flow under review is explicit Demo Mode controls
+→ deterministic AgentEvent projection → Pixi scene and DOM roster/inspector.
+There is no API, database, or provider layer in that flow.
+
+| Boundary / command | Managed Debian 13 x64 result |
+| --- | --- |
+| npm ci | Passed: 313 packages restored, dependency versions and lockfile unchanged |
+| npm run typecheck | Passed: strict source checks including the browser-suite config |
+| npm run lint | Passed: ESLint, 22 Markdown files, local links, repository structure |
+| npm test | Passed: 25 checks, including focus-to-inspector/Escape return and URL-preserving skip |
+| npm run build | Passed: Electron bundles and lazy Pixi chunks |
+| npm run test:ui with installed system Chromium | Passed: 3 production-browser scenarios |
+| Empty UI → explicit demo → DOM/Pixi state | Passed: no default characters, fictional labels, actual scene hit selection |
+| Keyboard and responsive layout | Passed at 1440/390/320 px; no overflow; skip/main/inspector/return focus |
+| Forced colors and reduced motion | Passed browser emulation and axe; screenshots reviewed |
+| Touch controls | Passed touch emulation, sprite selection, zoom, inspector, and 44-pixel targets at phone/tablet widths |
+| Page errors and external HTTP requests | Zero in the production-preview flow |
+| git diff --check | Passed |
+
+The initial color-contrast scan identified low-contrast secondary captions and
+hover/task labels. Those colors were corrected; the final axe WCAG 2 A/AA and
+2.1 AA scans reported zero violations for empty, demo, and forced-color states.
+Status/shortcut symbols use original inline SVG so missing glyphs and emoji font
+fallbacks do not determine their appearance. Screenshot paths are under ignored
+`test-results/browser/`; `npm run test:ui` reproduces them after a build.
+
+The browser suite starts and stops its own loopback Vite preview. Local verification
+selects `/usr/bin/chromium` through `AGENTNEST_BROWSER_EXECUTABLE`; Windows CI uses
+the pinned Playwright Chromium download. Browser-only software WebGL flags are not
+passed to Electron. The actual secure Electron smoke remains a separate check;
+this managed Linux host cannot launch it with Chromium sandboxing enabled. The
+feature PR records the current Windows run for the exact head.
+
+NVDA, a Windows OS contrast theme, Windows text scaling, physical touch and broader
+hardware testing remain open in the [manual review matrix](ACCESSIBILITY.md).
+Automated browser emulation does not close those gates. No real provider call or
+runtime proof was performed; no configured provider/credential is available in
+this managed environment. The corresponding roadmap stage remains open.

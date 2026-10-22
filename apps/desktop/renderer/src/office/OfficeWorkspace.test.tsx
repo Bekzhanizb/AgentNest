@@ -45,7 +45,11 @@ describe('accessible office without AI or a database', () => {
     fireEvent.keyDown(ada, { key: 'ArrowRight' });
     const milo = screen.getByRole('button', { name: /Inspect Milo/ });
     expect(document.activeElement).toBe(milo);
-    fireEvent.click(milo); fireEvent.click(screen.getByRole('button', { name: 'Close inspector' }));
+    fireEvent.click(milo);
+    fireEvent.click(screen.getByRole('button', { name: 'View Milo’s details' }));
+    const inspector = screen.getByRole('complementary', { name: 'Inspector' });
+    expect(document.activeElement).toBe(inspector);
+    fireEvent.keyDown(inspector, { key: 'Escape' });
     expect(document.activeElement).toBe(milo);
   });
   it('only advances on explicit play and stops after pause, reset, or exit', () => {

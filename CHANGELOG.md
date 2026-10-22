@@ -5,6 +5,16 @@ There are no product releases yet.
 
 ## [Unreleased]
 
+### Changed
+
+- Refined the office with a warm light palette, forest navigation, original SVG
+  icons, matching procedural character portraits, clearer cards and inspector.
+- Added workspace skip/focus navigation, inspector focus/return, forced-colors and
+  coarse-pointer support; fictional demo labels remain persistent.
+- Made production-browser UI review reproducible with keyboard, responsive, touch
+  emulation and axe checks alongside the secure Electron smoke in Windows CI.
+- Documented open manual NVDA, physical touch, contrast-theme and zoom review gates.
+
 ### Added
 
 - Original procedural PixiJS office with four desks, lounge, coffee nook, lighting,

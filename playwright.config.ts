@@ -7,5 +7,5 @@ export default defineConfig({
   retries: process.env['CI'] ? 1 : 0,
   timeout: 30_000,
   reporter: 'list',
-  outputDir: 'test-results',
+  outputDir: 'test-results/electron',
 });

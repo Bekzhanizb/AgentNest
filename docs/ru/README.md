@@ -39,6 +39,7 @@ AgentNest задуман как локальная среда создания �
 - [PRODUCT.md](../../PRODUCT.md): пользователи, проблема, scope и non-goals.
 - [ADR-001](../adr/ADR-001-local-architecture.md): локальная архитектура и адаптеры.
 - [ADR-002](../adr/ADR-002-desktop-foundation.md): Electron, узкий IPC и npm workspaces.
+- [Доступность](../ACCESSIBILITY.md): автоматические проверки и открытый ручной прогон NVDA/touch.
 - [Пиксельный офис](../OFFICE.md): Demo Mode, управление, доступность и происхождение графики.
 - [Разработка](../DEVELOPMENT.md): команды PowerShell, версии и ограничения платформ.
 - [Roadmap](../../ROADMAP.md): этапы и проверяемые условия готовности.

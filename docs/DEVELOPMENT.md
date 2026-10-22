@@ -26,6 +26,9 @@ lockfile. Use `npm ci` in fresh clones and CI. There is no custom install lifecy
 script named install. Electron 45 downloads its binary on first use; initial dev
 or smoke needs access to Electron's GitHub release assets in addition to npm.
 No separate Playwright browser download is needed for Electron smoke tests.
+The optional browser UI suite needs `npx playwright install chromium` once, then
+`npm run test:ui` after a build. CI runs both suites; browser emulation is separate
+from the actual Electron window. See the [accessibility review](ACCESSIBILITY.md).
 
 | Tool | Selected version | Compatibility reason |
 | --- | --- | --- |
@@ -55,6 +58,8 @@ compatibility review and actual CI evidence, not blind upgrades.
 | npm test | Vitest unit/component checks, with no model calls |
 | npm run build | Emit apps/desktop/dist/electron and dist/renderer |
 | npm run test:e2e | Launch built Electron and verify window/security/navigation |
+| npm run test:ui | Production browser layout, keyboard, forced-colors, touch-emulation, and axe checks |
+| npm run preview:office | Loopback-only preview of built renderer assets on port 4173 |
 | npm run check | Documentation-only checks retained from the foundation |
 
 Commands use Node APIs and local binaries, without Bash variables, rm/cp commands,
@@ -81,6 +86,7 @@ packages/
   storage/         repository contract only
 scripts/           portable build/dev/start and documentation tooling
 tests/e2e/         actual Electron smoke, isolated temporary user data
+tests/browser/     production UI review with browser-only emulation
 ```
 
 There is no packages/ui until another consumer needs shared UI. Provider and SQL

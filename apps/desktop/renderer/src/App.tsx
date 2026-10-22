@@ -3,6 +3,7 @@ import type { ErrorInfo, ReactNode } from 'react';
 import type { AppInfo, Screen } from '@agentnest/core';
 import { readAppInfo } from './bridge';
 import { OfficeWorkspace } from './office/OfficeWorkspace';
+import { WorkspaceIcon } from './WorkspaceIcon';
 
 const screens: readonly Screen[] = ['Office', 'Agents', 'Tasks', 'Settings'];
 const descriptions: Record<Screen, string> = {
@@ -37,12 +38,13 @@ export function App() {
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content" onClick={(event) => { event.preventDefault(); document.getElementById('main-content')?.focus(); }}>Skip to workspace</a>
       <aside className="sidebar" aria-label="Application sidebar">
-        <div className="brand"><span className="brand-mark" aria-hidden="true">a</span><span>AgentNest<span className="brand-label">LOCAL WORKSPACE</span></span></div>
+        <div className="brand"><span className="brand-mark" aria-hidden="true">n<span /></span><span>AgentNest<span className="brand-label">LOCAL WORKSPACE</span></span></div>
         <nav aria-label="Main navigation">
-          {screens.map((item, index) => (
+          {screens.map((item) => (
             <button key={item} aria-current={screen === item ? 'page' : undefined} onClick={() => setScreen(item)}>
-              <span className="nav-icon" aria-hidden="true">{['⌂', '◇', '☷', '⚙'][index]}</span>{item}
+              <WorkspaceIcon name={item} />{item}
             </button>
           ))}
         </nav>
@@ -50,7 +52,7 @@ export function App() {
       </aside>
       <div className="workspace">
         <header className="topbar"><span>Workspace <span aria-hidden="true">/</span> <strong>{screen}</strong></span><span className="badge">PRE-ALPHA</span></header>
-        <main id="main-content" className={screen === 'Office' ? 'office-page' : undefined}>
+        <main id="main-content" tabIndex={-1} className={screen === 'Office' ? 'office-page' : undefined}>
           <h1 className={screen === 'Office' ? 'shell-heading' : undefined}>AgentNest — Pre-alpha</h1>
           {screen === 'Office' ? <OfficeWorkspace /> : <><p className="intro">A local home for agents you define, understand, and control.</p><section className="feature-panel" aria-labelledby="screen-title">
             <div className="panel-top"><span className="section-number">0{screens.indexOf(screen) + 1}</span><span className="coming-soon">Coming soon</span></div>
