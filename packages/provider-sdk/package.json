@@ -3,7 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
-  "dependencies": { "@agentnest/core": "0.0.0" },
-  "scripts": { "typecheck": "tsc --noEmit -p tsconfig.json" }
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@agentnest/core": "0.0.0",
+    "@ai-sdk/provider": "4.0.31"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
 }

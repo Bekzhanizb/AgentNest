@@ -1,0 +1,596 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-22T10:51:06.983371+00:00",
+  "scope": "Real isolated Node CLI proof over public repository fixtures; no desktop integration or model-quality guarantee.",
+  "environment": {
+    "os": "Debian GNU/Linux 13 x64 (managed container)",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "acceleration": "CPU only",
+    "cgroupMemoryLimitGiB": 8,
+    "logicalCPUs": 3
+  },
+  "daemon": {
+    "version": "0.40.8",
+    "archiveSHA256": "0bb17cc19e9c1339ddbe0cba55148bf068f8f19dec8ec5fd531461aaa207282a",
+    "officialArchiveChecksumVerified": true,
+    "cloudDisabled": true,
+    "bind": "127.0.0.1:11434"
+  },
+  "model": {
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "qwen3",
+      "families": [
+        "qwen3"
+      ],
+      "parameter_size": "2.0B",
+      "quantization_level": "Q4_K_M"
+    },
+    "capabilities": [
+      "completion",
+      "tools",
+      "thinking"
+    ],
+    "parameter_count": 2031739904,
+    "manifest_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+    "bytes": 1359293444,
+    "license": "Apache-2.0"
+  },
+  "command": "npm run --silent proof:ollama -- --model qwen3:1.7b --notes fixtures/notes",
+  "exitCode": 0,
+  "events": [
+    {
+      "type": "run_started",
+      "agent": {
+        "id": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+        "name": "Notes proof",
+        "role": "Read-only notes agent",
+        "desk": 0,
+        "appearance": {
+          "skin": "warm",
+          "shirt": "sage",
+          "hair": "short"
+        }
+      },
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 0,
+      "elapsedMs": 1
+    },
+    {
+      "type": "provider_ready",
+      "provider": "ollama",
+      "version": "0.40.8",
+      "model": "qwen3:1.7b",
+      "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 1,
+      "elapsedMs": 216
+    },
+    {
+      "type": "provider_call_started",
+      "step": 1,
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 2,
+      "elapsedMs": 286
+    },
+    {
+      "type": "provider_call_completed",
+      "step": 1,
+      "finishReason": "tool-calls",
+      "usage": {
+        "inputTokens": 250,
+        "outputTokens": 42
+      },
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 3,
+      "elapsedMs": 18688
+    },
+    {
+      "type": "note_read",
+      "source": {
+        "path": "permissions.md",
+        "bytes": 334,
+        "sha256": "c3f69e16639d04ed45a7ca891ea87cecfe91776ce57589873634cfb45696a4ff"
+      },
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 4,
+      "elapsedMs": 18691
+    },
+    {
+      "type": "note_read",
+      "source": {
+        "path": "purpose.md",
+        "bytes": 260,
+        "sha256": "49e69d1d43a712e3e230c7a99da06656ad725080be5d46abeda263eb2b36f128"
+      },
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 5,
+      "elapsedMs": 18692
+    },
+    {
+      "type": "provider_call_started",
+      "step": 2,
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 6,
+      "elapsedMs": 18694
+    },
+    {
+      "type": "provider_call_completed",
+      "step": 2,
+      "finishReason": "stop",
+      "usage": {
+        "inputTokens": 344,
+        "outputTokens": 87
+      },
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 7,
+      "elapsedMs": 41721
+    },
+    {
+      "type": "run_completed",
+      "summary": "- **Purpose**: The proof reads explicitly approved local Markdown notes and produces a short source-linked summary for human review. [purpose.md]\n- **Permissions**: Only the explicitly selected notes directory is approved. The proof reads a bounded set of regular Markdown files. [permissions.md]\n- **Limits**: Time, input size, tool calls, and model steps are bounded. A timeout or cancellation is not successful completion. [permissions.md]",
+      "sources": [
+        {
+          "path": "permissions.md",
+          "bytes": 334,
+          "sha256": "c3f69e16639d04ed45a7ca891ea87cecfe91776ce57589873634cfb45696a4ff"
+        },
+        {
+          "path": "purpose.md",
+          "bytes": 260,
+          "sha256": "49e69d1d43a712e3e230c7a99da06656ad725080be5d46abeda263eb2b36f128"
+        }
+      ],
+      "usage": {
+        "inputTokens": 594,
+        "outputTokens": 129
+      },
+      "modelCalls": 2,
+      "apiVersion": 1,
+      "origin": "runtime",
+      "runId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "agentId": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+      "sequence": 8,
+      "elapsedMs": 41722
+    }
+  ],
+  "terminalView": {
+    "origin": "runtime",
+    "sequence": 8,
+    "agents": [
+      {
+        "id": "cc344755-59ff-4ff3-bdc6-5fab0bbf9681",
+        "name": "Notes proof",
+        "role": "Read-only notes agent",
+        "desk": 0,
+        "appearance": {
+          "skin": "warm",
+          "shirt": "sage",
+          "hair": "short"
+        },
+        "origin": "runtime",
+        "status": "completed",
+        "task": "Read-only notes proof",
+        "history": [
+          {
+            "sequence": 0,
+            "second": 0.001,
+            "status": "idle",
+            "message": "Joined the office view."
+          },
+          {
+            "sequence": 2,
+            "second": 0.286,
+            "status": "working",
+            "message": "Local model call 1 started."
+          },
+          {
+            "sequence": 4,
+            "second": 18.691,
+            "status": "working",
+            "message": "Read approved note: permissions.md."
+          },
+          {
+            "sequence": 5,
+            "second": 18.692,
+            "status": "working",
+            "message": "Read approved note: purpose.md."
+          },
+          {
+            "sequence": 6,
+            "second": 18.694,
+            "status": "working",
+            "message": "Local model call 2 started."
+          },
+          {
+            "sequence": 8,
+            "second": 41.722,
+            "status": "completed",
+            "message": "Local model returned a summary with verified source paths."
+          }
+        ]
+      }
+    ]
+  },
+  "negativeControls": [
+    {
+      "control": "timeout",
+      "arguments": [
+        "--timeout-ms",
+        "100"
+      ],
+      "exitCode": 1,
+      "events": [
+        {
+          "type": "run_started",
+          "agent": {
+            "id": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+            "name": "Notes proof",
+            "role": "Read-only notes agent",
+            "desk": 0,
+            "appearance": {
+              "skin": "warm",
+              "shirt": "sage",
+              "hair": "short"
+            }
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "agentId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "sequence": 0,
+          "elapsedMs": 0
+        },
+        {
+          "type": "provider_ready",
+          "provider": "ollama",
+          "version": "0.40.8",
+          "model": "qwen3:1.7b",
+          "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "agentId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "sequence": 1,
+          "elapsedMs": 42
+        },
+        {
+          "type": "provider_call_started",
+          "step": 1,
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "agentId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "sequence": 2,
+          "elapsedMs": 49
+        },
+        {
+          "type": "run_failed",
+          "code": "TIMEOUT",
+          "message": "The bounded run timed out.",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "agentId": "f8cc6fb8-84c5-4cf1-8615-3858fbabf9f7",
+          "sequence": 3,
+          "elapsedMs": 103
+        }
+      ]
+    },
+    {
+      "control": "step-limit",
+      "arguments": [
+        "--max-steps",
+        "1"
+      ],
+      "exitCode": 1,
+      "events": [
+        {
+          "type": "run_started",
+          "agent": {
+            "id": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+            "name": "Notes proof",
+            "role": "Read-only notes agent",
+            "desk": 0,
+            "appearance": {
+              "skin": "warm",
+              "shirt": "sage",
+              "hair": "short"
+            }
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "agentId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "sequence": 0,
+          "elapsedMs": 0
+        },
+        {
+          "type": "provider_ready",
+          "provider": "ollama",
+          "version": "0.40.8",
+          "model": "qwen3:1.7b",
+          "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "agentId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "sequence": 1,
+          "elapsedMs": 43
+        },
+        {
+          "type": "provider_call_started",
+          "step": 1,
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "agentId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "sequence": 2,
+          "elapsedMs": 51
+        },
+        {
+          "type": "provider_call_completed",
+          "step": 1,
+          "finishReason": "tool-calls",
+          "usage": {
+            "inputTokens": 250,
+            "outputTokens": 42
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "agentId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "sequence": 3,
+          "elapsedMs": 20732
+        },
+        {
+          "type": "note_read",
+          "source": {
+            "path": "permissions.md",
+            "bytes": 334,
+            "sha256": "c3f69e16639d04ed45a7ca891ea87cecfe91776ce57589873634cfb45696a4ff"
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "agentId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "sequence": 4,
+          "elapsedMs": 20745
+        },
+        {
+          "type": "note_read",
+          "source": {
+            "path": "purpose.md",
+            "bytes": 260,
+            "sha256": "49e69d1d43a712e3e230c7a99da06656ad725080be5d46abeda263eb2b36f128"
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "agentId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "sequence": 5,
+          "elapsedMs": 20759
+        },
+        {
+          "type": "run_failed",
+          "code": "LIMIT_EXCEEDED",
+          "message": "The bounded run exhausted its step, tool, or input budget.",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "agentId": "e2eb953c-d92a-4be6-b01f-44c6811a730b",
+          "sequence": 6,
+          "elapsedMs": 20765
+        }
+      ]
+    },
+    {
+      "control": "unavailable",
+      "arguments": [
+        "--endpoint",
+        "http://127.0.0.1:11435/"
+      ],
+      "exitCode": 1,
+      "events": [
+        {
+          "type": "run_started",
+          "agent": {
+            "id": "8c39f453-4076-4c14-b013-941198349edf",
+            "name": "Notes proof",
+            "role": "Read-only notes agent",
+            "desk": 0,
+            "appearance": {
+              "skin": "warm",
+              "shirt": "sage",
+              "hair": "short"
+            }
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "8c39f453-4076-4c14-b013-941198349edf",
+          "agentId": "8c39f453-4076-4c14-b013-941198349edf",
+          "sequence": 0,
+          "elapsedMs": 0
+        },
+        {
+          "type": "run_failed",
+          "code": "UNAVAILABLE",
+          "message": "The local Ollama service is unavailable.",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "8c39f453-4076-4c14-b013-941198349edf",
+          "agentId": "8c39f453-4076-4c14-b013-941198349edf",
+          "sequence": 1,
+          "elapsedMs": 36
+        }
+      ]
+    },
+    {
+      "control": "cancel",
+      "signal": "SIGINT after provider_call_started (POSIX direct Node CLI)",
+      "exitCode": 130,
+      "events": [
+        {
+          "type": "run_started",
+          "agent": {
+            "id": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+            "name": "Notes proof",
+            "role": "Read-only notes agent",
+            "desk": 0,
+            "appearance": {
+              "skin": "warm",
+              "shirt": "sage",
+              "hair": "short"
+            }
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "agentId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "sequence": 0,
+          "elapsedMs": 0
+        },
+        {
+          "type": "provider_ready",
+          "provider": "ollama",
+          "version": "0.40.8",
+          "model": "qwen3:1.7b",
+          "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "agentId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "sequence": 1,
+          "elapsedMs": 101
+        },
+        {
+          "type": "provider_call_started",
+          "step": 1,
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "agentId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "sequence": 2,
+          "elapsedMs": 112
+        },
+        {
+          "type": "run_cancelled",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "agentId": "6c32be0c-c6f9-4e11-bcd1-49d97b3938cf",
+          "sequence": 3,
+          "elapsedMs": 119
+        }
+      ]
+    },
+    {
+      "control": "parent-ipc-cancel",
+      "signal": "fixed wrapper cancellation message after provider_call_started",
+      "exitCode": 130,
+      "events": [
+        {
+          "type": "run_started",
+          "agent": {
+            "id": "57b15265-902d-401f-ba06-0a97a859dc10",
+            "name": "Notes proof",
+            "role": "Read-only notes agent",
+            "desk": 0,
+            "appearance": {
+              "skin": "warm",
+              "shirt": "sage",
+              "hair": "short"
+            }
+          },
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "agentId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "sequence": 0,
+          "elapsedMs": 0
+        },
+        {
+          "type": "provider_ready",
+          "provider": "ollama",
+          "version": "0.40.8",
+          "model": "qwen3:1.7b",
+          "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "agentId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "sequence": 1,
+          "elapsedMs": 47
+        },
+        {
+          "type": "provider_call_started",
+          "step": 1,
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "agentId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "sequence": 2,
+          "elapsedMs": 56
+        },
+        {
+          "type": "run_cancelled",
+          "apiVersion": 1,
+          "origin": "runtime",
+          "runId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "agentId": "57b15265-902d-401f-ba06-0a97a859dc10",
+          "sequence": 3,
+          "elapsedMs": 62
+        }
+      ]
+    }
+  ],
+  "humanReview": {
+    "scope": "Compared the final three bullets against public purpose.md and permissions.md; all citations match actual read files. This is one reviewed sample, not a semantic validator.",
+    "result": "The sample accurately describes the purpose, directory restriction, run budgets, and unsuccessful timeout/cancellation."
+  },
+  "implementationSHA256": {
+    "apps/proof/src/cli.ts": "987957621577e9a5b3bb1bffd84c21b28480569c88c6d566b24db5e6883c4199",
+    "packages/core/src/run-event.ts": "57848c8f213f5894354233fee72f5eebc9ff2321157535e8084cf6fec477a592",
+    "packages/provider-sdk/src/index.ts": "2cb0f9634288384e1f1b4a1a7d6a13e3862da0880a419305d19d964f8e9b8da3",
+    "packages/provider-ollama/src/index.ts": "c168b5f2ec19cf10b64d344a321e3468164291f20aacf97cb552e324d18e086a",
+    "packages/runtime/src/index.ts": "377069da705eea2006d237f2abdd921f00b90b5744219f9754f5622cb8a6cd87",
+    "packages/runtime/src/notes.ts": "db36189eabcae410ee7ad67d93378eb97eceddd6ea3e35c54662fb7242fabd92",
+    "packages/runtime/src/failure.ts": "4a6175a1a05ee43f28bb6dd38671088d629fda4c5add36b0df5d3658f456b378",
+    "scripts/ollama-proof.mjs": "9423250d7c2170219abbcf3234a29a75b11dce1e5bb4661429ea3dc55937266e",
+    "package-lock.json": "229a6c5f6869a8ac0ba86c02c25cbe4e2cfa7eb67e56e0680fe0087541e324b3"
+  },
+  "limitations": [
+    "Only this local model/service/hardware configuration was exercised.",
+    "Model tags are mutable; compare the recorded manifest digest.",
+    "Windows real inference and interactive Ctrl+C were not exercised; normal Windows CI uses mock models only.",
+    "POSIX cancellation and the fixed parent IPC cancellation message were tested against the real local adapter.",
+    "Filesystem checks are not an OS sandbox against hostile same-user races.",
+    "No private notes, prompts, credentials, thought content, model weights or daemon keys are included."
+  ]
+}

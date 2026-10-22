@@ -17,6 +17,13 @@ There are no product releases yet.
 
 ### Added
 
+- Isolated Node CLI Ollama notes proof, backend-only adapter and SDK ToolLoopAgent
+  runner, typed actual run events and core view projection, read-only grants,
+  source hashes/citations, cancellation and bounded failure outcomes.
+- Explicit real-provider evidence and mock-model permission/contract tests; desktop
+  office remains empty by default and independent of inference and databases.
+- Keyboard-only browser lifecycle and live reduced-motion regression coverage.
+
 - Original procedural PixiJS office with four desks, lounge, coffee nook, lighting,
   characters, selection, inspector, bounded pan/zoom, and responsive text controls.
 - Typed AgentEvent/AgentViewModel projection, all five status displays, and explicit

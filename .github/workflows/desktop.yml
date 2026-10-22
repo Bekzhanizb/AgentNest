@@ -25,6 +25,7 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm test
+      - run: npm run --silent proof:ollama -- --help
       - run: npm run build
       - run: npm run test:e2e
       - run: npx playwright install chromium

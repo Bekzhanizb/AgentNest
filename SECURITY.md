@@ -37,6 +37,11 @@ credentials. Pixi uses static CSP-compatible polyfills; unsafe-eval remains deni
 
 The [architecture proposal](docs/adr/ADR-001-local-architecture.md) calls for
 bounded tools, approved-directory reads, local API access checks, secret redaction,
-and explicit user actions. Those agent/tool requirements remain unimplemented.
+and explicit user actions. The separate [CLI proof](docs/OLLAMA_PROOF.md) now
+enforces a bounded read-only directory grant with no shell/write/publish tools.
+Desktop execution, access controls for future runtime IPC, retention and persistence
+remain unimplemented. The CLI trusts a local loopback Ollama daemon and stable
+input directories; its path checks are not an OS sandbox against malicious
+same-user races. Public evidence must contain only approved public fixture notes.
 Local-first design alone does not establish a
 sandbox, encryption, or protection from prompt injection.

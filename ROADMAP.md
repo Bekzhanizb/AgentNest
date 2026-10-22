@@ -1,7 +1,8 @@
 # Roadmap
 
 Status: Pre-alpha desktop foundation. Stages are ordered by dependencies, without
-release dates. A desktop shell and contracts exist; no agent execution is implemented.
+release dates. Desktop preview and an experimental Node CLI proof exist; saved
+agent editing, desktop execution and databases remain unimplemented.
 
 ## Stage 0 — Foundation
 
@@ -32,19 +33,25 @@ Owner decisions still to record:
 
 This UI work does not complete any provider or MVP gate. See the
 [pixel office](docs/OFFICE.md) for provenance, controls, and verification limits.
-The actual runtime feed remains future work.
+The desktop runtime feed remains future work; the isolated CLI projects real
+events into the same core text-view contracts without connecting the office.
 
 ## Stage 1 — Provider and execution proof
 
-- [ ] Define an adapter contract and a minimal agent definition.
-- [ ] Complete a real local model call; document provider/model prerequisites.
-- [ ] Exercise tool calls against approved fixture notes through the real adapter.
-- [ ] Verify bounded reads, symlink/path traversal rejection, and no shell tool.
-- [ ] Demonstrate timeout, cancellation, exhausted limits, and provider errors.
+- [x] Define an adapter contract and a minimal agent definition.
+- [x] Complete a real local model call; document provider/model prerequisites.
+- [x] Exercise tool calls against approved fixture notes through the real adapter.
+- [x] Verify bounded reads, symlink/path traversal rejection, and no shell tool.
+- [x] Demonstrate timeout, cancellation, exhausted limits, and provider errors.
 
 Exit evidence: reproducible commands, provider/model versions, sanitized real
 run output, and meaningful contract and permission tests. A fake adapter is useful
 for tests but cannot satisfy this gate.
+
+Stage 1 evidence: [real local proof guide](docs/OLLAMA_PROOF.md) and
+[sanitized run with source hashes and failure controls](docs/proofs/ollama-notes-2026-10-22.json),
+2026-10-22 on managed Debian x64/CPU. This closes the experimental CLI proof only;
+Windows inference, arbitrary model quality and the full desktop MVP are not claimed.
 
 ## Stage 2 — First usable MVP
 
