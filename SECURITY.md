@@ -31,6 +31,9 @@ validated application information through preload. Production assets use a custo
 local protocol and restrictive CSP. See [desktop architecture](docs/adr/ADR-002-desktop-foundation.md).
 The development server is loopback-only; development CSP additionally permits Vite
 styles and its local WebSocket. It must not be used as a production server.
+The [pixel office](docs/OFFICE.md) is isolated presentation with opt-in fictional
+events. It does not add IPC operations, network access, approvals, or provider
+credentials. Pixi uses static CSP-compatible polyfills; unsafe-eval remains denied.
 
 The [architecture proposal](docs/adr/ADR-001-local-architecture.md) calls for
 bounded tools, approved-directory reads, local API access checks, secret redaction,

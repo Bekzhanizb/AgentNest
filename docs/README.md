@@ -9,6 +9,7 @@ implemented shell behavior from planned agent execution and provider integration
 | [Roadmap](../ROADMAP.md) | Stages and evidence required for completion |
 | [ADR-001](adr/ADR-001-local-architecture.md) | Local runtime, provider adapters, database tradeoffs |
 | [ADR-002](adr/ADR-002-desktop-foundation.md) | Electron boundaries, npm workspaces, and pinned tooling |
+| [Pixel office](OFFICE.md) | Demo semantics, controls, projection boundaries, original art, and a11y |
 | [Desktop development](DEVELOPMENT.md) | Commands, PowerShell, structure, and platform limits |
 | [Contributing](../CONTRIBUTING.md) | Small changes, checks, and review |
 | [Code of Conduct](../CODE_OF_CONDUCT.md) | Community behavior and reporting |

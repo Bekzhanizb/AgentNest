@@ -36,4 +36,11 @@ export default tseslint.config(
     files: ['packages/provider-sdk/**/*.ts', 'packages/storage/**/*.ts'],
     rules: { 'no-restricted-imports': ['error', { patterns: ['electron', 'react', '**/apps/**'] }] },
   },
+  {
+    files: ['packages/office-scene/**/*.ts', 'apps/desktop/renderer/src/office/**/*.ts', 'apps/desktop/renderer/src/office/**/*.tsx'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: [...builtinModules, 'node:*', 'electron', '@agentnest/provider-sdk', '@agentnest/storage', '**/packages/provider-sdk/**', '**/packages/storage/**', '**/electron/**'] }],
+      'no-restricted-globals': ['error', 'fetch', 'XMLHttpRequest', 'WebSocket', 'process', 'require'],
+    },
+  },
 );

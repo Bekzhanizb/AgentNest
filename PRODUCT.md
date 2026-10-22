@@ -1,7 +1,9 @@
 # Product brief
 
 Status: Pre-alpha foundation. A desktop shell exists; agent execution, provider
-integrations, and databases are not implemented. The scenario below remains proposed.
+integrations, and databases are not implemented. An original pixel-office preview
+and explicitly fictional Demo Mode are available without a runtime. The scenario
+below remains proposed.
 
 ## Users and pain
 
@@ -43,7 +45,8 @@ shell must fail. A mocked response alone does not meet acceptance.
 
 AgentNest is an agent creation tool because users can author reusable behavior,
 permissions, and limits and execute that definition through a runtime. Pixel art
-can later visualize runtime events, but cannot establish that an agent works.
+already supports an isolated, explicitly fictional preview and can later visualize
+runtime events, but cannot establish that an agent works.
 The MVP must pass without a pixel renderer.
 
 ## Non-goals

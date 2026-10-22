@@ -49,8 +49,8 @@ markdownlint; it is part of documentation tooling, not an application dependency
   of renderer Node globals, narrow bridge, navigation, CSP eval denial, and popup denial.
 
 The smoke opens the built app; run build first. It creates an isolated temporary
-user-data directory and a screenshot under ignored `test-results/`. Unit fixtures
-are clearly synthetic test data and are never shipped as agent activity.
+user-data directory and a screenshot under ignored `test-results/`. Unit fixtures are synthetic test data. The office also ships a separate opt-in
+Demo Mode with permanent fictional-data labels; it is not runtime evidence.
 Playwright's Electron launcher disables Chromium sandboxing by default, so the
 smoke explicitly enables it. A host incapable of running that sandbox must fail
 the smoke instead of silently weakening the test.
@@ -73,3 +73,58 @@ verified code commit b8a59188214401e1620bd0bb45c187eb063b9e95. A documentation-o
 follow-up records these results; inspect the PR checks for its latest head.
 No platform result establishes working agents, providers, databases, installers,
 or supported production deployment.
+
+## Pixel-office verification — 2026-10-22
+
+The presentation preview adds [these boundaries and controls](OFFICE.md).
+On managed Debian 13 x64, Node 24.19.0 / npm 11.9.0:
+
+| Check | Result |
+| --- | --- |
+| npm ci with the committed lockfile | Passed: 313 packages restored |
+| npm run typecheck | Passed across all five workspaces and test/config projects |
+| npm run lint | Passed: ESLint, 21 Markdown files, relative links, repository structure |
+| npm test | Passed: 25 checks in 6 files, including every requested status |
+| npm run build | Passed: Electron bundles and lazy-loaded Pixi renderer chunks |
+| npm audit --audit-level=moderate | Passed: 0 vulnerabilities at verification time |
+| npm run test:e2e | Cannot launch secure Electron on this host; Windows passed as recorded below |
+| git diff --check | Passed |
+
+A separate Playwright harness opened the production assets through Vite preview
+with the installed system Chromium and software WebGL. It verified an actual Pixi
+canvas, keyboard roster/focus, sprite hit selection, drag, zoom/reset, reduced
+motion, explicit demo cleanup, graphics-loss fallback/retry, dynamic-eval denial,
+zero uncaught page errors, and zero external HTTP requests. Axe WCAG 2 A/AA and
+2.1 AA scans reported **zero violations** at 1440, 390, and 320 pixels; none of those
+widths overflowed horizontally. Full-page screenshots were visually inspected.
+This browser harness is separate from Electron verification and uses no provider.
+
+For that preview, run `npm run build`, then the local Vite preview binary with
+`preview --config apps/desktop/vite.config.ts --host 127.0.0.1 --port 4173`.
+Use Playwright with a locally installed Chromium for the browser-only checks.
+The committed Electron smoke reproduces the central interactions and axe scan
+without requiring a separate Playwright browser installation.
+
+The first local Electron attempt could not fetch its lazy binary without the
+managed host's proxy configuration. Retrying with Node's environment-proxy support
+and the existing Electron cache restored the binary but still could not launch
+with the Chromium sandbox enabled. No application or test sandbox setting was
+weakened. The Windows workflow checks a fresh checkout through PowerShell; consult
+the feature PR for the exact commit and final run, rather than applying historical
+foundation results to new code.
+
+Manual screen-reader, high-contrast OS settings, physical touch devices, macOS,
+ARM, and other GPUs are not verified. Passing axe is not a complete accessibility
+certification. The scoped Pixi dependency declaration-check exception is recorded
+in the [office guide](OFFICE.md#verification-and-limits).
+
+Windows x64 / PowerShell passed a fresh checkout on 2026-10-22 in
+[Desktop checks](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696):
+`npm ci`, `npm run typecheck`, `npm run lint`, `npm test` (25 checks),
+`npm run build`, and `npm run test:e2e` all succeeded. That smoke opened an actual
+sandboxed Electron/Pixi window and passed the fictional-state, keyboard, sprite
+selection/drag, reduced-motion, axe, narrow-bridge, CSP, and popup assertions.
+The recorded run tested e26cf438e2c04ff515869e0b0e805b8826b2ab5b. A follow-up
+adds a clearer procedural door panel and records this evidence; the
+[feature PR](https://github.com/Bekzhanizb/AgentNest/pull/7) carries checks for its
+latest head. AI, providers, and persistence remain unimplemented.

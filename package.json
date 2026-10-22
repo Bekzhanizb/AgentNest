@@ -24,6 +24,7 @@
     "check": "npm run lint:md && npm run check:links && npm run check:structure"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.1",
     "@testing-library/dom": "10.4.2",

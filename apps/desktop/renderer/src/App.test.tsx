@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-libra
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { AppInfoResult } from '@agentnest/core';
 import { App } from './App';
+vi.mock('./office/OfficeCanvas', () => ({ OfficeCanvas: () => <div>Office graphics test double</div> }));
 
 const info: AppInfoResult = { ok: true, value: { name: 'AgentNest', stage: 'pre-alpha', version: '0.0.0', electron: 'test', node: 'test', platform: 'test' } };
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
@@ -15,14 +16,15 @@ describe('pre-alpha shell', () => {
     let resolve: ((value: AppInfoResult) => void) | undefined;
     bridge(() => new Promise<AppInfoResult>((done) => { resolve = done; }));
     render(<App />);
-    expect(screen.getByRole('status').textContent).toContain('Loading');
+    expect(screen.getByRole('status', { name: 'Application information' }).textContent).toContain('Loading');
     await act(() => { resolve?.(info); });
     expect(screen.getByText('0.0.0 · Pre-alpha')).toBeDefined();
     for (const name of ['Agents', 'Tasks', 'Settings', 'Office']) {
       fireEvent.click(screen.getByRole('button', { name }));
-      expect(screen.getByRole('heading', { name, level: 2 })).toBeDefined();
+      if (name === 'Office') expect(screen.getByRole('button', { name: 'Enter Demo Mode' })).toBeDefined();
+      else expect(screen.getByRole('heading', { name, level: 2 })).toBeDefined();
       expect(screen.getByRole('button', { name }).getAttribute('aria-current')).toBe('page');
-      expect(screen.getByText('Coming soon')).toBeDefined();
+      if (name !== 'Office') expect(screen.getByText('Coming soon')).toBeDefined();
     }
     expect(screen.queryByRole('button', { name: /run|create agent/i })).toBeNull();
   });

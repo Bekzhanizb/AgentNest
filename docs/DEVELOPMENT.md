@@ -1,8 +1,9 @@
 # Desktop development
 
-AgentNest has a Pre-alpha Electron shell, not an agent runtime. Office, Agents,
-Tasks, and Settings are navigation screens labeled Coming soon. Only navigation
-and reading actual app/runtime versions are implemented; no fake activity is shown.
+AgentNest has a Pre-alpha Electron shell and an original PixiJS office preview.
+The office is empty by default; explicit Demo Mode displays fictional events.
+Agents, Tasks, Settings, providers, and execution remain Coming soon. See the
+[office guide](OFFICE.md) for controls, accessibility, and asset provenance.
 
 ## Toolchain and install
 
@@ -34,6 +35,8 @@ No separate Playwright browser download is needed for Electron smoke tests.
 | Vite / Vitest | 8.3.5 / 5.0.5 | Vitest declares Vite 8 support; both accept selected Node |
 | TypeScript | 6.0.3 | Within typescript-eslint 8.72.0's supported range below 6.1 |
 | ESLint / typescript-eslint | 10.13.0 / 8.72.0 | Compatible declared peer ranges |
+| PixiJS | 8.22.0 | Stable 8.x renderer, MIT, procedural canvas textures, CSP-safe static polyfills |
+| axe Playwright | 4.14.0 | Development-only WCAG checks; selected Node satisfies its engine |
 | Playwright | 1.64.1 | Electron launcher and a single desktop smoke; Node engine satisfied |
 
 The existing patched KaTeX override is retained for documentation tooling.
@@ -72,7 +75,8 @@ apps/desktop/
   renderer/        React UI, no Node/Electron/provider/storage imports
   vite.config.ts
 packages/
-  core/            domain types and IPC data validation
+  core/            domain types, pure AgentEvent projection, IPC data validation
+  office-scene/    original procedural sprites and Pixi snapshot presentation
   provider-sdk/    provider contract only
   storage/         repository contract only
 scripts/           portable build/dev/start and documentation tooling
@@ -84,13 +88,21 @@ implementations must be separate from these interfaces and may only be invoked
 from the main/application layer. The current interfaces are a starting boundary,
 not a complete provider protocol, runner, or database adapter. Strict TypeScript
 includes unchecked-index and exact-optional checks; Electron/renderer configs have
-separate ambient libraries. ESLint enforces the import direction.
+separate ambient libraries. ESLint enforces the import direction. The renderer
+and scene alone use skipLibCheck for an upstream PixiJS exact-optional declaration
+defect; application source is still strictly checked. Details and removal
+conditions are in the [office guide](OFFICE.md#verification-and-limits).
 
 ## Platform evidence and limitations
 
 - Windows x64 is verified in [GitHub Actions](https://github.com/Bekzhanizb/AgentNest/actions/runs/39662049102),
   2026-10-21, using PowerShell and a fresh checkout for install, typecheck, lint,
   eight Vitest checks, build, and actual Electron smoke with Chromium sandbox enabled.
+- The pixel-office implementation also passed a fresh Windows/PowerShell run on
+  2026-10-22: install, typecheck, lint, 25 Vitest checks, build, and a secure actual
+  Electron smoke including Pixi hit selection, keyboard camera, fictional statuses,
+  reduced motion, and axe. See the [run](https://github.com/Bekzhanizb/AgentNest/actions/runs/39709125696)
+  and the latest feature PR checks for follow-up commits.
 - Local verification uses Debian 13 x64 with Node 24.19.0; exact outcomes are recorded
   in the implementation PR. A display server and compatible GTK/NSS/graphics
   libraries are required for Linux GUI tests. Headless build/unit tests need no display.
