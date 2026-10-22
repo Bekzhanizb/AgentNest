@@ -23,6 +23,17 @@ Owner decisions still to record:
 - [x] Unit/component checks and an Electron smoke test; Windows-first CI configuration.
 - [ ] Agent creation and execution remain gated on Stages 1 and 2 below.
 
+## Presentation preview — independent of runtime gates
+
+- [x] Original four-desk PixiJS office, typed event projection, and responsive inspector.
+- [x] Explicit deterministic Demo Mode, empty default, no provider or database calls.
+- [x] Keyboard selection and camera, text/symbol statuses, and reduced-motion support.
+- [x] Unit/component status tests and real-canvas Electron/a11y smoke assertions.
+
+This UI work does not complete any provider or MVP gate. See the
+[pixel office](docs/OFFICE.md) for provenance, controls, and verification limits.
+The actual runtime feed remains future work.
+
 ## Stage 1 — Provider and execution proof
 
 - [ ] Define an adapter contract and a minimal agent definition.

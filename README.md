@@ -1,7 +1,9 @@
 # AgentNest
 
 **Status: Pre-alpha desktop foundation.** Electron opens a React interface with
-Office / Agents / Tasks / Settings navigation and real application information.
+Office / Agents / Tasks / Settings navigation, an original PixiJS office, and real
+application information. The office starts empty; its opt-in **Demo Mode** shows
+clearly fictional characters and a deterministic timeline.
 Agent execution, AI integrations, and database adapters are not implemented.
 Unimplemented features are labeled **Coming soon**. There is no product release yet.
 
@@ -23,6 +25,8 @@ acceptance criteria.
 | Product brief, architecture proposals, community files | Available | Foundation |
 | Electron shell, navigation, loading/error states, app information | Implemented | Pre-alpha |
 | Strict TypeScript workspaces, unit/component and Electron smoke tests | Available | Pre-alpha |
+| Original pixel office, selection, inspector, pan/zoom, accessible text view | Implemented | Presentation preview |
+| Explicit fictional Demo Mode; five typed display states, no provider calls | Implemented | Presentation preview |
 | Define and save one agent with instructions and limits | Not implemented | MVP |
 | Run one agent through a real local provider adapter | Not implemented | MVP |
 | Read approved notes and inspect a source-linked result | Not implemented | MVP |
@@ -40,6 +44,7 @@ An adapter proposal is not a supported integration.
 - [Product and first real scenario](PRODUCT.md)
 - [ADR-001: local architecture, adapters, and database choices](docs/adr/ADR-001-local-architecture.md)
 - [ADR-002: Electron boundaries and npm workspaces](docs/adr/ADR-002-desktop-foundation.md)
+- [Pixel office, Demo Mode, controls, and asset provenance](docs/OFFICE.md)
 - [Desktop development and platform limits](docs/DEVELOPMENT.md)
 - [Roadmap and acceptance gates](ROADMAP.md)
 - [Documentation index](docs/README.md)

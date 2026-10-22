@@ -1,5 +1,6 @@
 export const APP_NAME = 'AgentNest';
 export const APP_STAGE = 'pre-alpha';
+export * from './agent-view';
 
 export type Screen = 'Office' | 'Agents' | 'Tasks' | 'Settings';
 

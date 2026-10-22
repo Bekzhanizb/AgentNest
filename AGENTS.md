@@ -12,13 +12,17 @@ shell and domain/provider/storage contracts, with no agent runtime or AI integra
 - Keep provider-specific SDKs behind adapters and database access behind a
   persistence boundary when implementation begins. The ADR is a proposal, not code.
 - Add implementation only when the task explicitly asks for it. Do not scaffold
-  simulated agent activity or pretend an unimplemented integration works. Coming
+  simulated activity outside the explicitly labeled, opt-in Demo Mode, or pretend
+  an unimplemented integration works. Coming
   soon screens are explicitly labeled placeholders.
 - Do not commit secrets, private notes, unredacted prompts, or generated dependency
   directories. Keep documentation tooling separate from future product code.
 - Use npm workspaces and the root lockfile; do not introduce a second manager.
 - Keep renderer code free of Node, Electron, provider, and storage imports.
   Expose individual operations through preload; never expose generic IPC.
+- Keep `packages/office-scene` presentation-only. Agent status must come from
+  typed core snapshots, never the animation clock. Demo fixtures must stay separate
+  from future runtime events; preserve permanent demo labels and the empty default.
 - Preserve sandbox, context isolation, CSP, frame validation, and permission denial.
 - Run `npm ci`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`,
   and `npm run test:e2e` for desktop changes; `npm run check` for documents.

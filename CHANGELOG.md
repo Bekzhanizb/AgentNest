@@ -7,6 +7,13 @@ There are no product releases yet.
 
 ### Added
 
+- Original procedural PixiJS office with four desks, lounge, coffee nook, lighting,
+  characters, selection, inspector, bounded pan/zoom, and responsive text controls.
+- Typed AgentEvent/AgentViewModel projection, all five status displays, and explicit
+  deterministic Demo Mode; the default office remains empty with no runtime calls.
+- Keyboard navigation, reduced-motion handling, graphics-failure fallback, status
+  tests, and real-canvas Electron smoke with an axe accessibility scan.
+
 - Pre-alpha Electron/React desktop shell with Office, Agents, Tasks, and Settings
   navigation, real application information, and explicit Coming soon content.
 - Strict TypeScript npm workspaces, sandboxed preload, validated IPC, and a local
