@@ -23,6 +23,10 @@ test('opens an isolated Electron office with explicit demo, keyboard controls, a
     await expect(page).toHaveTitle('AgentNest — Pre-alpha');
     await expect(page.getByRole('heading', { name: 'AgentNest — Pre-alpha' })).toBeVisible();
     await expect(page.getByText('0.0.0 · Pre-alpha')).toBeVisible();
+    await page.getByRole('link', { name: 'Skip to workspace' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('main')).toBeFocused();
+    expect(page.url()).toBe('agentnest://desktop/');
     const isolation = await page.evaluate(() => Reflect.get(Reflect.get(window, 'agentnest') as object, 'security') as unknown);
     expect(isolation).toEqual({ contextIsolated: true, sandboxed: true });
     const exposed = await page.evaluate(() => ({
@@ -56,7 +60,9 @@ test('opens an isolated Electron office with explicit demo, keyboard controls, a
     await expect(page.getByRole('button', { name: /Inspect Sol/ })).toHaveAccessibleName('Inspect Sol, Builder, Failed, demo character');
     await expect(page.getByRole('status', { name: 'Selected character status' })).toHaveText('Ⅱ Awaiting approval');
     await expect(page.getByRole('list', { name: 'Demo event history entries' }).getByRole('listitem')).toHaveCount(2);
-    await page.getByRole('button', { name: 'Close inspector' }).click();
+    await page.getByRole('button', { name: 'View Milo’s details' }).click();
+    await expect(page.getByRole('complementary', { name: 'Inspector' })).toBeFocused();
+    await page.keyboard.press('Escape');
     await expect(page.getByRole('button', { name: /Inspect Milo/ })).toBeFocused();
     const viewport = page.getByRole('group', { name: 'Office viewport', exact: true });
     await viewport.focus(); await page.keyboard.press('+');

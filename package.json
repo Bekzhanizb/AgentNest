@@ -18,6 +18,8 @@
     "lint": "eslint . --max-warnings=0 && npm run check",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:ui": "playwright test -c playwright.browser.config.ts",
+    "preview:office": "vite preview --config apps/desktop/vite.config.ts --host 127.0.0.1 --port 4173 --strictPort",
     "lint:md": "node scripts/check-docs.mjs lint",
     "check:links": "node scripts/check-docs.mjs links",
     "check:structure": "node scripts/check-docs.mjs structure",

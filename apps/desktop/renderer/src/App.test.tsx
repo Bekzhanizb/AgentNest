@@ -19,6 +19,9 @@ describe('pre-alpha shell', () => {
     expect(screen.getByRole('status', { name: 'Application information' }).textContent).toContain('Loading');
     await act(() => { resolve?.(info); });
     expect(screen.getByText('0.0.0 · Pre-alpha')).toBeDefined();
+    fireEvent.click(screen.getByRole('link', { name: 'Skip to workspace' }));
+    expect(document.activeElement).toBe(screen.getByRole('main'));
+    expect(window.location.hash).toBe('');
     for (const name of ['Agents', 'Tasks', 'Settings', 'Office']) {
       fireEvent.click(screen.getByRole('button', { name }));
       if (name === 'Office') expect(screen.getByRole('button', { name: 'Enter Demo Mode' })).toBeDefined();

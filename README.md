@@ -45,6 +45,7 @@ An adapter proposal is not a supported integration.
 - [ADR-001: local architecture, adapters, and database choices](docs/adr/ADR-001-local-architecture.md)
 - [ADR-002: Electron boundaries and npm workspaces](docs/adr/ADR-002-desktop-foundation.md)
 - [Pixel office, Demo Mode, controls, and asset provenance](docs/OFFICE.md)
+- [Accessibility checks and manual review gates](docs/ACCESSIBILITY.md)
 - [Desktop development and platform limits](docs/DEVELOPMENT.md)
 - [Roadmap and acceptance gates](ROADMAP.md)
 - [Documentation index](docs/README.md)
