@@ -17,6 +17,6 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "devDependencies": {
-    "@ai-sdk/provider": "4.0.31"
+    "@ai-sdk/provider": "4.0.34"
   }
 }
